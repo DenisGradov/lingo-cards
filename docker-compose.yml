@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    env_file:
+      - ./.env
+    command: npm run dev
+
+  frontend:
+    build:
+      context: ./lingo-frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./lingo-frontend:/app
+      - /app/node_modules
+    ports:
+      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
+    env_file:
+      - ./.env
+    command: npm run dev
