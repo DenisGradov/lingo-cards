@@ -4,7 +4,14 @@ module.exports = {
     './src/**/*.{js,jsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backdropBlur: {
+        24: '24px',
+      },
+      screens: {
+        'xs': '320px',
+      },
+    },
   },
   plugins: [],
   darkMode: 'class',

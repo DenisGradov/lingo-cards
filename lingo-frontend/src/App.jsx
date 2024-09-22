@@ -10,7 +10,6 @@ import UserProfile from "./components/Me.jsx";
 function App() {
     const isDark = useThemeStore((state) => state.isDark);
 
-    // Управляем темой глобально через <html>
     useEffect(() => {
         const root = window.document.documentElement;
         if (isDark) {
@@ -21,19 +20,22 @@ function App() {
     }, [isDark]);
 
     return (
-        <div className="min-h-screen bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
+        <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
             <Router>
-                <div className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<Training />} />
-                        <Route path="/library" element={<Library />} />
-                        <Route path="/me" element={<UserProfile />} />
-                    </Routes>
+                <div className="max-w-[550px] w-full flex-grow flex flex-col m-auto">
+                    <div className="flex flex-col flex-grow">
+                        <Routes>
+                            <Route path="/" element={<Training />} />
+                            <Route path="/library" element={<Library />} />
+                            <Route path="/me" element={<UserProfile />} />
+                        </Routes>
+                    </div>
+                    <Footer />
                 </div>
-                <Footer />
             </Router>
         </div>
     );
+
 }
 
 export default App;
