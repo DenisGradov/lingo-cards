@@ -8,12 +8,11 @@ import {
 } from "react-icons/ri";
 import useThemeStore from "../store/themeStore.js";
 import { useState } from "react";
-import useCardStore from "../store/userInfo.js";
+import {useCardStore} from "../store/userInfo.js";
 
 const Training = () => {
   const { isDark, toggleTheme } = useThemeStore();
   const { teach, iKnow, learned } = useCardStore();
-  const [isTransitioning] = useState(false);
 
   const handleToggleTheme = () => {
     toggleTheme();
