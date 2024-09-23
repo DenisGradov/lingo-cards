@@ -7,6 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
 export default defineConfig({
   plugins: [react()],
+  base: "/lingo-cards/",
   server: {
     port: Number(process.env.FRONTEND_PORT) || 3000,
     host: '0.0.0.0',
