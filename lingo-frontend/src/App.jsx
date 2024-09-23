@@ -21,7 +21,7 @@ function App() {
 
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
-            <Router basename="/lingo-cards">
+            <Router>
                 <div className="max-w-[550px] w-full flex-grow flex flex-col m-auto">
                     <div className="flex flex-col flex-grow">
                         <Routes>
