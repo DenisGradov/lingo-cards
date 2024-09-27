@@ -3,23 +3,24 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
-import useThemeStore from './store/themeStore';  // Здесь правильно импортируем useThemeStore
-import { useInitializeTheme } from './store/themeStore';  // Отдельно импортируем хук инициализации
+import useThemeStore from './store/themeStore';
 import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
 
 function App() {
     const isDark = useThemeStore((state) => state.isDark);  // Получаем текущее состояние темы
-    useInitializeTheme();  // Инициализация темы на клиенте
+    const toggleTheme = useThemeStore((state) => state.toggleTheme);  // Получаем функцию переключения темы
 
     useEffect(() => {
         const root = window.document.documentElement;
-        if (isDark) {
-            root.classList.add('dark');
+        const storedTheme = JSON.parse(localStorage.getItem('isDark'));
+        if (storedTheme !== null) {
+            root.classList.toggle('dark', storedTheme);
+            toggleTheme(storedTheme);  // Применяем сохраненную тему
         } else {
-            root.classList.remove('dark');
+            root.classList.toggle('dark', isDark);
         }
-    }, [isDark]);
+    }, [isDark, toggleTheme]);
 
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
