@@ -3,13 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
-import useThemeStore, {useInitializeTheme} from './store/themeStore';
+import useThemeStore, { useInitializeTheme } from './store/themeStore';
 import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
 
 function App() {
     const isDark = useThemeStore((state) => state.isDark);
-    useInitializeTheme();
+    useInitializeTheme();  // Инициализируем тему при монтировании
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -36,7 +36,6 @@ function App() {
             </Router>
         </div>
     );
-
 }
 
 export default App;

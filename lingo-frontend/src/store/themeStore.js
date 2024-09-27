@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 
 const useThemeStore = create((set) => ({
     isDark: false,  // По умолчанию false, так как на сервере localStorage недоступен
-    toggleTheme: ()=> set((state) => {
+    setIsDark: (value) => set({ isDark: value }),  // Установка значения темы
+    toggleTheme: () => set((state) => {
         const newTheme = !state.isDark;
         localStorage.setItem('isDark', JSON.stringify(newTheme));
         return { isDark: newTheme };
@@ -11,7 +12,7 @@ const useThemeStore = create((set) => ({
 }));
 
 export const useInitializeTheme = () => {
-    const setIsDark = useThemeStore((state) => state.toggleTheme);
+    const setIsDark = useThemeStore((state) => state.setIsDark);
 
     useEffect(() => {
         const isDarkFromStorage = JSON.parse(localStorage.getItem('isDark'));
