@@ -1,27 +1,27 @@
 version: '3'
 services:
-  backend:
+  backend-dev:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
+    ports:
+      - '5001:5001'
+    env_file:
+      - .env
     volumes:
       - ./backend:/app
       - /app/node_modules
-    ports:
-      - '8001:${BACKEND_PORT}'
-    env_file:
-      - ./.env.dev
     command: npm run dev
 
-  frontend:
+  frontend-dev:
     build:
       context: ./lingo-frontend
       dockerfile: Dockerfile.dev
+    ports:
+      - '3001:3001'
+    env_file:
+      - .env
     volumes:
       - ./lingo-frontend:/app
       - /app/node_modules
-    ports:
-      - '3001:${FRONTEND_PORT}'
-    env_file:
-      - ./.env.dev
     command: npm run dev
