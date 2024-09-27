@@ -3,13 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
-import useThemeStore, { useInitializeTheme } from './store/themeStore';
+import useThemeStore from './store/themeStore';  // Здесь правильно импортируем useThemeStore
+import { useInitializeTheme } from './store/themeStore';  // Отдельно импортируем хук инициализации
 import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
 
 function App() {
-    const isDark = useThemeStore((state) => state.isDark);
-    useInitializeTheme();  // Инициализируем тему при монтировании
+    const isDark = useThemeStore((state) => state.isDark);  // Получаем текущее состояние темы
+    useInitializeTheme();  // Инициализация темы на клиенте
 
     useEffect(() => {
         const root = window.document.documentElement;
