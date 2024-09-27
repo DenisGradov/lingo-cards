@@ -10,10 +10,11 @@ import useThemeStore from "../store/themeStore.js";
 import {useCardStore} from "../store/userInfo.js";
 
 const Training = () => {
+  const { isDark, toggleTheme } = useThemeStore();
   const { teach, iKnow, learned } = useCardStore();
 
   const handleToggleTheme = () => {
-    //toggleTheme();
+    toggleTheme();
   };
 
   return (
