@@ -1,10 +1,13 @@
-FROM node:18-alpine
+FROM node:16
 
 WORKDIR /app
 
 COPY package*.json ./
+
 RUN npm install
 
-EXPOSE ${BACKEND_PORT}
+COPY . .
+
+EXPOSE 3038
 
 CMD ["npm", "run", "dev"]
