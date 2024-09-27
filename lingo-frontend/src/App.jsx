@@ -8,19 +8,8 @@ import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
 
 function App() {
-    const isDark = useThemeStore((state) => state.isDark);  // Получаем текущее состояние темы
-   // const toggleTheme = useThemeStore((state) => state.toggleTheme);  // Получаем функцию переключения темы
 
-    useEffect(() => {
-        const root = window.document.documentElement;
-        const storedTheme = JSON.parse(localStorage.getItem('isDark'));
-        if (storedTheme !== null) {
-            root.classList.toggle('dark', storedTheme);
-           // toggleTheme(storedTheme);  // Применяем сохраненную тему
-        } else {
-            root.classList.toggle('dark', isDark);
-        }
-    }, [isDark]);
+
 
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
