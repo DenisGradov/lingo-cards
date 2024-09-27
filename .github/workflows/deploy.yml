@@ -19,10 +19,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
-            DEPLOY_ENV=dev
-            COMPOSE_FILE=docker-compose.dev.yml
+            DEPLOY_ENV=main
+            COMPOSE_FILE=docker-compose.main.yml
             cd /root/lingo-cards
             git fetch --all
-            git reset --hard origin/dev
+            git reset --hard origin/main
             docker-compose -f $COMPOSE_FILE pull
             docker-compose -f $COMPOSE_FILE up -d --build
