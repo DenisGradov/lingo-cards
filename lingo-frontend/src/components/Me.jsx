@@ -10,19 +10,11 @@ import {
 import useUserInfo from '../store/userInfo.js';
 
 const UserProfile = () => {
-    const {
-        userName,
-        userEmail,
-        selectedLanguage,
-        changeLanguage,
-        getLanguageInfo,
-    } = useUserInfo((state) => ({
-        userName: state.userName,
-        userEmail: state.userEmail,
-        selectedLanguage: state.selectedLanguage,
-        changeLanguage: state.changeLanguage,
-        getLanguageInfo: state.getLanguageInfo,
-    }));
+    const userName = useUserInfo((state) => state.userName);
+    const userEmail = useUserInfo((state) => state.userEmail);
+    const selectedLanguage = useUserInfo((state) => state.selectedLanguage);
+    const changeLanguage = useUserInfo((state) => state.changeLanguage);
+    const getLanguageInfo = useUserInfo((state) => state.getLanguageInfo);
 
     const language = getLanguageInfo(selectedLanguage);
 
