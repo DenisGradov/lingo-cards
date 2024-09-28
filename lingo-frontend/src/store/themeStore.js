@@ -1,29 +1,17 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
-const useThemeStore = create((set) => ({
-    isDark: (() => {
-        if (typeof window !== 'undefined' && window.localStorage) {
-            try {
-                const storedValue = localStorage.getItem('isDark');
-                return storedValue ? JSON.parse(storedValue) : false;
-            } catch (error) {
-                console.error(`Error reading localStorage key "isDark":`, error);
-                return false;  // Если произошла ошибка, возвращаем значение по умолчанию
+export const useThemeStore = create(
+    devtools(
+        persist(
+            (set) => ({
+                isDark: false,
+                toggleTheme: () => set((state) => ({ isDark: !state.isDark })),
+            }),
+            {
+                name: 'theme-store', // имя для хранения в localStorage
             }
-        }
-        return false;  // Значение по умолчанию, если localStorage недоступен
-    })(),
-    toggleTheme: () => set((state) => {
-        const newTheme = !state.isDark;
-        if (typeof window !== 'undefined' && window.localStorage) {
-            try {
-                localStorage.setItem('isDark', JSON.stringify(newTheme));
-            } catch (error) {
-                console.error(`Error setting localStorage key "isDark":`, error);
-            }
-        }
-        return { isDark: newTheme };
-    }),
-}));
-
-export default useThemeStore;
+        ),
+        { name: 'ThemeStore' } // имя для отображения в DevTools
+    )
+);
