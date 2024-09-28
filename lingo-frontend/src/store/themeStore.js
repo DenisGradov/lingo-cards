@@ -1,10 +1,11 @@
 import { create } from 'zustand';
+import { getItem, setItem } from '../utils/localStorage';
 
 const useThemeStore = create((set) => ({
-    isDark: JSON.parse(localStorage.getItem('isDark')) || false,  // Чтение темы из localStorage
+    isDark: getItem('isDark', false),
     toggleTheme: () => set((state) => {
         const newTheme = !state.isDark;
-        localStorage.setItem('isDark', JSON.stringify(newTheme));  // Сохраняем тему в localStorage
+        setItem('isDark', newTheme);
         return { isDark: newTheme };
     }),
 }));
