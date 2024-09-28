@@ -11,15 +11,6 @@ import UserProfile from "./components/Me.jsx";
 function App() {
     const [isDark, setIsDark] = useState(false);
 
-    useEffect(() => {
-        const root = window.document.documentElement;
-        if (isDark) {
-            root.classList.add('dark');
-        } else {
-            root.classList.remove('dark');
-        }
-    }, [isDark]);
-
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
             <Router>
