@@ -7,19 +7,16 @@ import {
     RiQuestionMark,
     RiUser5Line,
 } from 'react-icons/ri';
-import useUserInfo from '../store/userInfo.js';
 
 const UserProfile = () => {
-    const userName = useUserInfo((state) => state.userName);
-    const userEmail = useUserInfo((state) => state.userEmail);
-    const selectedLanguage = useUserInfo((state) => state.selectedLanguage);
-    const changeLanguage = useUserInfo((state) => state.changeLanguage);
-    const getLanguageInfo = useUserInfo((state) => state.getLanguageInfo);
+    const userName = '123'
+    const userEmail = '234'
+    const selectedLanguage = 'ua';
 
-    const language = getLanguageInfo(selectedLanguage);
+    const language = 'ua'//getLanguageInfo(selectedLanguage);
 
     const handleChangeLanguage = () => {
-        changeLanguage();
+       // changeLanguage();
     };
 
     return (
