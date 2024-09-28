@@ -6,12 +6,12 @@ import {
     RiQuestionMark,
     RiUser5Line
 } from 'react-icons/ri';
-import {userInfo} from "../store/userInfo.js";
 import {useState} from "react";
+import {useUserInfo} from "../store/userInfo.js";
 
 const UserProfile = () => {
 
-    const { userName, userEmail, selectedLanguage, changeLanguage, getLanguageInfo } = userInfo();
+    const { userName, userEmail, selectedLanguage, changeLanguage, getLanguageInfo } = useUserInfo();
     const [language, setLanguage] = useState(getLanguageInfo(selectedLanguage));
 
     function handleChangeLanguage() {
