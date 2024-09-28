@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
 
 function App() {
-    const isDark = useThemeStore((state) => state.isDark);
 
 
 
