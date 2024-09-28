@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
-export const useThemeStore = create(
+const useThemeStore = create(
     devtools(
         persist(
             (set) => ({
@@ -15,3 +15,5 @@ export const useThemeStore = create(
         { name: 'ThemeStore' } // имя для отображения в DevTools
     )
 );
+
+export default useThemeStore

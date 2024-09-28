@@ -7,7 +7,7 @@ import {
   RiSunFill,
 } from "react-icons/ri";
 import {useCardStore} from "../store/userInfo.js";
-import {useThemeStore} from "../store/themeStore.js";
+import useThemeStore from "../store/themeStore.js";
 
 const Training = () => {
   const isDark = useThemeStore((state) => state.isDark);

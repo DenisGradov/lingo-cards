@@ -5,7 +5,7 @@ import Library from './components/Library';
 import Footer from './components/Footer';
 import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
-import {useThemeStore} from "./store/themeStore.js";
+import useThemeStore from "./store/themeStore.js";
 
 function App() {
     const isDark = useThemeStore((state) => state.isDark);
