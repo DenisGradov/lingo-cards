@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     RiLogoutBoxLine,
     RiMessage2Line,
@@ -9,14 +9,24 @@ import {
 } from 'react-icons/ri';
 
 const UserProfile = () => {
-    const userName = '123'
-    const userEmail = '234'
-    const selectedLanguage = 'ua';
+    const [userName, setUserName] = useState('John Doe'); // Заглушка
+    const [userEmail, setUserEmail] = useState('john.doe@example.com'); // Заглушка
+    const [selectedLanguage, setSelectedLanguage] = useState('en'); // Заглушка
 
-    const language = 'ua'//getLanguageInfo(selectedLanguage);
+    const changeLanguage = () => {
+        // Заглушка для смены языка
+        setSelectedLanguage(selectedLanguage === 'en' ? 'ua' : 'en');
+    };
+
+    const getLanguageInfo = (code) => ({
+        code: code,
+        flag: '/path/to/flag.png', // Заглушка пути к флагу
+    });
+
+    const language = getLanguageInfo(selectedLanguage);
 
     const handleChangeLanguage = () => {
-       // changeLanguage();
+        changeLanguage();
     };
 
     return (
@@ -34,6 +44,7 @@ const UserProfile = () => {
 
             <span className="relative mt-[20px] w-[60%] h-[1px] bg-[#C1C3EC] m-auto"></span>
 
+            {/* Основной контент */}
             <div className="flex-grow flex flex-col items-center justify-around px-[16px]">
                 <div className="flex flex-col items-center">
                     <RiUser5Line className="text-[100px] dark:text-[#F3F7FF] text-[#282950]" />
@@ -43,7 +54,9 @@ const UserProfile = () => {
                         </h2>
                         <RiPencilLine className="text-[#FFC046] text-[26px] ml-[24px]" />
                     </div>
-                    <h3 className="mt-[14px] text-[#9194C3] text-[14px] font-semibold">{userEmail}</h3>
+                    <h3 className="mt-[14px] text-[#9194C3] text-[14px] font-semibold">
+                        {userEmail}
+                    </h3>
                 </div>
 
                 <div className="flex flex-col justify-center space-y-4">
@@ -63,7 +76,9 @@ const UserProfile = () => {
 
                 <div className="flex items-center mt-[20px]">
                     <RiLogoutBoxLine className="text-[#FF6193] text-[20px]" />
-                    <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">Logout</span>
+                    <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">
+            Logout
+          </span>
                 </div>
             </div>
         </section>

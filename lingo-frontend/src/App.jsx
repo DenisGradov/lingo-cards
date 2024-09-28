@@ -1,14 +1,15 @@
+// App.js
+
 import './App.scss';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import UserProfile from "./components/Me.jsx";
-import useThemeStore from "./store/themeStore.js";
 
 function App() {
-    const isDark = useThemeStore((state) => state.isDark);
+    const [isDark, setIsDark] = useState(false);
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -25,7 +26,7 @@ function App() {
                 <div className="w-full flex-grow flex flex-col m-auto">
                     <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
                         <Routes>
-                            <Route path="/" element={<Training />} />
+                            <Route path="/" element={<Training isDark={isDark} setIsDark={setIsDark} />} />
                             <Route path="/library" element={<Library />} />
                             <Route path="/me" element={<UserProfile />} />
                         </Routes>
