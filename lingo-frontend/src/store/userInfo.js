@@ -4,34 +4,14 @@ import { countries } from '../constants/mainConstants.js';
 
 const countryCodes = Object.keys(countries);
 
-// Функция для получения следующего языка из списка языков
+// Function to get the next language from the list
 const getNextLanguage = (currentCode) => {
     const currentIndex = countryCodes.indexOf(currentCode);
     const nextIndex = (currentIndex + 1) % countryCodes.length;
     return countryCodes[nextIndex];
 };
 
-// Создаем store для карточек с использованием middleware persist и devtools
-export const useCardStore = create(
-    devtools(
-        persist(
-            (set) => ({
-                teach: 0,
-                iKnow: 0,
-                learned: 0,
-                // Пример действия для обновления состояния teach
-                setTeach: (value) => set({ teach: value }),
-            }),
-            {
-                name: 'card-store', // имя для хранения в localStorage
-            }
-        ),
-        { name: 'CardStore' } // имя для отображения в DevTools
-    )
-);
-
-// Создаем store для информации о пользователе с использованием middleware persist и devtools
-export const useUserInfo = create(
+const useUserInfo = create(
     devtools(
         persist(
             (set, get) => ({
@@ -47,9 +27,11 @@ export const useUserInfo = create(
                 setUserEmail: (email) => set({ userEmail: email }),
             }),
             {
-                name: 'user-info-store', // имя для хранения в localStorage
+                name: 'user-info-store', // name for storage in localStorage
             }
         ),
-        { name: 'UserInfoStore' } // имя для отображения в DevTools
+        { name: 'UserInfoStore' } // name for display in DevTools
     )
 );
+
+export default useUserInfo;
