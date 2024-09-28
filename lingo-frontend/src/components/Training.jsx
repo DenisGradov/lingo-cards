@@ -6,14 +6,18 @@ import {
   RiQuestionLine,
   RiSunFill,
 } from "react-icons/ri";
+import useCardStore from "../store/cardsStore.js";
+import useThemeStore from "../store/themeStore.js";
 
-const Training = ({ isDark, setIsDark }) => {
-  const teach = 0; // Заглушка
-  const iKnow = 0; // Заглушка
-  const learned = 0; // Заглушка
+const Training = () => {
+  const isDark = useThemeStore((state) => state.isDark);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const teach = useCardStore((state) => state.teach);
+  const iKnow = useCardStore((state) => state.iKnow);
+  const learned = useCardStore((state) => state.learned);
 
   const handleToggleTheme = () => {
-    setIsDark(!isDark);
+    toggleTheme();
   };
 
   return (
