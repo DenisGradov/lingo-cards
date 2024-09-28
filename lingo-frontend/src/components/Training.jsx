@@ -6,7 +6,7 @@ import {
   RiQuestionLine,
   RiSunFill,
 } from "react-icons/ri";
-import {useCardStore} from "../store/userInfo.js";
+import useCardStore from "../store/userInfo.js";
 import useThemeStore from "../store/themeStore.js";
 
 const Training = () => {
