@@ -11,6 +11,9 @@ module.exports = {
       screens: {
         'xs': '320px',
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      }
     },
   },
   plugins: [],
