@@ -6,6 +6,28 @@ import Footer from './components/Footer';
 import useThemeStore from './store/themeStore';
 import { useEffect } from 'react';
 import UserProfile from "./components/Me.jsx";
+import SignIn from "./components/Auth/SignIn.jsx";
+import { useLocation } from 'react-router-dom';
+import SignUp from "./components/Auth/SignUp.jsx";
+
+function AppContent() {
+    const location = useLocation(); // Теперь можно использовать useLocation внутри AppContent
+
+    return (
+        <div className="w-full flex-grow flex flex-col m-auto">
+            <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
+                <Routes>
+                    <Route path="/" element={<Training />} />
+                    <Route path="/library" element={<Library />} />
+                    <Route path="/me" element={<UserProfile />} />
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+                </Routes>
+            </div>
+            {location.pathname !== '/signin' && location.pathname !== '/signup' && <Footer />}
+        </div>
+    );
+}
 
 function App() {
     const isDark = useThemeStore((state) => state.isDark);
@@ -22,16 +44,7 @@ function App() {
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
             <Router>
-                <div className="w-full flex-grow flex flex-col m-auto">
-                    <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
-                        <Routes>
-                            <Route path="/" element={<Training />} />
-                            <Route path="/library" element={<Library />} />
-                            <Route path="/me" element={<UserProfile />} />
-                        </Routes>
-                    </div>
-                    <Footer />
-                </div>
+                <AppContent />
             </Router>
         </div>
     );

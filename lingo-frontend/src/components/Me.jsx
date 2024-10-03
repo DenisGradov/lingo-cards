@@ -1,40 +1,15 @@
 import React from 'react';
-import {
-    RiLogoutBoxLine,
-    RiMessage2Line,
-    RiNotification2Line,
-    RiPencilLine,
-    RiQuestionMark,
-    RiUser5Line,
-} from 'react-icons/ri';
+import { RiLogoutBoxLine, RiMessage2Line, RiNotification2Line, RiPencilLine, RiUser5Line } from 'react-icons/ri';
 import useUserInfo from '../store/userInfo.js';
+import Header from "./Header.jsx";
 
 const UserProfile = () => {
     const userName = useUserInfo((state) => state.userName);
     const userEmail = useUserInfo((state) => state.userEmail);
-    const selectedLanguage = useUserInfo((state) => state.selectedLanguage);
-    const changeLanguage = useUserInfo((state) => state.changeLanguage);
-    const getLanguageInfo = useUserInfo((state) => state.getLanguageInfo);
-
-
-    const language = getLanguageInfo(selectedLanguage);
-
-    const handleChangeLanguage = () => {
-        changeLanguage();
-    };
 
     return (
         <section className="flex flex-col flex-grow">
-            <div className="flex justify-between items-center py-[5px] mt-[10px] px-[16px]">
-                <RiNotification2Line className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
-                <img
-                    className="w-[40px] cursor-pointer"
-                    onClick={handleChangeLanguage}
-                    alt={language.code}
-                    src={language.flag}
-                />
-                <RiQuestionMark className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
-            </div>
+            <Header />
 
             <span className="relative mt-[20px] w-[60%] h-[1px] bg-[#C1C3EC] m-auto"></span>
 
@@ -54,14 +29,14 @@ const UserProfile = () => {
                     <div className="flex items-center">
                         <RiNotification2Line className="text-[#5484FF] text-[20px]" />
                         <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold">
-              Notifications
-            </span>
+                            Notifications
+                        </span>
                     </div>
                     <div className="flex items-center">
                         <RiMessage2Line className="text-[#5484FF] text-[20px]" />
                         <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold">
-              Help center
-            </span>
+                            Help center
+                        </span>
                     </div>
                 </div>
 
