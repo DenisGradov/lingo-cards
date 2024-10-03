@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.prev-hover{
+    @apply group-hover:from-[#946DFF]/75 group-hover:to-[#5A4BFF]/75 group-hover:backdrop-blur-[1px];
+}
+
+.play-hover{
+    @apply group-hover:rounded-3xl group-hover:bg-[#232544] group-hover:bg-opacity-40 group-hover:backdrop-blur-lg;
+}
+
+.hide-scrollbar{
+    @apply [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none];
+}
+
+.bg-gradient-dark{
+    @apply bg-gradient-to-b from-[#333560]/75 to-[#333560]/75;
+}
+
+.bg-gradient-light{
+    @apply bg-gradient-to-b from-[#E1E2FE]/85 to-[#E1E2FE]/85;
+}
