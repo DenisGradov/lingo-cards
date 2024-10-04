@@ -13,8 +13,12 @@ module.exports = {
         'big': { 'raw': '(min-height: 750px)' },
         'small': { 'raw': '(max-height: 750px)' },
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      }
     },
   },
+  
   plugins: [],
   darkMode: 'class',
 };
