@@ -3,7 +3,7 @@ import { RiCrosshair2Line, RiMap2Line, RiUser5Line } from "react-icons/ri";
 
 const Footer = () => {
     return (
-        <nav className="w-full py-[14px] bg-[#F6F7FF] dark:bg-[#936dff] rounded-t shadow h-[80px] mt-[-14px] flex-shrink-0">
+        <nav className="relative w-full py-[14px] bg-[#F6F7FF] dark:bg-[#936dff] rounded-t shadow h-[80px] mt-[-14px] flex-shrink-0">
             <ul className="flex justify-around">
                 <li>
                     <NavLink

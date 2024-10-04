@@ -10,28 +10,23 @@ import {
   RiStarFill,
 } from "react-icons/ri";
 import { userInfo } from "../store/userInfo.js";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 const Library = () => {
-  const {
-    userName,
-    userEmail,
-    selectedLanguage,
-    changeLanguage,
-    getLanguageInfo,
-  } = userInfo();
+  const { selectedLanguage, changeLanguage, getLanguageInfo } = userInfo();
   const [language, setLanguage] = useState(getLanguageInfo(selectedLanguage));
   const complexityHard = {
     name: "Hard",
-    color: "#FF7967",
+    color: "text-[#FF7967]",
   };
   const complexityEasy = {
     name: "Easy",
-    color: "#78FFBC",
+    color: "text-[#78FFBC]",
   };
   const complexityMedium = {
     name: "Medium",
-    color: "#FFE168",
+    color: "text-[#FFE168]",
   };
   const lastOpenInfo = [
     {
@@ -127,10 +122,18 @@ const Library = () => {
     setLanguage(getLanguageInfo(selectedLanguage));
   }
 
+  const scrollRef = useRef(null);
+  const handleWheel = (event) => {
+    if (scrollRef.current) {
+      event.preventDefault();
+      scrollRef.current.scrollLeft += event.deltaY;
+    }
+  };
+
   return (
-    <section className="flex flex-col flex-grow ">
+    <section className="flex flex-col flex-grow max-h-[90vh] overflow-auto ">
       {/* Шапка фиксирована сверху */}
-      <div className="flex justify-between items-center py-[5px] mt-[10px] px-[16px]">
+      <div className="fixed z-[100] max-w-[550px] h-[70px] w-full flex justify-between items-center py-[5px] px-[16px] dark:bg-[#282950] bg-[#FFFFFF]">
         <RiMenuFill className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
         <img
           className="w-[40px]"
@@ -140,92 +143,44 @@ const Library = () => {
         />
         <RiSearchLine className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
       </div>
-      <span className="relative mt-[20px] w-[60%] h-[1px] bg-[#C1C3EC] m-auto"></span>
 
       {/* Основний контент */}
       <div className="flex flex-col flex-grow justify-between p-[16px] gap-y-[36px]">
         <div className="flex flex-col gap-y-[25px]">
-          <div class="flex items-center">
+          <div class="flex items-center mt-[70px]">
             <RiTimerLine className="text-[20px] text-[#9194C3]  mr-[18px]" />
             <h2 className=" dark:text-[#F3F7FF] text-[#282950] text-[40px] font-semibold">
               Last Open
             </h2>
           </div>
-
-          {/* Свайпери */}
-          <div className="flex gap-x-[18px] overflow-auto hide-scrollbar ">
-            {lastOpenInfo.map(function (e) {
-              return (
-                <div
-                  style={{ backgroundImage: `url('${e.imageURL}')` }}
-                  className="group bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl"
-                >
-                  <div className="w-[148px] h-[156px] rounded-t-3xl rounded-b-2xl bg-gradient-dark prev-hover flex items-center justify-center">
-                    <div className="flex flex-col items-center justify-center gap-[6px]">
-                      <p
-                        className={`font-medium mb-0 text-[${e.complexity.color}]`}
-                      >
-                        {e.complexity.name}
-                      </p>
-                      <div className="w-[64px] h-[64px] flex  items-center justify-center play-hover">
-                        <RiPlayLargeLine className="text-[30px] text-[#F3F7FF] group-hover:text-[25px]" />
-                      </div>
-                      <div className="flex items-center gap-[20px]">
-                        <div className="flex items-center gap-[10px]">
-                          <RiInbox2Line className="text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
-                          <span className="font-medium text-[#F3F7FF]">
-                            {e.numberOfCards}
-                          </span>
+          <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
+            <div className="flex gap-x-[18px] ">
+              {lastOpenInfo.map(function (e) {
+                return (
+                  <div
+                    style={{ backgroundImage: `url('${e.imageURL}')` }}
+                    className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
+                  >
+                    <div className=" prev-small flex items-center justify-center">
+                      <div className="absolute transition duration-300 prev-small bg-gradient-to-b bg-gradient-dark opacity-100 group-hover:opacity-0"></div>
+                      <div className="absolute transition duration-300 prev-small bg-gradient-to-b from-[#946DFF]/75 to-[#5A4BFF]/75 opacity-0 group-hover:backdrop-blur-[1px] group-hover:opacity-100"></div>
+                      <div className="relative flex flex-col items-center justify-center gap-[6px]">
+                        <p className={`font-medium mb-0 ${e.complexity.color}`}>
+                          {e.complexity.name}
+                        </p>
+                        <div className="transition-all duration-300  w-[64px] h-[64px] rounded-3xl flex  items-center justify-center play-hover">
+                          <RiPlayLargeLine className=" transition-all duration-300 text-[30px] text-[#F3F7FF] group-hover:text-[25px]" />
                         </div>
-                        <div className="flex items-center gap-[10px]">
-                          <RiStarFill className="text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
-                          <span className="font-medium group-hover:text-[#FFE168] text-[#9194C3]">
-                            {e.rating}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-        {/* через map */}
-        <div className="flex flex-col gap-y-[25px]">
-          <div class="flex items-center">
-            <h2 className=" dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
-              Courses
-            </h2>
-            <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
-          </div>
-
-          <div className="flex gap-x-[18px] overflow-auto hide-scrollbar ">
-            {coursesInfo.map(function (e) {
-              return (
-                <div
-                  style={{ backgroundImage: `url('${e.imageURL}')` }}
-                  className="group bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl bg-opacity-25"
-                >
-                  <div className="w-[170px] h-[199px] rounded-t-3xl rounded-b-2xl bg-gradient-light dark:from-[#333560]/75 dark:to-[#333560]/75  prev-hover flex items-center justify-center">
-                    <div className="flex flex-col  justify-center gap-[78px]">
-                      <p
-                        className={`font-medium mb-0 text-[${e.complexity.color}]`}
-                      >
-                        {e.complexity.name}
-                      </p>
-                      <div className="flex flex-col gap-[6px]">
-                        <p className="text-[20px] font-bold mb-0">{e.name}.</p>
                         <div className="flex items-center gap-[20px]">
                           <div className="flex items-center gap-[10px]">
-                            <RiInbox2Line className="text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
+                            <RiInbox2Line className="transition duration-300 text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
                             <span className="font-medium text-[#F3F7FF]">
                               {e.numberOfCards}
                             </span>
                           </div>
                           <div className="flex items-center gap-[10px]">
-                            <RiStarFill className="text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
-                            <span className="font-medium text-[#9194C3] group-hover:text-[#FFE168]">
+                            <RiStarFill className="transition duration-300 text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
+                            <span className="transition duration-300 font-medium group-hover:text-[#FFE168] text-[#9194C3]">
                               {e.rating}
                             </span>
                           </div>
@@ -233,10 +188,60 @@ const Library = () => {
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
+          </ScrollContainer>
+        </div>
+
+        <div className="flex flex-col gap-y-[25px]">
+          <div class="flex items-center">
+            <h2 className=" dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
+              Courses
+            </h2>
+            <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
           </div>
+          <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
+            <div className="flex gap-x-[18px]">
+              {coursesInfo.map(function (e) {
+                return (
+                  <div
+                    style={{ backgroundImage: `url('${e.imageURL}')` }}
+                    className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
+                  >
+                    <div className=" prev-medium  flex items-center justify-center">
+                      <div className="absolute transition duration-300  prev-medium bg-gradient-to-b bg-gradient-dark-theme bg-gradient-light opacity-100 group-hover:opacity-0"></div>
+                      <div className="absolute transition duration-300  prev-medium bg-gradient-to-b from-[#946DFF]/75 to-[#5A4BFF]/75 opacity-0 group-hover:backdrop-blur-[1px] group-hover:opacity-100"></div>
+                      <div className="relative flex flex-col  justify-center gap-[78px]">
+                        <p className={`font-medium mb-0 ${e.complexity.color}`}>
+                          {e.complexity.name}
+                        </p>
+                        <div className="flex flex-col gap-[6px]">
+                          <p className="text-[20px] font-bold mb-0">
+                            {e.name}.
+                          </p>
+                          <div className="flex items-center gap-[20px]">
+                            <div className="flex items-center gap-[10px]">
+                              <RiInbox2Line className="transition duration-300 text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
+                              <span className="font-medium text-[#F3F7FF]">
+                                {e.numberOfCards}
+                              </span>
+                            </div>
+                            <div className="flex  items-center gap-[10px]">
+                              <RiStarFill className="transition duration-300 text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
+                              <span className="transition duration-300 font-medium text-[#9194C3] group-hover:text-[#FFE168]">
+                                {e.rating}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </ScrollContainer>
         </div>
         <div className="flex flex-col gap-y-[25px]">
           <div class="flex items-center">
@@ -248,44 +253,47 @@ const Library = () => {
               <RiAddLine className="text-[25px] text-[#F3F7FF] " />
             </div>
           </div>
-
-          <div className="flex gap-x-[18px] overflow-auto hide-scrollbar ">
-            {courseSetsInfo.map(function (e) {
-              return (
-                <div
-                  style={{ backgroundImage: `url('${e.imageURL}')` }}
-                  className="group bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl bg-opacity-25"
-                >
-                  <div className="w-[170px] h-[199px] rounded-t-3xl rounded-b-2xl bg-gradient-light dark:from-[#333560]/75 dark:to-[#333560]/75  prev-hover flex items-center justify-center">
-                    <div className="flex flex-col  justify-center gap-[78px]">
-                      <p
-                        className={`font-medium mb-0 text-[${e.complexity.color}]`}
-                      >
-                        {e.complexity.name}
-                      </p>
-                      <div className="flex flex-col gap-[6px]">
-                        <p className="text-[20px] font-bold mb-0">{e.name}.</p>
-                        <div className="flex items-center gap-[20px]">
-                          <div className="flex items-center gap-[10px]">
-                            <RiInbox2Line className="text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
-                            <span className="font-medium text-[#F3F7FF]">
-                              {e.numberOfCards}
-                            </span>
-                          </div>
-                          <div className="flex items-center gap-[10px]">
-                            <RiStarFill className="text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
-                            <span className="font-medium text-[#9194C3] group-hover:text-[#FFE168]">
-                              {e.rating}
-                            </span>
+          <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
+            <div className="flex gap-x-[18px]">
+              {courseSetsInfo.map(function (e) {
+                return (
+                  <div
+                    style={{ backgroundImage: `url('${e.imageURL}')` }}
+                    className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
+                  >
+                    <div className=" prev-medium  flex items-center justify-center">
+                      <div className="absolute transition duration-300  prev-medium bg-gradient-to-b bg-gradient-dark-theme bg-gradient-light opacity-100 group-hover:opacity-0"></div>
+                      <div className="absolute transition duration-300  prev-medium bg-gradient-to-b from-[#946DFF]/75 to-[#5A4BFF]/75 opacity-0 group-hover:backdrop-blur-[1px] group-hover:opacity-100"></div>
+                      <div className="relative flex flex-col  justify-center gap-[78px]">
+                        <p className={`font-medium mb-0 ${e.complexity.color}`}>
+                          {e.complexity.name}
+                        </p>
+                        <div className="flex flex-col gap-[6px]">
+                          <p className="text-[20px] font-bold mb-0">
+                            {e.name}.
+                          </p>
+                          <div className="flex items-center gap-[20px]">
+                            <div className="flex items-center gap-[10px]">
+                              <RiInbox2Line className="transition duration-300 text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
+                              <span className="font-medium text-[#F3F7FF]">
+                                {e.numberOfCards}
+                              </span>
+                            </div>
+                            <div className="flex  items-center gap-[10px]">
+                              <RiStarFill className="transition duration-300 text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]" />
+                              <span className="transition duration-300 font-medium text-[#9194C3] group-hover:text-[#FFE168]">
+                                {e.rating}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          </ScrollContainer>
         </div>
       </div>
     </section>

@@ -2,12 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.prev-hover{
-    @apply group-hover:from-[#946DFF]/75 group-hover:to-[#5A4BFF]/75 group-hover:backdrop-blur-[1px];
-}
 
+.prev-small{
+    @apply w-[148px] h-[156px] rounded-t-3xl rounded-b-2xl;
+}
+.prev-medium{
+    @apply w-[170px] h-[199px] rounded-t-3xl rounded-b-2xl;
+}
 .play-hover{
-    @apply group-hover:rounded-3xl group-hover:bg-[#232544] group-hover:bg-opacity-40 group-hover:backdrop-blur-lg;
+    @apply  group-hover:bg-[#232544] group-hover:bg-opacity-40 group-hover:backdrop-blur-lg;
 }
 
 .hide-scrollbar{
@@ -15,9 +18,13 @@
 }
 
 .bg-gradient-dark{
-    @apply bg-gradient-to-b from-[#333560]/75 to-[#333560]/75;
+    @apply  from-[#333560]/75 to-[#333560]/75;
+}
+
+.bg-gradient-dark-theme{
+    @apply  dark:from-[#333560]/75 dark:to-[#333560]/75;
 }
 
 .bg-gradient-light{
-    @apply bg-gradient-to-b from-[#E1E2FE]/85 to-[#E1E2FE]/85;
+    @apply from-[#E1E2FE]/85 to-[#E1E2FE]/85;
 }
