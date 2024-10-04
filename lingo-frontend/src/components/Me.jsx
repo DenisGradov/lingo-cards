@@ -2,10 +2,28 @@ import React from 'react';
 import { RiLogoutBoxLine, RiMessage2Line, RiNotification2Line, RiPencilLine, RiUser5Line } from 'react-icons/ri';
 import useUserInfo from '../store/userInfo.js';
 import Header from "./Header.jsx";
+import { useNavigate } from 'react-router-dom';  // Для перенаправления
 
 const UserProfile = () => {
-    const userName = useUserInfo((state) => state.userName);
-    const userEmail = useUserInfo((state) => state.userEmail);
+    const userName = useUserInfo((state) => state.userName);  // Получаем логин
+    const userEmail = useUserInfo((state) => state.userEmail);  // Получаем email
+    const navigate = useNavigate();  // Для использования навигации
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
+                method: 'POST',
+                credentials: 'include',  // Для отправки куков
+            });
+            if (response.ok) {
+                navigate('/signin');  // Перенаправляем на страницу входа
+            } else {
+                console.error('Logout failed');
+            }
+        } catch (error) {
+            console.error('Error during logout:', error);
+        }
+    };
 
     return (
         <section className="flex flex-col flex-grow">
@@ -18,7 +36,7 @@ const UserProfile = () => {
                     <RiUser5Line className="text-[100px] dark:text-[#F3F7FF] text-[#282950]" />
                     <div className="mt-[20px] flex items-center">
                         <h2 className="text-[48px] font-bold dark:text-[#F3F7FF] text-[#282950]">
-                            {userName}
+                            {userName}  {/* Отображаем логин */}
                         </h2>
                         <RiPencilLine className="text-[#FFC046] text-[26px] ml-[24px]" />
                     </div>
@@ -40,7 +58,7 @@ const UserProfile = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center mt-[20px]">
+                <div className="flex items-center mt-[20px] cursor-pointer" onClick={handleLogout}>
                     <RiLogoutBoxLine className="text-[#FF6193] text-[20px]" />
                     <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">Logout</span>
                 </div>
