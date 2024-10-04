@@ -1,28 +1,27 @@
 version: '3'
 
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    ports:
-      - '${BACKEND_PORT}:${BACKEND_PORT}'
-    env_file:
-      - ./.env
-    command: npm run dev
-
   frontend:
     build:
       context: ./lingo-frontend
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./lingo-frontend:/app
-      - /app/node_modules
+      dockerfile: Dockerfile
     ports:
-      - '${FRONTEND_PORT}:${FRONTEND_PORT}'
-    env_file:
-      - ./.env
-    command: npm run dev
+      - "3037:3037"
+    environment:
+      - VITE_BACKEND_URL=https://api.dev.lingo-cards.tech
+    networks:
+      - lingo-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3038:3038"
+    environment:
+      - ALLOWED_ORIGINS=https://dev.lingo-cards.tech,https://api.dev.lingo-cards.tech
+    networks:
+      - lingo-network
+
+networks:
+  lingo-network:

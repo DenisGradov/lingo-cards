@@ -10,6 +10,8 @@ module.exports = {
       },
       screens: {
         'xs': '320px',
+        'big': { 'raw': '(min-height: 750px)' },
+        'small': { 'raw': '(max-height: 750px)' },
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

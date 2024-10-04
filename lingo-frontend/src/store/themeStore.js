@@ -1,12 +1,19 @@
 import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
 
-const useThemeStore = create((set) => ({
-    isDark: JSON.parse(localStorage.getItem('isDark')) || false,
-    toggleTheme: () => set((state) => {
-        const newTheme = !state.isDark;
-        localStorage.setItem('isDark', JSON.stringify(newTheme));
-        return { isDark: newTheme };
-    }),
-}));
+const useThemeStore = create(
+    devtools(
+        persist(
+            (set) => ({
+                isDark: false,
+                toggleTheme: () => set((state) => ({ isDark: !state.isDark })),
+            }),
+            {
+                name: 'theme-store', // имя для хранения в localStorage
+            }
+        ),
+        { name: 'ThemeStore' } // имя для отображения в DevTools
+    )
+);
 
-export default useThemeStore;
+export default useThemeStore
