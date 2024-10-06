@@ -4,24 +4,26 @@ import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
 import useThemeStore from './store/themeStore';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import UserProfile from './components/Me.jsx';
 import SignIn from './components/Auth/SignIn.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
 import { useLocation } from 'react-router-dom';
 
-function AppContent({ isAuthenticated }) {
+function AppContent() {
     const location = useLocation();
+    const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
     return (
         <div className="w-full flex-grow flex flex-col m-auto">
             <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
                 <Routes>
-                    <Route
-                        path="/"
-                        element={isAuthenticated ? <Training /> : <Navigate to="/signin" />}
-                    />
+                    {/* Страницы входа и регистрации доступны всегда */}
+                    <Route path="/signin" element={<SignIn />} />
+                    <Route path="/signup" element={<SignUp />} />
+
+                    {/* Защищенные страницы доступны только для авторизованных пользователей */}
                     <Route
                         path="/library"
                         element={isAuthenticated ? <Library /> : <Navigate to="/signin" />}
@@ -30,20 +32,26 @@ function AppContent({ isAuthenticated }) {
                         path="/me"
                         element={isAuthenticated ? <UserProfile /> : <Navigate to="/signin" />}
                     />
-                    <Route path="/signin" element={<SignIn />} />
-                    <Route path="/signup" element={<SignUp />} />
+                    {/* Общий маршрут размещаем последним */}
+                    <Route
+                        path="/"
+                        element={isAuthenticated ? <Training /> : <Navigate to="/signin" />}
+                    />
                 </Routes>
             </div>
+            {/* Футер не показывается на страницах signin/signup */}
             {location.pathname !== '/signin' && location.pathname !== '/signup' && <Footer />}
         </div>
     );
 }
 
+
 function App() {
     const isDark = useThemeStore((state) => state.isDark);
-    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated);  // Для сохранения состояния аутентификации
     const setUserName = useUserInfo((state) => state.setUserName);  // Для сохранения логина пользователя
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Для сохранения email пользователя
+    const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
     useEffect(() => {
         const root = window.document.documentElement;
@@ -75,7 +83,7 @@ function App() {
             }
         };
         checkAuth();
-    }, [setUserName, setUserEmail]);
+    }, [setUserName, setUserEmail, setIsAuthenticated]);
 
     if (isAuthenticated === null) {
         return (
@@ -88,7 +96,7 @@ function App() {
     return (
         <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
             <Router>
-                <AppContent isAuthenticated={isAuthenticated} />
+                <AppContent />
             </Router>
         </div>
     );

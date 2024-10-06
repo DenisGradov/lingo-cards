@@ -1,6 +1,6 @@
-import {useEffect, useState} from "react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { NavLink, useNavigate } from "react-router-dom";
+import {useEffect, useState} from 'react';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Header from '../Header.jsx';
 import useUserInfo from "../../store/userInfo.js";
 
@@ -13,14 +13,10 @@ const SignIn = () => {
     const [error, setError] = useState(null);
     const setUserName = useUserInfo((state) => state.setUserName);  // Устанавливаем имя пользователя в состояние
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Устанавливаем email пользователя
+    const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
+    const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated); // Устанавливаем аутентификацию
 
     const navigate = useNavigate();
-    const isAuthenticated = useUserInfo((state) => state.userName);
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/');
-        }
-    }, [isAuthenticated, navigate]);
     const handleChange = (e) => {
         setUserInfo({
             ...userInfo,
@@ -29,6 +25,11 @@ const SignIn = () => {
         setError(null);  // Сбрасываем ошибку при изменении полей
     };
 
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/');
+        }
+    }, [isAuthenticated, navigate]);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -38,7 +39,7 @@ const SignIn = () => {
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/login`, {
                 method: 'POST',
-                credentials: 'include',
+                credentials: 'include', // Добавляем куки для аутентификации
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -46,9 +47,10 @@ const SignIn = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                // Устанавливаем имя и email в состояние после успешного логина
-                setUserName(data.user.name);
+                // Устанавливаем имя и email в Zustand после успешного логина
+                setUserName(data.user.login);
                 setUserEmail(data.user.email);
+                setIsAuthenticated(true);  // Устанавливаем флаг аутентификации
                 navigate('/');
             } else {
                 setError(data.error);
@@ -68,7 +70,7 @@ const SignIn = () => {
                 <h3 className="text-[14px] text-[#9194C3] font-semibold">Learn languages easily</h3>
             </div>
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}  {/* Вывод ошибки */}
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}  {/* Вывод ошибки */ }
 
             <form className="mt-[120px] flex flex-col" onSubmit={handleSubmit}>
 

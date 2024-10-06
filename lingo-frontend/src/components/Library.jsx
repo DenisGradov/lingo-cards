@@ -9,9 +9,9 @@ import {
   RiInbox2Line,
   RiStarFill,
 } from "react-icons/ri";
-import { userInfo } from "../store/userInfo.js";
 import { useState, useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
+import userInfo from "../store/userInfo.js";
 
 const Library = () => {
   const { selectedLanguage, changeLanguage, getLanguageInfo } = userInfo();

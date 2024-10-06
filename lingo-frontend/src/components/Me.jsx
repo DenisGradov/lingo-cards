@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';  // Для перенаправ�
 const UserProfile = () => {
     const userName = useUserInfo((state) => state.userName);  // Получаем логин
     const userEmail = useUserInfo((state) => state.userEmail);  // Получаем email
+    const clearUserInfo = useUserInfo((state) => state.clearUserInfo);  // Получаем email
     const navigate = useNavigate();  // Для использования навигации
 
     const handleLogout = async () => {
@@ -16,6 +17,7 @@ const UserProfile = () => {
                 credentials: 'include',  // Для отправки куков
             });
             if (response.ok) {
+                clearUserInfo();
                 navigate('/signin');  // Перенаправляем на страницу входа
             } else {
                 console.error('Logout failed');

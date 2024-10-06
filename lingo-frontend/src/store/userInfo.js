@@ -16,21 +16,34 @@ const useUserInfo = create(
         persist(
             (set, get) => ({
                 selectedLanguage: 'ua',
-                userName: 'Denys',
-                userEmail: 'varonapika@gmail.com',
+                userName: '',
+                userEmail: '',
+                isAuthenticated: null, // Новый флаг для аутентификации
+
                 changeLanguage: () => {
                     const newLanguageCode = getNextLanguage(get().selectedLanguage);
                     set({ selectedLanguage: newLanguageCode });
                 },
                 getLanguageInfo: (code) => countries[code],
+
                 setUserName: (name) => set({ userName: name }),
                 setUserEmail: (email) => set({ userEmail: email }),
+                setIsAuthenticated: (isAuth) => set({ isAuthenticated: isAuth }),  // Установка аутентификации
+
+                clearUserInfo: () => {
+                    set({
+                        userName: '',
+                        userEmail: '',
+                        isAuthenticated: false, // Сбрасываем аутентификацию
+                    });
+                }
+
             }),
             {
-                name: 'user-info-store', // name for storage in localStorage
+                name: 'user-info-store', // имя для хранения в localStorage
             }
         ),
-        { name: 'UserInfoStore' } // name for display in DevTools
+        { name: 'UserInfoStore' } // имя для отображения в DevTools
     )
 );
 
