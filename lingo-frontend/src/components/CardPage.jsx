@@ -37,7 +37,6 @@ const CardPage = () => {
           </div>
         </div>
       </div>
-
     </section>
   );
 };
