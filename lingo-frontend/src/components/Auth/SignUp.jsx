@@ -15,8 +15,9 @@ const SignUp = () => {
     const setUserName = useUserInfo((state) => state.setUserName);  // Сохраняем логин
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Сохраняем email
     const navigate = useNavigate();
-
-    const isAuthenticated = useUserInfo((state) => state.userName);  // Проверяем, авторизован ли пользователь
+    const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
+    const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated);
+ // Проверяем, авторизован ли пользователь
 
     // Перенаправление, если пользователь авторизован
     useEffect(() => {
@@ -50,6 +51,7 @@ const SignUp = () => {
             const data = await response.json();
             if (response.ok) {
                 // Сохраняем логин и email после успешной регистрации
+                setIsAuthenticated(true);
                 setUserName(data.user.login);
                 setUserEmail(data.user.email);
                 navigate('/');

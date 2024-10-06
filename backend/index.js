@@ -125,19 +125,20 @@ const server = http.createServer(async (req, res) => {
                 const passwordMatch = await comparePassword(password, user.password);
                 if (passwordMatch) {
                     const token = jwt.sign({ id: user.id, login: user.login }, process.env.JWT_SECRET, { expiresIn: '1h' });
-                    // Возвращаем имя и email вместе с токеном
+                    // Возвращаем логин и email вместе с токеном
                     res.writeHead(200, {
                         'Content-Type': 'application/json',
                         'Set-Cookie': `token=${token}; HttpOnly; Path=/`,
                     });
                     res.end(JSON.stringify({
                         message: 'Login successful',
-                        user: { name: user.name, email: user.email }  // Возвращаем имя и email
+                        user: { login: user.login, email: user.email }  // Возвращаем логин вместо user.name
                     }));
                 } else {
                     res.writeHead(401, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ error: 'Invalid login or password' }));
                 }
+
             }
         });
     } else if (pathName === '/checkAuth' && method === 'GET') {
