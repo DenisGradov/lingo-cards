@@ -22,6 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.idea/
+
 
 npm-debug.log
 .env
+
+backend/db/users.db
