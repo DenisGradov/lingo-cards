@@ -10,6 +10,8 @@ import SignIn from './components/Auth/SignIn.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
 import { useLocation } from 'react-router-dom';
+import useWordsStore from './store/wordsStore';
+import usePlaylistsStore from "./store/playlistsStore.js";  // Подключаем хранилище для слов
 
 function AppContent() {
     const location = useLocation();
@@ -52,7 +54,8 @@ function App() {
     const setUserName = useUserInfo((state) => state.setUserName);  // Для сохранения логина пользователя
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Для сохранения email пользователя
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
-
+    const saveWords = useWordsStore((state) => state.saveWords);
+    const savePlaylists = usePlaylistsStore((state) => state.savePlaylists);
     useEffect(() => {
         const root = window.document.documentElement;
         if (isDark) {
@@ -66,7 +69,7 @@ function App() {
     useEffect(() => {
         const checkAuth = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/checkAuth`, {
+                const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/checkAuth`, {
                     credentials: 'include',
                 });
                 const data = await response.json();
@@ -74,16 +77,21 @@ function App() {
                 if (response.ok && data.message === 'Authenticated') {
                     setIsAuthenticated(true);
                     setUserName(data.user.login);  // Сохраняем логин пользователя
-                    setUserEmail(data.user.email);  // Сохраняем email пользователя
+                    setUserEmail(data.user.email); // Сохраняем email пользователя
+
+                    // Сохраняем слова и плейлисты в store
+                    saveWords(data.words);
+                    savePlaylists(data.playlists);
                 } else {
                     setIsAuthenticated(false);
                 }
             } catch (error) {
+                console.log('server error:', error);
                 setIsAuthenticated(false);
             }
         };
         checkAuth();
-    }, [setUserName, setUserEmail, setIsAuthenticated]);
+    }, [setUserName, setUserEmail, setIsAuthenticated]); // Добавляем зависимости для слов и плейлистов
 
     if (isAuthenticated === null) {
         return (

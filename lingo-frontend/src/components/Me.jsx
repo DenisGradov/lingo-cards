@@ -1,4 +1,3 @@
-import React from 'react';
 import { RiLogoutBoxLine, RiMessage2Line, RiNotification2Line, RiPencilLine, RiUser5Line } from 'react-icons/ri';
 import useUserInfo from '../store/userInfo.js';
 import Header from "./Header.jsx";
@@ -12,7 +11,7 @@ const UserProfile = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/logout`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/logout`, {
                 method: 'POST',
                 credentials: 'include',  // Для отправки куков
             });

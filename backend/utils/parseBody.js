@@ -1,4 +1,4 @@
-function parseBody(req) {
+export function parseBody(req) {
     return new Promise((resolve, reject) => {
         let body = '';
         req.on('data', chunk => {
@@ -10,4 +10,3 @@ function parseBody(req) {
     });
 }
 
-module.exports = { parseBody };
