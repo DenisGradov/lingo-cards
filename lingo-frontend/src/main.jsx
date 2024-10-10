@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.jsx';
 import Modal from './components/Modal';  // Импортируем модальное окно
 import useModalStore from './store/modalStore';  // Импортируем хранилище состояния модалки
-import { useMemo } from 'react';  // Для мемоизации состояния
+import {useEffect, useMemo} from 'react';  // Для мемоизации состояния
 
 function Main() {
     const isModalOpen = useModalStore((state) => state.isOpen);  // Проверяем, активно ли модальное окно
@@ -14,6 +14,12 @@ function Main() {
         hasCloseIcon: useModalStore.getState().hasCloseIcon,
         buttons: useModalStore.getState().buttons,
     }), [isModalOpen]);  // Только при изменении состояния окна перерендериваем
+
+    useEffect(() => {
+            if (isModalOpen){
+                useModalStore.getState().closeModal();
+            }
+    }, []);
 
     return (
         <div className="relative min-h-screen">
