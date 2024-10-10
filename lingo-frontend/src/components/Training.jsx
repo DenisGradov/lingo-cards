@@ -8,6 +8,8 @@ import {
 } from "react-icons/ri";
 import useCardStore from "../store/cardsStore.js";
 import useThemeStore from "../store/themeStore.js";
+import useModalStore from "../store/modalStore.js";
+import {openModalWithInfo} from "../utils/modalUtils.js";
 
 const Training = () => {
   const isDark = useThemeStore((state) => state.isDark);
@@ -19,7 +21,6 @@ const Training = () => {
   const handleToggleTheme = () => {
     toggleTheme();
   };
-
   return (
       <div className="flex flex-col flex-grow">
         <div className="w-full flex items-center justify-between py-[5px] mt-[10px] px-[16px]">
@@ -54,7 +55,7 @@ const Training = () => {
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
                 Teach
               </span>
-                <RiQuestionLine className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
+                <RiQuestionLine onClick={()=>{openModalWithInfo('Teach');}} className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
               </div>
               <div className="flex flex-col items-center w-full border-t border-r border-[#434575]">
               <span className="big:mt-[24px] mt-[5px] dark:text-[#F3F7FF] text-[#282950] text-[32px] font-bold">
@@ -63,7 +64,7 @@ const Training = () => {
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
                 I know
               </span>
-                <RiQuestionLine className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
+                <RiQuestionLine onClick={()=>{openModalWithInfo('I know');}} className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
               </div>
               <div className="flex flex-col items-center w-full border-t border-[#434575]">
               <span className="big:mt-[24px] mt-[5px] dark:text-[#F3F7FF] text-[#282950] text-[32px] font-bold">
@@ -72,7 +73,7 @@ const Training = () => {
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
                 Learned
               </span>
-                <RiQuestionLine className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
+                <RiQuestionLine onClick={()=>{openModalWithInfo('Learned');}} className="big:mb-[24px] mb-[5px] text-[#9194C3] text-[20px] hover:scale-105 cursor-pointer " />
               </div>
             </div>
 

@@ -17,7 +17,6 @@ const SignUp = () => {
     const navigate = useNavigate();
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
     const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated);
- // Проверяем, авторизован ли пользователь
 
     // Перенаправление, если пользователь авторизован
     useEffect(() => {
