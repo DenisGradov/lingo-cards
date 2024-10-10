@@ -6,7 +6,6 @@ export const openModalWithInfo = (type) => {
     const modalData = modalInfo.find((info) => info.type === type);
 
     if (modalData) {
-        console.log('Modal Data:', modalData);  // Для проверки вывода данных
         useModalStore.getState().openModal({
             title: modalData.title,
             description: modalData.description,
