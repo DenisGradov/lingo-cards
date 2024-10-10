@@ -47,3 +47,44 @@ body {
        text-decoration: underline;
      }
    }
+
+/* Для веб-кита (Chrome, Safari и новые версии Edge) */
+::-webkit-scrollbar {
+  width: 12px; /* Ширина скроллбара */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Цвет фона трека в светлом режиме */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #936dff; /* Цвет полосы прокрутки в светлом режиме */
+  border-radius: 10px; /* Скругленные углы */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #7c59e6; /* Цвет полосы прокрутки при наведении в светлом режиме */
+}
+
+/* Темная тема */
+body.dark ::-webkit-scrollbar-track {
+  background-color: #1e1e1e; /* Цвет трека в темном режиме */
+}
+
+body.dark ::-webkit-scrollbar-thumb {
+  background-color: #7c59e6; /* Цвет полосы прокрутки в темном режиме */
+}
+
+body.dark ::-webkit-scrollbar-thumb:hover {
+  background-color: #6846cc; /* Цвет полосы прокрутки при наведении в темном режиме */
+}
+
+/* Для Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #936dff #f0f0f0; /* Цвет полосы прокрутки и трека в светлом режиме */
+}
+
+body.dark * {
+  scrollbar-color: #7c59e6 #1e1e1e; /* Цвет полосы прокрутки и трека в темном режиме */
+}
