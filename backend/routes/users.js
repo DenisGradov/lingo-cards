@@ -1,7 +1,7 @@
 import { parseBody } from '../utils/parseBody.js';
 import { hashPassword, comparePassword } from '../utils/password.js';
 import jwt from 'jsonwebtoken';
-import { addUser, getUserByLogin } from '../db/userModel.js';
+import {addUser, getUserByLogin, updateUsername} from '../db/userModel.js';
 import dotenv from 'dotenv';
 import {parseCookies} from "../utils/main.js";
 
@@ -103,6 +103,43 @@ function handleLogout(req, res) {
     res.end(JSON.stringify({ message: 'Logged out successfully' }));
 }
 
+async function handleUpdateUsername(req, res) {
+    const cookies = parseCookies(req);
+    const token = cookies.token;
+
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
+            if (err) {
+                res.writeHead(401, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Not authenticated' }));
+            } else {
+                const body = await parseBody(req);
+                const { newLogin } = JSON.parse(body);
+
+                getUserByLogin(newLogin, async (err, existingUser) => {
+                    if (existingUser) {
+                        res.writeHead(400, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ error: 'Username already exists.' }));
+                    } else {
+                        updateUsername(decoded.id, newLogin, (err) => {
+                            if (err) {
+                                res.writeHead(500, { 'Content-Type': 'application/json' });
+                                res.end(JSON.stringify({ error: 'Failed to update username.' }));
+                            } else {
+                                res.writeHead(200, { 'Content-Type': 'application/json' });
+                                res.end(JSON.stringify({ message: 'Username updated successfully.', newLogin }));
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    } else {
+        res.writeHead(401, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Not authenticated' }));
+    }
+}
+
 export default function usersRoutes(req, res) {
     const pathName = req.url.split('?')[0];
     const method = req.method;
@@ -115,6 +152,8 @@ export default function usersRoutes(req, res) {
         return handleCheckAuth(req, res);
     } else if (pathName === '/users/logout' && method === 'POST') {
         return handleLogout(req, res);
+    } else if (pathName === '/users/updateUsername' && method === 'POST') {
+        return handleUpdateUsername(req, res);
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');

@@ -87,18 +87,23 @@ const SignIn = () => {
 
                 <div className="mt-4 relative max-w-[100%] w-full">
                     <span className="text-[#9194C3] text-[14px] font-semibold">Password</span>
-                    <input
-                        type={showPassword ? "text" : "password"}
-                        className={`w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
+                    <div className="flex items-center">
+                        <input
+                            type={showPassword ? "text" : "password"}
+                            className={`w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
                         ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
                         caret-[#333560] focus:outline-none`}
-                        name="password"
-                        placeholder="Password"
-                        value={userInfo.password}
-                        onChange={handleChange}
-                    />
-                    <div className="absolute right-0 top-3 cursor-pointer hover:opacity-60" onClick={togglePasswordVisibility}>
-                        {showPassword ? <AiFillEyeInvisible size={24} color="#946DFF" /> : <AiFillEye size={24} color="#946DFF" />}
+                            name="password"
+                            placeholder="Password"
+                            value={userInfo.password}
+                            onChange={handleChange}
+                        />
+                        <div className=" absolute right-2 cursor-pointer hover:opacity-60"
+                             onClick={togglePasswordVisibility}>
+                            {showPassword ? <AiFillEyeInvisible size={24} color="#946DFF"/> :
+                                <AiFillEye size={24} color="#946DFF"/>}
+                        </div>
+
                     </div>
                 </div>
 
@@ -114,7 +119,8 @@ const SignIn = () => {
                         Login
                     </button>
                     <span className="mt-[24px] text-[#9194C3] text-[14px] font-semibold">
-                        Or <NavLink to="/signup" className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">Register</NavLink>
+                        Or <NavLink to="/signup"
+                                    className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">Register</NavLink>
                     </span>
                 </div>
             </form>

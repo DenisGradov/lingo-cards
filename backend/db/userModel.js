@@ -12,5 +12,10 @@ function addUser(user, callback) {
 function getUserByLogin(login, callback) {
     db.get('SELECT * FROM users WHERE login = ?', [login], callback);
 }
-
-export { addUser, getUserByLogin };
+function updateUsername(userId, newLogin, callback){
+    const query = 'UPDATE users SET login = ? WHERE id = ?';
+    db.run(query, [newLogin, userId], (err) => {
+        callback(err);
+    });
+};
+export { addUser, getUserByLogin, updateUsername };
