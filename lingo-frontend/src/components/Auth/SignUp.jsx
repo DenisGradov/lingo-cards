@@ -110,7 +110,7 @@ const SignUp = () => {
                         value={userInfo.password}
                         onChange={handleChange}
                     />
-                    <div className="absolute right-0 top-3 cursor-pointer hover:opacity-60" onClick={togglePasswordVisibility}>
+                    <div className="absolute right-2 top-3 cursor-pointer hover:opacity-60" onClick={togglePasswordVisibility}>
                         {showPassword ? <AiFillEyeInvisible size={24} color="#946DFF" /> : <AiFillEye size={24} color="#946DFF" />}
                     </div>
                 </div>

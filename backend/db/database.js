@@ -73,15 +73,6 @@ export function initDatabase() {
             user_id INTEGER,
             FOREIGN KEY (user_id) REFERENCES users(id)
         )`);
-
-        // PlaylistWords table (Many-to-Many relationship)
-        db.run(`CREATE TABLE IF NOT EXISTS playlist_words (
-            playlist_id INTEGER,
-            word_id INTEGER,
-            FOREIGN KEY (playlist_id) REFERENCES playlists(id),
-            FOREIGN KEY (word_id) REFERENCES words(id),
-            PRIMARY KEY (playlist_id, word_id)
-        )`);
     });
 }
 
