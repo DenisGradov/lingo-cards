@@ -11,15 +11,23 @@ const useModalStore = create(
                 description: '',
                 hasCloseIcon: true,
                 buttons: [],
+                inputs:[],
+                textareas:[],
+                selects:[],
+                formButtons:[],
 
                 // Открытие модального окна с параметрами
-                openModal: ({ title, description, hasCloseIcon = true, buttons = [] }) => {
+                openModal: ({ title, description, hasCloseIcon = true, buttons = [],inputs=[],textareas=[],selects=[],formButtons=[] }) => {
                     set({
                         isOpen: true,
                         title,
                         description,
                         hasCloseIcon,
                         buttons,
+                        inputs,
+                        textareas,
+                        selects,
+                        formButtons,
                     });
                 },
 
@@ -30,6 +38,10 @@ const useModalStore = create(
                         title: '',
                         description: '',
                         buttons: [],
+                        inputs:[],
+                        textareas:[],
+                        selects:[],
+                        formButtons:[],
                     });
                 },
             }),

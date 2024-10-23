@@ -10,7 +10,12 @@ export const openModalWithInfo = (type) => {
             title: modalData.title,
             description: modalData.description,
             hasCloseIcon: modalData.hasCloseButton,
-            buttons: modalData.buttons
+            buttons: modalData.buttons,
+
+            inputs:modalData.inputs,
+            textareas:modalData.textareas,
+            selects:modalData.selects,
+            formButtons:modalData.formButtons,
         });
     } else {
         console.error(`Modal info for type "${type}" not found.`);
