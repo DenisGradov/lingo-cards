@@ -9,15 +9,20 @@ import {
   RiInbox2Line,
   RiStarFill,
 } from "react-icons/ri";
-import {useState, useRef} from "react";
+import {useState, useRef,useEffect} from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 import userInfo from "../store/userInfo.js";
 import usePlaylistsStore from "../store/playlistsStore.js";
+import useModalStore from "../store/modalStore.js";
+import {openModalWithInfo} from "../utils/modalUtils.js";
 
 
 const Library = () => {
   const { selectedLanguage, changeLanguage, getLanguageInfo } = userInfo();
   const [language, setLanguage] = useState(getLanguageInfo(selectedLanguage));
+
+  const playlists = usePlaylistsStore((state) => state.playlists);
+
 
 
   const complexityHard = {
@@ -138,7 +143,7 @@ const Library = () => {
       <section className="flex flex-col flex-grow max-h-[90vh] overflow-auto ">
         {/* Шапка фиксирована сверху */}
         <div
-            className="fixed z-[100] max-w-[550px] h-[70px] w-full flex justify-between items-center py-[5px] px-[16px] dark:bg-[#282950] bg-[#FFFFFF]">
+            className="fixed z-[40] max-w-[550px] h-[70px] w-full flex justify-between items-center py-[5px] px-[16px] dark:bg-[#282950] bg-[#FFFFFF]">
           <RiMenuFill className="text-[25px] dark:text-[#9194C3] text-[#282950]"/>
           <img
               className="w-[40px]"
@@ -160,10 +165,10 @@ const Library = () => {
             </div>
             <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
               <div className="flex gap-x-[18px] ">
-                {lastOpenInfo.map(function (e) {
+                {lastOpenInfo.map(function (e,index) {
                   return (
                       <div
-                          key={`num ${e.numberOfCards}`}
+                          key={`num ${index}`}
                           style={{backgroundImage: `url('${e.imageURL}')`}}
                           className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
                       >
@@ -210,66 +215,12 @@ const Library = () => {
           <div className="flex flex-col gap-y-[25px]">
             <div className="flex items-center">
               <h2 className=" dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
-                Courses
-              </h2>
-              <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]"/>
-            </div>
-            <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
-              <div className="flex gap-x-[18px]">
-                {coursesInfo.map(function (e, index) {
-                  return (
-                      <div
-                          key={`nummn ${index}`}
-                          style={{backgroundImage: `url('${e.imageURL}')`}}
-                          className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
-                      >
-                        <div className=" prev-medium  flex items-center justify-center">
-                          <div
-                              className="absolute transition duration-300  prev-medium bg-gradient-to-b bg-gradient-dark-theme bg-gradient-light opacity-100 group-hover:opacity-0"></div>
-                          <div
-                              className="absolute transition duration-300  prev-medium bg-gradient-to-b from-[#946DFF]/75 to-[#5A4BFF]/75 opacity-0 group-hover:backdrop-blur-[1px] group-hover:opacity-100"></div>
-                          <div className="relative flex flex-col  justify-center gap-[78px]">
-                            <p className={`font-medium mb-0 ${e.complexity.color}`}>
-                              {e.complexity.name}
-                            </p>
-                            <div className="flex flex-col gap-[6px]">
-                              <p className="text-[20px] font-bold mb-0">
-                                {e.name}.
-                              </p>
-                              <div className="flex items-center gap-[20px]">
-                                <div className="flex items-center gap-[10px]">
-                                  <RiInbox2Line
-                                      className="transition duration-300 text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]"/>
-                                  <span className="font-medium text-[#F3F7FF]">
-                                {e.numberOfCards}
-                              </span>
-                                </div>
-                                <div className="flex  items-center gap-[10px]">
-                                  <RiStarFill
-                                      className="transition duration-300 text-[10px]  text-[#9194C3] group-hover:text-[#FFE168]"/>
-                                  <span
-                                      className="transition duration-300 font-medium text-[#9194C3] group-hover:text-[#FFE168]">
-                                {e.rating}
-                              </span>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                  );
-                })}
-              </div>
-            </ScrollContainer>
-          </div>
-          <div className="flex flex-col gap-y-[25px]">
-            <div className="flex items-center">
-              <h2 className=" dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
-                Course Sets
+                Playlists
               </h2>
               <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]"/>
               <div
-                  className="rounded-full bg-gradient-radial from-[#946DFF] to-[#5A4BFF] w-[40px] h-[40px] flex  items-center justify-center ml-auto flex-shrink-0 drop-shadow-xl">
+                onClick={()=>{openModalWithInfo('Create playlist');}}
+                className="rounded-full bg-gradient-radial from-[#946DFF] to-[#5A4BFF] w-[40px] h-[40px] flex  items-center justify-center ml-auto flex-shrink-0 drop-shadow-xl cursor-pointer">
                 <RiAddLine className="text-[25px] text-[#F3F7FF] "/>
               </div>
             </div>

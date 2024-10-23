@@ -3,7 +3,7 @@ import { RiCrosshair2Line, RiMap2Line, RiUser5Line } from "react-icons/ri";
 
 const Footer = () => {
     return (
-        <nav className=" w-full bg-[#F6F7FF] dark:bg-[#936dff] rounded-t shadow h-[80px] mt-[-14px] flex-shrink-0">
+        <nav className="relative w-full bg-[#F6F7FF] dark:bg-[#936dff] rounded-t shadow h-[80px] mt-[-14px] flex-shrink-0">
             <ul className="select-none max-w-[550px] w-full m-auto flex justify-around">
                 <li className="w-full h-full">
                     <NavLink
@@ -26,7 +26,7 @@ const Footer = () => {
                                 isActive ? 'opacity-1' : 'opacity-60'
                             }`
                         }
-                        to="/library"
+                        to="/playlists"
                         style={{textDecoration: 'none'}}
                     >
                         <RiMap2Line className="text-2xl mb-1"/>

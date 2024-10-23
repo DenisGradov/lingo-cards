@@ -27,7 +27,7 @@ function AppContent() {
 
                     {/* Защищенные страницы доступны только для авторизованных пользователей */}
                     <Route
-                        path="/library"
+                        path="/playlists"
                         element={isAuthenticated ? <Library /> : <Navigate to="/signin" />}
                     />
                     <Route
