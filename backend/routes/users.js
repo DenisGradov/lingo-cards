@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import {addUser, getUserByLogin, updateUsername} from '../db/userModel.js';
 import dotenv from 'dotenv';
 import {parseCookies} from "../utils/main.js";
+import {getPlaylistsByUserId} from "../db/playlistModel.js";
 
 dotenv.config();
 
@@ -84,7 +85,7 @@ async function handleCheckAuth(req, res) {
                         res.end(JSON.stringify({ error: 'Not authenticated' }));
                     } else {
                         res.writeHead(200, { 'Content-Type': 'application/json' });
-                        res.end(JSON.stringify({ message: 'Authenticated', user: { login: user.login, email: user.email } }));
+                        res.end(JSON.stringify({ message: 'Authenticated', user: { login: user.login, email: user.email }, playlists: await getPlaylistsByUserId(user.id) }));
                     }
                 });
             }

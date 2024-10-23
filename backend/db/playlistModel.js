@@ -33,16 +33,16 @@ export const getPlaylistById = (playlistId) => {
 };
 
 // Функция для добавления нового плейлиста
-export const addPlaylist = ({ name, description, user_id }) => {
+export const addPlaylist = ({ name, description, user_id, language_code }) => {
     return new Promise((resolve, reject) => {
         db.run(
-            'INSERT INTO playlists (name, description, user_id) VALUES (?, ?, ?)',
-            [name, description, user_id],
+            'INSERT INTO playlists (name, description, user_id, language_code, last_open_time) VALUES (?, ?, ?, ?, ?)',
+            [name, description, user_id, language_code, 0],
             function (err) {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve({ id: this.lastID, name, description, user_id });
+                    resolve({ id: this.lastID, name, description, user_id, language_code, last_open_time: 0, number_of_cards: 0 });
                 }
             }
         );

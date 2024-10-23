@@ -38,6 +38,24 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Проверка, что логин содержит минимум 3 символа
+        if (userInfo.login.length < 3) {
+            setError('Логин должен содержать минимум 3 символа.');
+            return;
+        }
+
+        // Проверка, что email корректный
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(userInfo.email)) {
+            setError('Введите корректный E-Mail.');
+            return;
+        }
+
+        // Проверка, что все поля заполнены
+        if (!userInfo.login || !userInfo.email || !userInfo.password) {
+            setError('Все поля обязательны для заполнения.');
+            return;
+        }
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
                 method: 'POST',

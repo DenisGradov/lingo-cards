@@ -71,6 +71,9 @@ export function initDatabase() {
             name TEXT,
             description TEXT,
             user_id INTEGER,
+            language_code TEXT,
+            last_open_time INTEGER,
+            number_of_cards INTEGER DEFAULT 0,
             FOREIGN KEY (user_id) REFERENCES users(id)
         )`);
     });

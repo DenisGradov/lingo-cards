@@ -17,10 +17,10 @@ const usePlaylistsStore = create(
                         console.error('Ошибка при получении плейлистов:', error);
                     }
                 },
+
                 savePlaylists: (playlists) => {
                     set({ playlists });
                 },
-                // Получение плейлиста по id
                 getPlaylist: async (id) => {
                     try {
                         return await getPlaylistById(id);
@@ -33,8 +33,9 @@ const usePlaylistsStore = create(
                 addPlaylist: async (playlistData) => {
                     try {
                         const newPlaylist = await createPlaylist(playlistData);
+                        console.log(newPlaylist);
                         set((state) => ({
-                            playlists: [...state.playlists, newPlaylist],
+                            playlists: Array.isArray(state.playlists) ? [...state.playlists, newPlaylist] : [newPlaylist],
                         }));
                     } catch (error) {
                         console.error('Ошибка при добавлении плейлиста:', error);
