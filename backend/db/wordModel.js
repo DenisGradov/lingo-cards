@@ -15,11 +15,10 @@ function getWordsByUserId(userId) {
 }
 
 
-// Добавление нового слова
 function addWord(wordData) {
     return new Promise((resolve, reject) => {
         const { word, translation, next_review_time, user_id } = wordData;
-        const stmt = db.prepare('INSERT INTO words (word, translation, next_review_time, user_id) VALUES (?, ?, ?, ?)');
+        const stmt = db.prepare('INSERT INTO words (word, translation, next_review_time, user_id, playlist_id) VALUES (?, ?, ?, ?, 0)');  // playlist_id по умолчанию 0
         stmt.run([word, translation, next_review_time, user_id], function (err) {
             if (err) {
                 reject(err);
@@ -30,6 +29,7 @@ function addWord(wordData) {
         stmt.finalize();
     });
 }
+
 
 
 // Функция для удаления слова по его ID
@@ -44,6 +44,23 @@ function deleteWordById (wordId, userId) {
             }
         });
     });
-};
+}
 
-export { getWordsByUserId, addWord, deleteWordById };
+function updateWordById(wordId, updatedWordData) {
+    const { word, translation, user_id } = updatedWordData;
+    return new Promise((resolve, reject) => {
+        db.run(
+            'UPDATE words SET word = ?, translation = ? WHERE id = ? AND user_id = ?',
+            [word, translation, wordId, user_id],
+            function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(this.changes);
+                }
+            }
+        );
+    });
+}
+
+export { getWordsByUserId, addWord, deleteWordById, updateWordById };

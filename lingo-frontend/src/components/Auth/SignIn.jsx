@@ -3,6 +3,8 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import { NavLink, useNavigate } from 'react-router-dom';
 import Header from '../Header.jsx';
 import useUserInfo from "../../store/userInfo.js";
+import usePlaylistsStore from "../../store/playlistsStore.js";
+import useWordsStore from "../../store/wordsStore.js";
 
 const SignIn = () => {
     const [userInfo, setUserInfo] = useState({
@@ -15,6 +17,8 @@ const SignIn = () => {
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Устанавливаем email пользователя
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
     const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated); // Устанавливаем аутентификацию
+    const clearPlaylists = usePlaylistsStore((state) => state.clearPlaylists);
+    const clearWords = useWordsStore((state) => state.clearWords);
 
     const navigate = useNavigate();
     const handleChange = (e) => {
@@ -47,7 +51,8 @@ const SignIn = () => {
             });
             const data = await response.json();
             if (response.ok) {
-                // Устанавливаем имя и email в Zustand после успешного логина
+                clearPlaylists();
+                clearWords();
                 setUserName(data.user.login);
                 setUserEmail(data.user.email);
                 setIsAuthenticated(true);  // Устанавливаем флаг аутентификации

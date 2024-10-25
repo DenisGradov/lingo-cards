@@ -1,9 +1,9 @@
 // Запрос для добавления нового слова
-import useWordsStore from "../store/wordsStore.jsx";
+import useWordsStore from "../store/wordsStore.js";
 
 export const addWord = async (wordData) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/add`, {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words`, {
             method: 'POST',
             credentials: 'include',
             headers: {
@@ -56,17 +56,18 @@ export const deleteWord = async (wordId) => {
                 'Content-Type': 'application/json',
             },
         });
-
         const data = await response.json();
         if (response.ok) {
-            return data.words; // Возвращаем обновленный список слов
+            return data.words;  // Возвращаем обновленный список слов
         } else {
             throw new Error(data.error || 'Failed to delete word');
         }
     } catch (error) {
         console.error('Ошибка при удалении слова:', error);
+        throw error;
     }
 };
+
 
 // Функция для поиска слова по слову и возврата его ID, если найдено
 export const findWord = (searchWord) => {
@@ -77,5 +78,28 @@ export const findWord = (searchWord) => {
         return foundWord.id;  // Возвращаем id первого найденного слова
     } else {
         return false;  // Если слово не найдено
+    }
+};
+
+// Запрос для редактирования слова по ID
+export const editWordApi = async (wordId, wordData) => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/${wordId}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(wordData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            return data.words; // Возвращаем обновленный список слов
+        } else {
+            throw new Error(data.error || 'Failed to edit word');
+        }
+    } catch (error) {
+        console.error('Ошибка при редактировании слова:', error);
     }
 };

@@ -1,48 +1,41 @@
-import {create} from 'zustand';
-import {devtools, persist} from 'zustand/middleware';
-import {createPlaylist, deletePlaylistById, getAllPlaylists, getPlaylistById} from '../api/playlists';
+// playlistsStore.js
+import { create } from 'zustand';
+import { devtools, persist } from 'zustand/middleware';
+import { createPlaylist, deletePlaylistById, getAllPlaylists } from '../api/playlists';
 
 const usePlaylistsStore = create(
     devtools(
         persist(
             (set) => ({
-                playlists: [],  // Список всех плейлистов
+                playlists: [],
+                isLoading: false,  // Добавляем состояние загрузки
 
-                // Получение всех плейлистов
+                clearPlaylists: () => set({ playlists: [] }),
+
+                // Функция для получения плейлистов с индикатором загрузки
                 setPlaylists: async () => {
+                    set({ isLoading: true });
                     try {
                         const playlists = await getAllPlaylists();
                         set({ playlists });
                     } catch (error) {
                         console.error('Ошибка при получении плейлистов:', error);
+                    } finally {
+                        set({ isLoading: false });
                     }
                 },
 
-                savePlaylists: (playlists) => {
-                    set({ playlists });
-                },
-                getPlaylist: async (id) => {
-                    try {
-                        return await getPlaylistById(id);
-                    } catch (error) {
-                        console.error('Ошибка при получении плейлиста:', error);
-                    }
-                },
-
-                // Создание нового плейлиста
                 addPlaylist: async (playlistData) => {
                     try {
                         const newPlaylist = await createPlaylist(playlistData);
-                        console.log(newPlaylist);
                         set((state) => ({
-                            playlists: Array.isArray(state.playlists) ? [...state.playlists, newPlaylist] : [newPlaylist],
+                            playlists: [...state.playlists, newPlaylist],
                         }));
                     } catch (error) {
                         console.error('Ошибка при добавлении плейлиста:', error);
                     }
                 },
 
-                // Удаление плейлиста по id
                 removePlaylist: async (id) => {
                     try {
                         await deletePlaylistById(id);
@@ -54,9 +47,7 @@ const usePlaylistsStore = create(
                     }
                 },
             }),
-            {
-                name: 'playlists-store', // хранилище в localStorage
-            }
+            { name: 'playlists-store' }
         ),
         { name: 'PlaylistsStore' }
     )

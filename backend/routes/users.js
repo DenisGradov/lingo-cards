@@ -33,7 +33,7 @@ async function handleRegister(req, res) {
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Registration error.' }));
             } else {
-                const token = jwt.sign({ id: result.lastID, login }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ id: result.lastID, login }, process.env.JWT_SECRET, { expiresIn: '60d' });
                 res.writeHead(200, {
                     'Content-Type': 'application/json',
                     'Set-Cookie': `token=${token}; HttpOnly; Path=/`,
@@ -55,7 +55,7 @@ async function handleLogin(req, res) {
         } else {
             const passwordMatch = await comparePassword(password, user.password);
             if (passwordMatch) {
-                const token = jwt.sign({ id: user.id, login }, process.env.JWT_SECRET, { expiresIn: '1h' });
+                const token = jwt.sign({ id: user.id, login }, process.env.JWT_SECRET, { expiresIn: '60d' });
                 res.writeHead(200, {
                     'Content-Type': 'application/json',
                     'Set-Cookie': `token=${token}; HttpOnly; Path=/`,
@@ -72,7 +72,6 @@ async function handleLogin(req, res) {
 async function handleCheckAuth(req, res) {
     const cookies = parseCookies(req);
     const token = cookies.token;
-
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, async (err, decoded) => {
             if (err) {
@@ -84,6 +83,7 @@ async function handleCheckAuth(req, res) {
                         res.writeHead(401, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ error: 'Not authenticated' }));
                     } else {
+                        console.log('Authenticated')
                         res.writeHead(200, { 'Content-Type': 'application/json' });
                         res.end(JSON.stringify({ message: 'Authenticated', user: { login: user.login, email: user.email }, playlists: await getPlaylistsByUserId(user.id) }));
                     }

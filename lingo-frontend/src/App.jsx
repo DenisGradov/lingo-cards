@@ -10,7 +10,7 @@ import SignIn from './components/Auth/SignIn.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
 import { useLocation } from 'react-router-dom';
-import useWordsStore from './store/wordsStore';
+import useWordsStore from './store/wordsStore.js';
 import usePlaylistsStore from "./store/playlistsStore.js";  // Подключаем хранилище для слов
 
 function AppContent() {
@@ -73,15 +73,10 @@ function App() {
                     credentials: 'include',
                 });
                 const data = await response.json();
-
                 if (response.ok && data.message === 'Authenticated') {
                     setIsAuthenticated(true);
                     setUserName(data.user.login);  // Сохраняем логин пользователя
                     setUserEmail(data.user.email); // Сохраняем email пользователя
-
-                    // Сохраняем слова и плейлисты в store
-                    saveWords(data.words);
-                    savePlaylists(data.playlists);
                 } else {
                     setIsAuthenticated(false);
                 }

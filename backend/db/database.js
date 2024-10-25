@@ -62,6 +62,9 @@ export function initDatabase() {
             translation TEXT,
             next_review_time INTEGER,
             user_id INTEGER,  
+            playlist_id INTEGER DEFAULT 0,
+            review_stage INTEGER DEFAULT 0,
+            FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (user_id) REFERENCES users(id)
         )`);
 
