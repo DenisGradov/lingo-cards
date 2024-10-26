@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { 
   RiArrowLeftSLine,
   RiQuestionLine,
@@ -9,6 +10,47 @@ import {
 } from "react-icons/ri";
 
 const CardPage2 = () => {
+  const [startY, setStartY] = useState(0); // початкова позиція свайпу
+  const [translateY, setTranslateY] = useState(0); // зсув картки
+  const [isDragging, setIsDragging] = useState(false); // стан свайпу
+
+  const handleMouseDown = (e) => {
+    setStartY(e.clientY || e.touches[0].clientY); // визначення початкової позиції
+    setIsDragging(true);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    const currentY = e.clientY || e.touches[0].clientY;
+    const distance = currentY - startY;
+    setTranslateY(distance); // встановлення зсуву картки
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setTranslateY(0); // повертаємо картку на початкову позицію
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener("mousemove", handleMouseMove);
+      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener("touchmove", handleMouseMove);
+      document.addEventListener("touchend", handleMouseUp);
+    } else {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
+    }
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("touchmove", handleMouseMove);
+      document.removeEventListener("touchend", handleMouseUp);
+    };
+  }, [isDragging]);
+
   return (
     <section className="flex flex-col h-screen p-4 bg-[#E2E3FF] dark:bg-[#282950] relative">
       {/* Верхня панель */}
@@ -32,7 +74,15 @@ const CardPage2 = () => {
       </div>
 
       {/* Картка слова */}
-      <div className="bg-[#E7E7FF] dark:bg-[#2D2E5A] w-[310px] h-[216px] rounded-2xl p-6 mb-6 shadow-lg mx-auto relative">
+      <div
+        className="bg-[#E7E7FF] dark:bg-[#2D2E5A] w-[310px] h-[216px] rounded-2xl p-6 mb-6 shadow-lg mx-auto relative transition-transform duration-300"
+        onMouseDown={handleMouseDown}
+        onTouchStart={handleMouseDown}
+        style={{
+          transform: `translateY(${translateY}px)`,
+          cursor: isDragging ? "grabbing" : "grab",
+        }}
+      >
         <RiFlagLine className="absolute top-4 left-4 text-[#9194C3]" />
         <div className="text-center">
           <div className="flex justify-center items-center mb-4">
@@ -65,6 +115,3 @@ const CardPage2 = () => {
 };
 
 export default CardPage2;
-
-
-
