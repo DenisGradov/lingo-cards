@@ -1,4 +1,4 @@
-import {getWordsByUserId, addWord, deleteWordById, updateWordById} from '../db/wordModel.js';
+import {getWordsByUserId, addWord, deleteWordById, updateWordById, updateWordStage} from '../db/wordModel.js';
 import { parseBody } from '../utils/parseBody.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -44,6 +44,14 @@ async function handleEditWord(req, res, wordId) {
     res.end(JSON.stringify({ message: 'Word updated successfully', words }));
 }
 
+async function handleUpdateWordStage(req, res, wordId) {
+    const body = await parseBody(req);
+    const { stage, nextReviewTime } = JSON.parse(body);
+    await updateWordStage(wordId, stage, nextReviewTime);
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ message: 'Word stage updated successfully' }));
+}
+
 export default function wordsRoutes(req, res) {
     const pathName = req.url.split('?')[0];
     const method = req.method;
@@ -53,10 +61,14 @@ export default function wordsRoutes(req, res) {
     } else if (pathName.startsWith('/words/') && method === 'DELETE') {
         const wordId = pathName.split('/')[2];
         return handleDeleteWord(req, res, wordId);
+    } else if (pathName.startsWith('/words/stage/') && method === 'PUT') {
+        const wordId = pathName.split('/')[3];
+        console.log(wordId)
+        return handleUpdateWordStage(req, res, wordId);
     } else if (pathName.startsWith('/words/') && method === 'PUT') {
         const wordId = pathName.split('/')[2];
         return handleEditWord(req, res, wordId);
-    } else {
+    }  else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');
     }

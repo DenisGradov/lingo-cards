@@ -103,3 +103,24 @@ export const editWordApi = async (wordId, wordData) => {
         console.error('Ошибка при редактировании слова:', error);
     }
 };
+
+
+// Обновляем стадию и время появления для слова
+export const updateWordStage = async (wordId, stage, nextReviewTime) => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/stage/${wordId}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ stage, nextReviewTime }),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to update word stage');
+        }
+    } catch (error) {
+        console.error('Ошибка при обновлении стадии слова:', error);
+    }
+};

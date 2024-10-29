@@ -1,4 +1,5 @@
 import './App.scss';
+import './components/styles/cards.scss';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
@@ -18,7 +19,7 @@ function AppContent() {
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
     return (
-        <div className="w-full flex-grow flex flex-col m-auto">
+        <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
             <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
                 <Routes>
                     {/* Страницы входа и регистрации доступны всегда */}

@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import {addWord as addWordApi, deleteWord, editWordApi, getAllWords} from '../api/words';
-
+import {updateWordStage as updateWordStageApi} from '../api/words';
 const useWordsStore = create(
     devtools(
         persist(
@@ -60,6 +60,16 @@ const useWordsStore = create(
                 },
 
 
+                // Функция для обновления стадии слова локально и отправки на сервер
+                updateWordStage: async (wordId, stage, nextReviewTime) => {
+                    set((state) => ({
+                        words: state.words.map((word) =>
+                            word.id === wordId ? { ...word, review_stage: stage, next_review_time: nextReviewTime } : word
+                        ),
+                    }));
+                    // Отправляем обновление на бэкенд
+                    await updateWordStageApi(wordId, stage, nextReviewTime);
+                },
 
 
             }),

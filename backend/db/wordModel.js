@@ -63,4 +63,11 @@ function updateWordById(wordId, updatedWordData) {
     });
 }
 
-export { getWordsByUserId, addWord, deleteWordById, updateWordById };
+// Обновляем стадию и время для слова
+const updateWordStage = async (wordId, stage, nextReviewTime) => {
+    const query = 'UPDATE words SET review_stage = ?, next_review_time = ? WHERE id = ?';
+    await db.run(query, [stage, nextReviewTime, wordId]);
+};
+
+
+export { getWordsByUserId, addWord, deleteWordById, updateWordById, updateWordStage };
