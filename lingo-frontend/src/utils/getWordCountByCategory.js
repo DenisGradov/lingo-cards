@@ -1,3 +1,5 @@
+import {I_KNOW_STAGE} from "../constants/reviewStages.js";
+
 export function getWordCountByCategory(words) {
     const now = Date.now(); // Текущее время в миллисекундах
 
@@ -9,16 +11,14 @@ export function getWordCountByCategory(words) {
 
     words.forEach((word) => {
         if (word.next_review_time === 0 || word.next_review_time <= now) {
-            // Сразу отображаемое слово
+            // Teach: если время показа уже наступило или next_review_time = 0
             counts.teach += 1;
-        } else if (word.next_review_time <= now + 86400 * 1000) {
-            // Покажем через 24 часа
+        } else if (word.review_stage < I_KNOW_STAGE) {
+            console.log('ss',word.review_stage)
+            // I Know: если стадия меньше I_KNOW_STAGE и время показа еще не наступило
             counts.iKnow += 1;
-        } else if (word.next_review_time <= now + 604800 * 1000) {
-            // Покажем через 7 дней
-            counts.learned += 1;
         } else {
-            // Покажем после 7 дней
+            // Learned: все слова со стадией I_KNOW_STAGE или выше
             counts.learned += 1;
         }
     });

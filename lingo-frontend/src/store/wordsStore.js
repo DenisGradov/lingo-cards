@@ -20,6 +20,7 @@ const useWordsStore = create(
                     }
                 },
                 saveWords: (words) => {
+                    console.log('save:',words)
                     set({ words });
                 },
                 // Добавление нового слова и получение актуального списка слов с сервера

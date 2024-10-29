@@ -15,3 +15,4 @@ export const reviewStages = [
     { stage: 13, delay: 1209600, description: "2 недели" },
     { stage: 14, delay: 2592000, description: "Месяц" },
 ];
+export const I_KNOW_STAGE = 13;

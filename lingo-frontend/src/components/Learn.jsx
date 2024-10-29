@@ -65,10 +65,13 @@ const Learn = ({ setIsLearn }) => {
     };
 
 
-    if (!visibleCards.length && isInitial) {
-        setIsLearn(false);
-        return null;
-    }
+    useEffect(() => {
+        if (!visibleCards.length && isInitial) {
+            setIsLearn(false);
+        }
+    }, [visibleCards.length, isInitial, setIsLearn]);
+
+    if (!visibleCards.length) return null;
     if (isInitial) return (
         <div className="flex flex-col items-center mt-[10px] px-[16px] relative">
             <div className="w-full">

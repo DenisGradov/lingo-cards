@@ -63,7 +63,6 @@ export default function wordsRoutes(req, res) {
         return handleDeleteWord(req, res, wordId);
     } else if (pathName.startsWith('/words/stage/') && method === 'PUT') {
         const wordId = pathName.split('/')[3];
-        console.log(wordId)
         return handleUpdateWordStage(req, res, wordId);
     } else if (pathName.startsWith('/words/') && method === 'PUT') {
         const wordId = pathName.split('/')[2];

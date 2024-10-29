@@ -1,10 +1,11 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { NavLink, useNavigate } from "react-router-dom";
 import Header from '../Header.jsx';
 import useUserInfo from "../../store/userInfo.js";
 import usePlaylistsStore from "../../store/playlistsStore.js";
 import useWordsStore from "../../store/wordsStore.js";
+import { registerUser } from "../../api/user.js"; // Импортируем функцию для регистрации
 
 const SignUp = () => {
     const [userInfo, setUserInfo] = useState({
@@ -14,26 +15,26 @@ const SignUp = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
-    const setUserName = useUserInfo((state) => state.setUserName);  // Сохраняем логин
-    const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Сохраняем email
+    const setUserName = useUserInfo((state) => state.setUserName);
+    const setUserEmail = useUserInfo((state) => state.setUserEmail);
     const navigate = useNavigate();
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
     const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated);
     const clearPlaylists = usePlaylistsStore((state) => state.clearPlaylists);
     const clearWords = useWordsStore((state) => state.clearWords);
 
-    // Перенаправление, если пользователь авторизован
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/');
         }
     }, [isAuthenticated, navigate]);
+
     const handleChange = (e) => {
         setUserInfo({
             ...userInfo,
             [e.target.name]: e.target.value
         });
-        setError(null);  // Сбрасываем ошибку при изменении полей
+        setError(null); // Сбрасываем ошибку при изменении полей
     };
 
     const togglePasswordVisibility = () => {
@@ -42,46 +43,33 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        // Проверка, что логин содержит минимум 3 символа
+
         if (userInfo.login.length < 3) {
             setError('Логин должен содержать минимум 3 символа.');
             return;
         }
 
-        // Проверка, что email корректный
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(userInfo.email)) {
             setError('Введите корректный E-Mail.');
             return;
         }
 
-        // Проверка, что все поля заполнены
         if (!userInfo.login || !userInfo.email || !userInfo.password) {
             setError('Все поля обязательны для заполнения.');
             return;
         }
+
         try {
-            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/register`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userInfo)
-            });
-            const data = await response.json();
-            if (response.ok) {
-                clearPlaylists();
-                clearWords();
-                setIsAuthenticated(true);
-                setUserName(data.user.login);
-                setUserEmail(data.user.email);
-                navigate('/');
-            } else {
-                setError(data.error);
-            }
+            const data = await registerUser(userInfo);
+            clearPlaylists();
+            clearWords();
+            setIsAuthenticated(true);
+            setUserName(data.user.login);
+            setUserEmail(data.user.email);
+            navigate('/');
         } catch (error) {
-            setError('Ошибка сети. Попробуйте позже.');
+            setError(error.message || 'Ошибка сети. Попробуйте позже.');
         }
     };
 
@@ -95,7 +83,7 @@ const SignUp = () => {
                 <h3 className="text-[14px] text-[#9194C3] font-semibold">Create Your Account</h3>
             </div>
 
-            {error && <p className="text-red-500 text-center mb-4">{error}</p>}  {/* Сообщение об ошибке */}
+            {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
             <form className="mt-[30px] flex flex-col" onSubmit={handleSubmit}>
                 <span className="text-[#9194C3] text-[14px] font-semibold">Login</span>

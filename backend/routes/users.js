@@ -5,6 +5,7 @@ import {addUser, getUserByLogin, updateUsername} from '../db/userModel.js';
 import dotenv from 'dotenv';
 import {parseCookies} from "../utils/main.js";
 import {getPlaylistsByUserId} from "../db/playlistModel.js";
+import {getWordsByUserId} from "../db/wordModel.js";
 
 dotenv.config();
 
@@ -53,6 +54,8 @@ async function handleLogin(req, res) {
             res.writeHead(401, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Invalid login or password' }));
         } else {
+
+            const words = await getWordsByUserId(user.id);
             const passwordMatch = await comparePassword(password, user.password);
             if (passwordMatch) {
                 const token = jwt.sign({ id: user.id, login }, process.env.JWT_SECRET, { expiresIn: '60d' });
@@ -60,7 +63,7 @@ async function handleLogin(req, res) {
                     'Content-Type': 'application/json',
                     'Set-Cookie': `token=${token}; HttpOnly; Path=/`,
                 });
-                res.end(JSON.stringify({ message: 'Login successful', user: { login, email: user.email } }));
+                res.end(JSON.stringify({ message: 'Login successful', user: { login, email: user.email }, words }));
             } else {
                 res.writeHead(401, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Invalid login or password' }));
