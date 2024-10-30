@@ -15,19 +15,15 @@ import Header from "./Header.jsx";
 
 const Library = () => {
   const [sortedLastOpened, setSortedLastOpened] = useState([]);
+  const [reversedPlaylists, setReversedPlaylists] = useState([]); // Добавляем состояние для реверсированного списка
 
   const playlists = usePlaylistsStore((state) => state.playlists);
-  const isLoading = usePlaylistsStore((state) => state.isLoading); // Добавляем состояние загрузки
-  const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
+  const isLoading = usePlaylistsStore((state) => state.isLoading);
 
-  // Загружаем плейлисты при монтировании компонента
-  useEffect(() => {
-    setPlaylists();
-  }, [setPlaylists]);
-
-  // Сортировка плейлистов по времени последнего открытия
+  // Настраиваем реверсированный массив один раз при обновлении плейлистов
   useEffect(() => {
     if (playlists.length > 0) {
+      setReversedPlaylists([...playlists].reverse());
       const sorted = playlists
           .filter((pl) => pl.last_open_time !== 0)
           .sort((a, b) => b.last_open_time - a.last_open_time);
@@ -50,7 +46,7 @@ const Library = () => {
   return (
       <section className="flex flex-col flex-grow max-h-[90vh] overflow-auto">
         <Header />
-        {isLoading ? ( // Показываем лоадер, если данные еще загружаются
+        {isLoading ? (
             <div className="flex justify-center items-center flex-grow">
               <p className="text-lg font-semibold text-gray-600 dark:text-gray-300">Loading...</p>
             </div>
@@ -80,11 +76,13 @@ const Library = () => {
                               <div className="flex items-center gap-[20px]">
                                 <div className="flex items-center gap-[10px]">
                                   <RiInbox2Line className="transition duration-300 text-[12px] group-hover:text-[#F3F7FF] text-[#5890FF]" />
-                                  <span className="font-medium text-[#F3F7FF]">{playlist.numberOfCards}</span>
+                                  <span className="font-medium text-[#F3F7FF]">{playlist.number_of_cards || 0}</span>
                                 </div>
                                 <div className="flex items-center gap-[10px]">
                                   <RiStarFill className="transition duration-300 text-[10px] text-[#9194C3] group-hover:text-[#FFE168]" />
-                                  <span className="transition duration-300 font-medium group-hover:text-[#FFE168] text-[#9194C3]">{playlist.rating}</span>
+                                  <span className="transition duration-300 font-medium group-hover:text-[#FFE168] text-[#9194C3]">
+                              {playlist.rating}
+                            </span>
                                 </div>
                               </div>
                             </div>
@@ -110,7 +108,7 @@ const Library = () => {
                 </div>
                 <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
                   <div className="flex gap-x-[18px] cursor-pointer">
-                    {playlists && playlists.reverse().map((playlist, index) => (
+                    {reversedPlaylists.map((playlist, index) => (
                         <div
                             key={`playlist-${index}`}
                             style={{ backgroundImage: `url('${getFlagURL(playlist.language_code)}')` }}
@@ -130,7 +128,9 @@ const Library = () => {
                                   </div>
                                   <div className="flex items-center gap-[10px]">
                                     <RiStarFill className="transition duration-300 text-[10px] text-[#9194C3] group-hover:text-[#FFE168]" />
-                                    <span className="transition duration-300 font-medium text-[#9194C3] group-hover:text-[#FFE168]">{playlist.rating}</span>
+                                    <span className="transition duration-300 font-medium text-[#9194C3] group-hover:text-[#FFE168]">
+                                {playlist.rating}
+                              </span>
                                   </div>
                                 </div>
                               </div>

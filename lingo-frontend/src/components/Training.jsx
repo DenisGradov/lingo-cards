@@ -29,7 +29,6 @@ const Training = () => {
   const [showWordList, setShowWordList] = useState(false);
   const [wordsActual, setWordsActual] = useState([]);
   useEffect(() => {
-    console.log("Initial words data:", words);
     setWordsActual([...words].reverse());
     const counts = getWordCountByCategory(words);
     setWordCounts(counts);

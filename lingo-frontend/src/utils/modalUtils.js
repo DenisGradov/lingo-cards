@@ -6,7 +6,8 @@ export const openModalWithInfo = (type) => {
 
     if (modalData) {
         useModalStore.getState().openModal({
-            contentType: type === 'Create playlist' ? 'playlist' : 'word',  // Устанавливаем contentType
+            contentType: type === 'Create playlist' ? 'playlist' :
+                type === 'Create word' ? 'word' : 'info',  // Используем 'info' для других типов модалок
             ...modalData
         });
     } else {

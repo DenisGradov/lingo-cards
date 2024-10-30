@@ -1,5 +1,8 @@
 // Запрос для добавления нового слова
 import useWordsStore from "../store/wordsStore.js";
+import usePlaylistsStore from "../store/playlistsStore.js";
+
+
 
 export const addWord = async (wordData) => {
     try {
@@ -14,7 +17,7 @@ export const addWord = async (wordData) => {
 
         const data = await response.json();
         if (response.ok) {
-            return data.words; // Возвращаем обновленный список слов
+            return data;
         } else {
             throw new Error(data.error || 'Failed to add word');
         }
@@ -46,7 +49,7 @@ export const getAllWords = async () => {
 
 
 
-// Запрос для удаления слова по ID
+// Запрос для удаления слова по ID и получения обновленных данных
 export const deleteWord = async (wordId) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/${wordId}`, {
@@ -58,7 +61,7 @@ export const deleteWord = async (wordId) => {
         });
         const data = await response.json();
         if (response.ok) {
-            return data.words;  // Возвращаем обновленный список слов
+            return data;  // Возвращаем обновленный список слов и плейлистов
         } else {
             throw new Error(data.error || 'Failed to delete word');
         }
@@ -67,6 +70,7 @@ export const deleteWord = async (wordId) => {
         throw error;
     }
 };
+
 
 
 // Функция для поиска слова по слову и возврата его ID, если найдено
@@ -81,7 +85,6 @@ export const findWord = (searchWord) => {
     }
 };
 
-// Запрос для редактирования слова по ID
 export const editWordApi = async (wordId, wordData) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/${wordId}`, {
@@ -95,7 +98,7 @@ export const editWordApi = async (wordId, wordData) => {
 
         const data = await response.json();
         if (response.ok) {
-            return data.words; // Возвращаем обновленный список слов
+            return data;
         } else {
             throw new Error(data.error || 'Failed to edit word');
         }
@@ -103,6 +106,7 @@ export const editWordApi = async (wordId, wordData) => {
         console.error('Ошибка при редактировании слова:', error);
     }
 };
+
 
 
 // Обновляем стадию и время появления для слова

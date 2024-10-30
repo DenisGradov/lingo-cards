@@ -2,22 +2,24 @@ import {getWordsByUserId, addWord, deleteWordById, updateWordById, updateWordSta
 import { parseBody } from '../utils/parseBody.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import {getPlaylistsByUserId} from "../db/database.js";
 
 dotenv.config();
 
 async function handleAddWord(req, res) {
     const body = await parseBody(req);
-    const { word, translation, next_review_time } = JSON.parse(body);
+    const { word, translation, next_review_time,playlistId } = JSON.parse(body);
 
     const token = req.headers.cookie.split('token=')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
-
-    await addWord({ word, translation, next_review_time, user_id: userId });
+    const playlists = await getPlaylistsByUserId(userId);
+    await addWord({ word, translation, next_review_time, user_id: userId, playlist_id: playlistId||null });
     const words = await getWordsByUserId(userId);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Word added successfully', words }));
+    res.end(JSON.stringify({ message: 'Word added successfully', words, playlists }));
 }
+
 
 
 async function handleDeleteWord(req, res, wordId) {
@@ -26,22 +28,24 @@ async function handleDeleteWord(req, res, wordId) {
     const userId = decoded.id;
     await deleteWordById(wordId, userId);
     const words = await getWordsByUserId(userId);
+    const playlists = await getPlaylistsByUserId(userId);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Word deleted successfully', words }));
+    res.end(JSON.stringify({ message: 'Word deleted successfully', words, playlists }));
 }
+
 
 async function handleEditWord(req, res, wordId) {
     const body = await parseBody(req);
-    const { word, translation } = JSON.parse(body);
-
+    const { word, translation, playlistId } = JSON.parse(body);
     const token = req.headers.cookie.split('token=')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
-
-    await updateWordById(wordId, { word, translation, user_id: userId });
+    await updateWordById(wordId, { word, translation, user_id: userId, playlistId });
     const words = await getWordsByUserId(userId);
+    const playlists = await getPlaylistsByUserId(userId);
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ message: 'Word updated successfully', words }));
+    res.end(JSON.stringify({ message: 'Word updated successfully', words,
+        playlists }));
 }
 
 async function handleUpdateWordStage(req, res, wordId) {

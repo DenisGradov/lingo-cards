@@ -9,10 +9,8 @@ const usePlaylistsStore = create(
             (set) => ({
                 playlists: [],
                 isLoading: false,  // Добавляем состояние загрузки
-
                 clearPlaylists: () => set({ playlists: [] }),
 
-                // Функция для получения плейлистов с индикатором загрузки
                 setPlaylists: async () => {
                     set({ isLoading: true });
                     try {

@@ -18,6 +18,11 @@ function AppContent() {
     const location = useLocation();
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
+    const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
+
+    useEffect(() => {
+        setPlaylists();
+    }, [setPlaylists]);
     return (
         <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
             <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
