@@ -71,7 +71,7 @@ const SignUp = () => {
                 setIsAuthenticated(true);
                 setUserName(data.user.login);
                 setUserEmail(data.user.email);
-                navigate('/');
+                navigate('/'); 
             } else {
                 setError(data.error);
             }
