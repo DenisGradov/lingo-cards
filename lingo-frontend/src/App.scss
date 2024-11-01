@@ -118,14 +118,3 @@ body.dark * {
 
 
 
-.swiper-pagination {
-  @apply relative  left-0 w-full text-center !important;
-}
-
-.swiper-pagination-bullet {
-  @apply bg-[#9194C3] opacity-70 !important;
-}
-
-.swiper-pagination-bullet-active {
-  @apply bg-[#282950] opacity-100 !important;
-}

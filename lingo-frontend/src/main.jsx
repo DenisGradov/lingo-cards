@@ -19,12 +19,6 @@ function Main() {
     nextSlide,
     previousSlide,
   } = useInfoSlidesStore();
-  useEffect(() => {
-    if (!localStorage.getItem("introSeen")) {
-      openInfoSlidesWithInfo("intro");
-      localStorage.setItem("introSeen", "true");
-    }
-  }, []);
 
   // Мемозируем пропсы модального окна, чтобы предотвратить лишние рендеры
   const modalProps = useMemo(

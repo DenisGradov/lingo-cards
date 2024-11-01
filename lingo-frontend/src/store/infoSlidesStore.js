@@ -8,8 +8,10 @@ const useInfoSlidesStore = create(
         isOpen: false,
         currentSlide: 0,
         slides: [],
+        isViewed: false, // Додаємо стан перегляду слайдів
 
-        openSlides: (slides) => set({ isOpen: true, slides, currentSlide: 0 }),
+        openSlides: (slides) =>
+          set({ isOpen: true, slides, currentSlide: 0, isViewed: false }),
 
         nextSlide: () =>
           set((state) => {
@@ -21,7 +23,8 @@ const useInfoSlidesStore = create(
             currentSlide: Math.max(state.currentSlide - 1, 0),
           })),
 
-        completeSlides: () => set({ isOpen: false, currentSlide: 0 }),
+        completeSlides: () =>
+          set({ isOpen: false, currentSlide: 0, isViewed: true }), // Позначаємо слайди як переглянуті
       }),
       {
         name: 'info-slides-store',
