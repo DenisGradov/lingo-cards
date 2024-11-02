@@ -1,4 +1,5 @@
 import './App.scss';
+import './components/styles/cards.scss';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
@@ -10,15 +11,20 @@ import SignIn from './components/Auth/SignIn.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
 import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
 import { useLocation } from 'react-router-dom';
-import useWordsStore from './store/wordsStore';
+import useWordsStore from './store/wordsStore.js';
 import usePlaylistsStore from "./store/playlistsStore.js";  // Подключаем хранилище для слов
 
 function AppContent() {
     const location = useLocation();
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
+    const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
+
+    useEffect(() => {
+        setPlaylists();
+    }, [setPlaylists]);
     return (
-        <div className="w-full flex-grow flex flex-col m-auto">
+        <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
             <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
                 <Routes>
                     {/* Страницы входа и регистрации доступны всегда */}
@@ -73,15 +79,10 @@ function App() {
                     credentials: 'include',
                 });
                 const data = await response.json();
-
                 if (response.ok && data.message === 'Authenticated') {
                     setIsAuthenticated(true);
                     setUserName(data.user.login);  // Сохраняем логин пользователя
                     setUserEmail(data.user.email); // Сохраняем email пользователя
-
-                    // Сохраняем слова и плейлисты в store
-                    saveWords(data.words);
-                    savePlaylists(data.playlists);
                 } else {
                     setIsAuthenticated(false);
                 }

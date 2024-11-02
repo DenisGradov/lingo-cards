@@ -50,4 +50,32 @@ export const modalInfo = [
         selects:[{name:"language", options:[languages.en,languages.ua,languages.nl]}],
         formButtons:[{name:"Create"}],
     },
+    {
+        type: 'Create word',
+        title: 'Add New Word',
+        description: `Add a word to your vocabulary.`,
+        hasCloseButton: true,
+        buttons: [],
+        inputs: [
+            { name: "word", type: "text" },
+            { name: "translation", type: "text" }
+        ],
+        textareas: [],
+        selects: [],
+        formButtons: [{ name: "Add Word" }],
+    },
+    {
+        type: 'Edit Word',
+        title: 'Edit Word',
+        description: 'Edit the details of your word',
+        hasCloseButton: true,
+        buttons: [],
+        inputs: [
+            { name: 'word', type: 'text' },
+            { name: 'translation', type: 'text' },
+        ],
+        textareas: [],
+        selects: [],
+        formButtons: [{ name: 'Save' }, { name: 'Delete' }],
+    },
 ];
