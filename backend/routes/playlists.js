@@ -1,4 +1,10 @@
-import { getPlaylistsByUserId, getPlaylistById, addPlaylist, deletePlaylistById } from '../db/playlistModel.js';
+import {
+    getPlaylistsByUserId,
+    getPlaylistById,
+    addPlaylist,
+    deletePlaylistById,
+    updatePlaylistOpenTime
+} from '../db/playlistModel.js';
 import { parseBody } from '../utils/parseBody.js';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -48,6 +54,17 @@ async function handleGetPlaylistById(req, res, playlistId) {
     }
 }
 
+async function handleOpenPlaylist(req, res, playlistId) {
+    try {
+        const result = await updatePlaylistOpenTime(playlistId);
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(result));
+    } catch (error) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Failed to update playlist open time' }));
+    }
+}
+
 export default function playlistsRoutes(req, res) {
     const pathName = req.url.split('?')[0];
     const method = req.method;
@@ -62,6 +79,9 @@ export default function playlistsRoutes(req, res) {
         return handleGetPlaylistById(req, res, playlistId);
     } else if (pathName === '/playlists' && method === 'GET') {
         return handleGetPlaylists(req, res);
+    } else if (pathName.startsWith('/playlists/open/') && method === 'PUT') {
+        const playlistId = pathName.split('/')[3];
+        return handleOpenPlaylist(req, res, playlistId);
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('Not Found');

@@ -61,3 +61,21 @@ export const deletePlaylistById = (playlistId, userId) => {
         });
     });
 };
+
+// Обновление времени последнего открытия плейлиста
+export const updatePlaylistOpenTime = (playlistId) => {
+    return new Promise((resolve, reject) => {
+        const currentTime = Date.now(); // Текущее время в миллисекундах
+        db.run(
+            'UPDATE playlists SET last_open_time = ? WHERE id = ?',
+            [currentTime, playlistId],
+            function (err) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve({ message: 'Playlist open time updated', last_open_time: currentTime });
+                }
+            }
+        );
+    });
+};

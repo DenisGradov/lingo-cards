@@ -1,7 +1,7 @@
 // playlistsStore.js
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import { createPlaylist, deletePlaylistById, getAllPlaylists } from '../api/playlists';
+import {createPlaylist, deletePlaylistById, getAllPlaylists, openPlaylist} from '../api/playlists';
 
 const usePlaylistsStore = create(
     devtools(
@@ -34,7 +34,7 @@ const usePlaylistsStore = create(
                     }
                 },
 
-                removePlaylist: async (id) => {
+                deletePlaylist: async (id) => {
                     try {
                         await deletePlaylistById(id);
                         set((state) => ({
@@ -42,6 +42,19 @@ const usePlaylistsStore = create(
                         }));
                     } catch (error) {
                         console.error('Ошибка при удалении плейлиста:', error);
+                    }
+                },
+
+                openPlaylist: async (id) => {
+                    try {
+                        const updatedPlaylist = await openPlaylist(id);
+                        set((state) => ({
+                            playlists: state.playlists.map((playlist) =>
+                                playlist.id === id ? { ...playlist, last_open_time: updatedPlaylist.last_open_time } : playlist
+                            ),
+                        }));
+                    } catch (error) {
+                        console.error('Ошибка при открытии плейлиста:', error);
                     }
                 },
             }),

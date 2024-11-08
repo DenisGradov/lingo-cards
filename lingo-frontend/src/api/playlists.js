@@ -78,3 +78,23 @@ export const deletePlaylistById = async (id) => {
         throw error;
     }
 };
+
+// Запрос для "открытия" плейлиста, обновляя его last_open_time
+export const openPlaylist = async (id) => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists/open/${id}`, {
+            method: 'PUT',
+            credentials: 'include',
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            return data;
+        } else {
+            throw new Error(data.error || 'Failed to open playlist');
+        }
+    } catch (error) {
+        console.error(`Ошибка при открытии плейлиста по id: ${id}`, error);
+        throw error;
+    }
+};
