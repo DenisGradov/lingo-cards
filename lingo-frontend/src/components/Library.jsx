@@ -17,6 +17,7 @@ import { openModalWithInfo } from "../utils/modalUtils.js";
 import { languages } from "../constants/mainConstants.js";
 import Header from "./Header.jsx";
 import { modalInfo } from "../constants/modalInfo.js";
+import {useTranslation} from "react-i18next";
 
 const Library = () => {
   const [sortedLastOpened, setSortedLastOpened] = useState([]);
@@ -26,6 +27,7 @@ const Library = () => {
     id: 0,
   });
 
+  const { t } = useTranslation();
   const playlists = usePlaylistsStore((state) => state.playlists);
   const isLoading = usePlaylistsStore((state) => state.isLoading);
   const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
@@ -105,7 +107,7 @@ const Library = () => {
               />
               <h2 className="text-2xl font-semibold mb-4">
                 {/* eslint-disable-next-line react/no-unescaped-entities */}
-                Words in "{playlists.find((p) => p.id === openPlaylistInfo.id)?.name}"
+                {t("Words in")} "{playlists.find((p) => p.id === openPlaylistInfo.id)?.name}"
               </h2>
               <ul className="h-full max-h-[50vh] overflow-y-auto">
                 {wordsActual.map((word, index) => (
@@ -131,7 +133,7 @@ const Library = () => {
                     className="bg-[#936dff] hover:bg-[#7c59e6] text-white py-2 px-4 rounded-md transition"
                     onClick={() => setOpenPlaylistInfo({state: false, id: 0})}
                 >
-                  Go Back
+                  {t("Go Back")}
                 </button>
                 <button
                     className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition"
@@ -142,7 +144,7 @@ const Library = () => {
                       }
                     }}
                 >
-                  Delete Playlist
+                  {t("Delete Playlist")}
                 </button>
               </div>
 
@@ -153,7 +155,7 @@ const Library = () => {
                 <div className="flex items-center">
                   <RiTimerLine className="text-[20px] text-[#9194C3] mr-[18px]"/>
                   <h2 className="dark:text-[#F3F7FF] text-[#282950] text-[40px] font-semibold">
-                    Last Open
+                    {t("Last Open")}
                   </h2>
                 </div>
                 <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
@@ -204,7 +206,7 @@ const Library = () => {
               <div className="flex flex-col gap-y-[25px]">
                 <div className="flex items-center">
                   <h2 className="dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
-                    Playlists
+                    {t("Playlists")}
                   </h2>
                   <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
                   <div

@@ -16,6 +16,7 @@ import { getWordCountByCategory } from "../utils/getWordCountByCategory.js";
 import useModalStore from "../store/modalStore.js";
 import { modalInfo } from "../constants/modalInfo.js";
 import Learn from "./Learn.jsx";
+import {useTranslation} from "react-i18next";
 
 const Training = () => {
   const isDark = useThemeStore((state) => state.isDark);
@@ -28,6 +29,10 @@ const Training = () => {
   const [wordCounts, setWordCounts] = useState({ teach: 0, iKnow: 0, learned: 0 });
   const [showWordList, setShowWordList] = useState(false);
   const [wordsActual, setWordsActual] = useState([]);
+
+
+  const { t } = useTranslation();
+
   useEffect(() => {
     setWordsActual([...words].reverse());
     const counts = getWordCountByCategory(words);
@@ -67,7 +72,7 @@ const Training = () => {
         <div className="w-full flex items-center justify-between py-[5px] mt-[10px] px-[16px]">
           <img alt="logo" src="/logo.webp" />
           <div className="flex">
-            <RiBarChartFill
+            <RiBarChartFill onClick={()=>{openModalWithInfo("Coming Soon!");}}
                 className={`mr-[32px] text-3xl ${isDark ? "text-[#9194C3]" : "text-[#282950]"}`}
             />
             <span
@@ -92,7 +97,7 @@ const Training = () => {
                 {wordCounts.teach}
               </span>
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
-                Teach
+                  {t("Teach")}
               </span>
                 <RiQuestionLine
                     onClick={() => {
@@ -106,7 +111,7 @@ const Training = () => {
                 {wordCounts.iKnow}
               </span>
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
-                I know
+                  {t("I know")}
               </span>
                 <RiQuestionLine
                     onClick={() => {
@@ -120,7 +125,7 @@ const Training = () => {
                 {wordCounts.learned}
               </span>
                 <span className="small:mt-[-10px] text-[#9194C3] font-semibold text-[14px]">
-                Learned
+                  {t("Learned")}
               </span>
                 <RiQuestionLine
                     onClick={() => {
@@ -132,20 +137,22 @@ const Training = () => {
             </div>
 
             <div className="flex flex-col items-center text-center py-[5px] px-[16px]">
-              <div className="small:flex items-center">
+              <div className="small:flex items-center"
+                   onClick={()=>{openModalWithInfo("Coming Soon!");}}>
                 <img
                     className="m-auto w-[32px] small:w-[20px] small:mx-[5px] relative top-[3px]"
                     alt="img of nut"
                     src="/nut.webp"
                 />
                 <h2 className="mt-[8px] small:mx-[5px] dark:text-[#F3F7FF] text-[#282950] font-semibold small:text-[25px] text-[32px]">
-                  Collecting Walnut
+                  {t("Collecting Walnut")}
                 </h2>
               </div>
               <h3 className="big:mt-[16px] mb-[20px] small:mb-[10px] max-w-[265px] text-[#9194C3] text-[14px] font-semibold">
-                For tuition, we will charge them to you. Spend it wisely
+                {t("For tuition, we will charge them to you. Spend it wisely")}
               </h3>
-              <div className="mt-[55px] relative flex justify-center">
+              <div className="mt-[55px] relative flex justify-center"
+                   onClick={()=>{openModalWithInfo("Coming Soon!");}}>
                 <img
                     className="absolute bottom-[15px] small:w-[110px]"
                     alt="animal"
@@ -165,7 +172,7 @@ const Training = () => {
               >
                 <div className="flex items-center">
                   <RiPlayLargeFill className="text-[#775CFF] text-[20px] mr-[16px]" />
-                  Start
+                  {t("Start")}
                 </div>
               </div>
             </div>
@@ -175,7 +182,7 @@ const Training = () => {
             {showWordList && (
                 <div className="absolute bottom-[150px] max-w-[550px] w-[97%] m-auto flex flex-col flex-grow inset-x-0 bg-white dark:bg-[#333560] shadow-lg rounded-lg h-[200px] overflow-y-auto p-4">
                   <h3 className="text-lg font-semibold dark:text-white text-[#282950] mb-2">
-                    Your Words
+                    {t("Your Words")}
                   </h3>
                   <ul>
                     {wordsActual.map((word, index) => (
@@ -205,7 +212,7 @@ const Training = () => {
                   className="select-none flex items-center justify-center dark:text-[#F3F7FF] text-[#282950] text-[24px] border border-[#333560] hover:opacity-60 cursor-pointer duration-300 rounded py-[10px] w-[50%] mx-[10px]"
               >
                 <RiArrowUpSLine />
-                Cards
+                {t("Cards")}
               </div>
               <div
                   onClick={() => {

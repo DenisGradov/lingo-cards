@@ -1,4 +1,3 @@
-// modalStore.js
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 
@@ -7,19 +6,19 @@ const useModalStore = create(
         persist(
             (set) => ({
                 isOpen: false,
-                contentType: '',  // тип контента: "playlist" или "word"
+                contentType: '',
                 title: '',
                 description: '',
                 hasCloseIcon: true,
                 buttons: [],
+                buttonsWithClose: [],
                 inputs: [],
                 textareas: [],
                 selects: [],
                 formButtons: [],
                 selectedWord: null,
 
-                // Открытие модального окна с параметрами, включая contentType
-                openModal: ({ contentType = '', title, description, hasCloseIcon = true, buttons = [], inputs = [], textareas = [], selects = [], formButtons = [], selectedWord = null }) => {
+                openModal: ({ contentType = '', title, description, hasCloseIcon = true, buttons = [], buttonsWithClose = [], inputs = [], textareas = [], selects = [], formButtons = [], selectedWord = null }) => {
                     set({
                         isOpen: true,
                         contentType,
@@ -27,6 +26,7 @@ const useModalStore = create(
                         description,
                         hasCloseIcon,
                         buttons,
+                        buttonsWithClose,
                         inputs,
                         textareas,
                         selects,
@@ -35,14 +35,14 @@ const useModalStore = create(
                     });
                 },
 
-                // Закрытие модального окна
                 closeModal: () => {
                     set({
                         isOpen: false,
-                        contentType: '',  // Сброс contentType при закрытии
+                        contentType: '',
                         title: '',
                         description: '',
                         buttons: [],
+                        buttonsWithClose: [],
                         inputs: [],
                         textareas: [],
                         selects: [],
@@ -54,7 +54,7 @@ const useModalStore = create(
                 clearSelectedWord: () => set({ selectedWord: null }),
             }),
             {
-                name: 'modal-store',  // хранилище в localStorage
+                name: 'modal-store',
             }
         ),
         { name: 'modal-store' }

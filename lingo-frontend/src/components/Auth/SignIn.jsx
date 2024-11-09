@@ -5,7 +5,9 @@ import Header from '../Header.jsx';
 import useUserInfo from "../../store/userInfo.js";
 import usePlaylistsStore from "../../store/playlistsStore.js";
 import useWordsStore from "../../store/wordsStore.js";
-import { signInUser } from "../../api/user.js"; // Импортируем функцию для авторизации
+import { signInUser } from "../../api/user.js";
+import {useTranslation} from "react-i18next";
+import {openModalWithInfo} from "../../utils/modalUtils.js"; // Импортируем функцию для авторизации
 
 const SignIn = () => {
     const [userInfo, setUserInfo] = useState({
@@ -22,6 +24,7 @@ const SignIn = () => {
     const clearWords = useWordsStore((state) => state.clearWords);
     const saveWords = useWordsStore((state) => state.saveWords);
 
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -29,7 +32,7 @@ const SignIn = () => {
             ...userInfo,
             [e.target.name]: e.target.value
         });
-        setError(null); // Сбрасываем ошибку при изменении полей
+        setError(null);
     };
 
     useEffect(() => {
@@ -51,10 +54,10 @@ const SignIn = () => {
             setUserName(data.user.login);
             setUserEmail(data.user.email);
             saveWords(data.words);
-            setIsAuthenticated(true); // Устанавливаем флаг аутентификации
+            setIsAuthenticated(true);
             navigate('/');
         } catch (error) {
-            setError(error.message || 'Ошибка сети. Попробуйте позже.');
+            setError(error.message || t("Network error. Try later."));
         }
     };
 
@@ -64,14 +67,14 @@ const SignIn = () => {
                 <Header />
             </div>
             <div className="mt-[40px]">
-                <h1 className="text-[48px] font-bold">Welcome</h1>
-                <h3 className="text-[14px] text-[#9194C3] font-semibold">Learn languages easily</h3>
+                <h1 className="text-[48px] font-bold">{t("Welcome")}</h1>
+                <h3 className="text-[14px] text-[#9194C3] font-semibold">{t("Learn languages easily")}</h3>
             </div>
 
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
             <form className="mt-[120px] flex flex-col" onSubmit={handleSubmit}>
-                <span className="text-[#9194C3] text-[14px] font-semibold">Login</span>
+                <span className="text-[#9194C3] text-[14px] font-semibold">{t("Login")}</span>
                 <input
                     className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
                     ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
@@ -83,7 +86,7 @@ const SignIn = () => {
                 />
 
                 <div className="mt-4 relative max-w-[100%] w-full">
-                    <span className="text-[#9194C3] text-[14px] font-semibold">Password</span>
+                    <span className="text-[#9194C3] text-[14px] font-semibold">{t("Password")}</span>
                     <div className="flex items-center">
                         <input
                             type={showPassword ? "text" : "password"}
@@ -104,7 +107,7 @@ const SignIn = () => {
                 </div>
 
                 <div className="mt-4">
-                    <span className="text-[16px] font-bold text-[#745BFF] hover:opacity-60 cursor-pointer duration-300">Forgot Password</span>
+                    <span className="text-[16px] font-bold text-[#745BFF] hover:opacity-60 cursor-pointer duration-300" onClick={()=>{openModalWithInfo("Coming Soon!");}}>{t("Forgot Password")}</span>
                 </div>
 
                 <div className="mt-[120px] flex flex-col items-center">
@@ -112,11 +115,11 @@ const SignIn = () => {
                         type="submit"
                         className="duration-300 hover:opacity-60 cursor-pointer bg-[#936dff] text-[#F3F7FF] text-[14px] font-bold py-[20px] rounded-2xl w-full flex justify-center"
                     >
-                        Login
+                        {t("Login")}
                     </button>
                     <span className="mt-[24px] text-[#9194C3] text-[14px] font-semibold">
-                        Or <NavLink to="/signup"
-                                    className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">Register</NavLink>
+                        {t("Or")} <NavLink to="/signup"
+                                    className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">{t("Register")} </NavLink>
                     </span>
                 </div>
             </form>

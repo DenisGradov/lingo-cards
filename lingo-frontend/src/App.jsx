@@ -12,12 +12,19 @@ import SignUp from './components/Auth/SignUp.jsx';
 import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
 import { useLocation } from 'react-router-dom';
 import useWordsStore from './store/wordsStore.js';
-import usePlaylistsStore from "./store/playlistsStore.js";  // Подключаем хранилище для слов
+import usePlaylistsStore from "./store/playlistsStore.js";
+import i18n from './i18n';
+import {useTranslation} from "react-i18next";
 
 function AppContent() {
     const location = useLocation();
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
+    const selectedLanguage = useUserInfo((state) => state.selectedLanguage);
+
+    useEffect(() => {
+        i18n.changeLanguage(selectedLanguage || 'en');
+    }, [selectedLanguage]);
 
     return (
         <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
@@ -56,8 +63,9 @@ function App() {
     const setUserName = useUserInfo((state) => state.setUserName);  // Для сохранения логина пользователя
     const setUserEmail = useUserInfo((state) => state.setUserEmail);  // Для сохранения email пользователя
     const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
-    const saveWords = useWordsStore((state) => state.saveWords);
-    const savePlaylists = usePlaylistsStore((state) => state.savePlaylists);
+
+    const { t } = useTranslation();
+
     useEffect(() => {
         const root = window.document.documentElement;
         if (isDark) {
@@ -77,8 +85,8 @@ function App() {
                 const data = await response.json();
                 if (response.ok && data.message === 'Authenticated') {
                     setIsAuthenticated(true);
-                    setUserName(data.user.login);  // Сохраняем логин пользователя
-                    setUserEmail(data.user.email); // Сохраняем email пользователя
+                    setUserName(data.user.login);
+                    setUserEmail(data.user.email);
                 } else {
                     setIsAuthenticated(false);
                 }
@@ -93,7 +101,7 @@ function App() {
     if (isAuthenticated === null) {
         return (
             <div className="min-h-screen h-full flex items-center justify-center bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
-                <p>Loading...</p>
+                <p>{t("Loading...")}</p>
             </div>
         );
     }

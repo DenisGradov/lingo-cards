@@ -5,7 +5,8 @@ import Header from '../Header.jsx';
 import useUserInfo from "../../store/userInfo.js";
 import usePlaylistsStore from "../../store/playlistsStore.js";
 import useWordsStore from "../../store/wordsStore.js";
-import { registerUser } from "../../api/user.js"; // Импортируем функцию для регистрации
+import { registerUser } from "../../api/user.js";
+import {useTranslation} from "react-i18next"; // Импортируем функцию для регистрации
 
 const SignUp = () => {
     const [userInfo, setUserInfo] = useState({
@@ -23,6 +24,7 @@ const SignUp = () => {
     const clearPlaylists = usePlaylistsStore((state) => state.clearPlaylists);
     const clearWords = useWordsStore((state) => state.clearWords);
 
+    const { t } = useTranslation();
     useEffect(() => {
         if (isAuthenticated) {
             navigate('/');
@@ -34,7 +36,7 @@ const SignUp = () => {
             ...userInfo,
             [e.target.name]: e.target.value
         });
-        setError(null); // Сбрасываем ошибку при изменении полей
+        setError(null);
     };
 
     const togglePasswordVisibility = () => {
@@ -45,18 +47,19 @@ const SignUp = () => {
         e.preventDefault();
 
         if (userInfo.login.length < 3) {
-            setError('Логин должен содержать минимум 3 символа.');
+            setError('');
+            setError(t("The login must contain at least 3 characters."));
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(userInfo.email)) {
-            setError('Введите корректный E-Mail.');
+            setError(t("Enter a valid E-Mail."));
             return;
         }
 
         if (!userInfo.login || !userInfo.email || !userInfo.password) {
-            setError('Все поля обязательны для заполнения.');
+            setError(t("All fields are mandatory."));
             return;
         }
 
@@ -69,7 +72,7 @@ const SignUp = () => {
             setUserEmail(data.user.email);
             navigate('/');
         } catch (error) {
-            setError(error.message || 'Ошибка сети. Попробуйте позже.');
+            setError(error.message || t("Network error. Try later."));
         }
     };
 
@@ -79,14 +82,14 @@ const SignUp = () => {
                 <Header />
             </div>
             <div className="mt-[60px]">
-                <h1 className="text-[48px] font-bold">Get Started</h1>
-                <h3 className="text-[14px] text-[#9194C3] font-semibold">Create Your Account</h3>
+                <h1 className="text-[48px] font-bold">{t("Get Started")}</h1>
+                <h3 className="text-[14px] text-[#9194C3] font-semibold">{("Create Your Accountt")}</h3>
             </div>
 
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
             <form className="mt-[30px] flex flex-col" onSubmit={handleSubmit}>
-                <span className="text-[#9194C3] text-[14px] font-semibold">Login</span>
+                <span className="text-[#9194C3] text-[14px] font-semibold">{t("Login")}</span>
                 <input
                     className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
                     ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
@@ -97,7 +100,7 @@ const SignUp = () => {
                     onChange={handleChange}
                 />
 
-                <span className="mt-[22px] text-[#9194C3] text-[14px] font-semibold">E-Mail</span>
+                <span className="mt-[22px] text-[#9194C3] text-[14px] font-semibold">{t("E-Mail")}</span>
                 <input
                     className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
                     ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
@@ -109,7 +112,7 @@ const SignUp = () => {
                     onChange={handleChange}
                 />
 
-                <span className="mt-[22px] text-[#9194C3] text-[14px] font-semibold">Password</span>
+                <span className="mt-[22px] text-[#9194C3] text-[14px] font-semibold">{t("Password")}</span>
                 <div className="mt-4 relative max-w-[100%] w-full">
                     <input
                         type={showPassword ? "text" : "password"}
@@ -131,10 +134,10 @@ const SignUp = () => {
                         type="submit"
                         className="duration-300 hover:opacity-60 cursor-pointer bg-[#936dff] text-[#F3F7FF] text-[14px] font-bold py-[20px] rounded-2xl w-full flex justify-center"
                     >
-                        Sign Up
+                        {t("Sign Up")}
                     </button>
                     <span className="mt-[24px] text-[#9194C3] text-[14px] font-semibold">
-                        Have an Account? <NavLink to="/signin" className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">Login</NavLink>
+                        {t("Have an Account?")} <NavLink to="/signin" className="text-[#000] dark:text-[#fff] text-[14px] font-semibold duration-300 hover:opacity-60 cursor-pointer">{t("Login")}</NavLink>
                     </span>
                 </div>
             </form>

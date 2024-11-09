@@ -10,7 +10,9 @@ import useUserInfo from '../store/userInfo.js';
 import Header from "./Header.jsx";
 import {useNavigate} from 'react-router-dom';
 import {useState} from "react"; // Для перенаправления
-import { updateUserName } from '../api/user';  // Импорт функции для смены имени
+import { updateUserName } from '../api/user';
+import {useTranslation} from "react-i18next";
+import {openModalWithInfo} from "../utils/modalUtils.js";  // Импорт функции для смены имени
 
 const UserProfile = () => {
     const userName = useUserInfo((state) => state.userName);  // Получаем логин
@@ -21,15 +23,16 @@ const UserProfile = () => {
     const [changeName, setChangeName] = useState({state: false, newName: ''});
     const [error, setError] = useState(null);
 
+    const { t } = useTranslation();
     const handleLogout = async () => {
         try {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/users/logout`, {
                 method: 'POST',
-                credentials: 'include',  // Для отправки куков
+                credentials: 'include',
             });
             if (response.ok) {
                 clearUserInfo();
-                navigate('/signin');  // Перенаправляем на страницу входа
+                navigate('/signin');
             } else {
                 console.error('Logout failed');
             }
@@ -42,21 +45,20 @@ const UserProfile = () => {
         setChangeName((prevValue) => ({...prevValue, state: !prevValue.state}));
     }
 
-    // Функция для отправки запроса на изменение имени с валидацией
     const handleChangeName = async () => {
-        const regex = /^[a-zA-Z0-9]{6,}$/;  // Регулярное выражение для проверки имени (только буквы и цифры, минимум 6 символов)
+        const regex = /^[a-zA-Z0-9]{6,}$/;
         if (!regex.test(changeName.newName)) {
-            setError('Имя должно содержать минимум 6 символов, только латинские буквы и цифры');
+            setError(t("The name must contain at least 6 characters, only Latin letters and numbers"));
             return;
         }
 
         try {
-            const result = await updateUserName(changeName.newName);  // Запрос на смену имени
-            setUserName(result.newLogin);  // Меняем имя в состоянии
+            const result = await updateUserName(changeName.newName);
+            setUserName(result.newLogin);
             clearUserInfo();
-            navigate('/signin');  // Перенаправляем на страницу входа
+            navigate('/signin');
         } catch (err) {
-            setError('Это имя уже занято');  // Если запрос вернул ошибку
+            setError(t("This name is already taken"));
         }
     };
 
@@ -72,7 +74,8 @@ const UserProfile = () => {
                     <div className="mt-[20px] flex items-center">
                         {changeName.state ?
                             <div className="flex relative mt-[20px]">
-                                <h2 className="absolute bottom-[35px]">Ваше новое имя:</h2>
+                                <h2 className="absolute bottom-[35px]">
+                                    {t("Your new name:")}</h2>
                                 <input
                                     className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] p-[3px] bg-transparent border-2 
                     ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
@@ -94,27 +97,27 @@ const UserProfile = () => {
                         }
                     </div>
                     <h3 className="mt-[14px] text-[#9194C3] text-[14px] font-semibold">{userEmail}</h3>
-                    {error && <p className="text-red-500 text-center mb-4">{error}</p>}  {/* Вывод ошибки */}
+                    {error && <p className="text-red-500 text-center mb-4">{error}</p>}
                 </div>
 
                 <div className="flex flex-col justify-center space-y-4">
                     <div className="flex items-center">
                         <RiNotification2Line className="text-[#5484FF] text-[20px]"/>
-                        <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold">
-                            Notifications
+                        <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold" onClick={()=>{openModalWithInfo("Coming Soon!");}}>
+                            {t("Notifications")}
                         </span>
                     </div>
                     <div className="flex items-center">
                         <RiMessage2Line className="text-[#5484FF] text-[20px]"/>
-                        <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold">
-                            Help center
+                        <span className="ml-[32px] text-[#5484FF] text-[20px] font-semibold" onClick={()=>{openModalWithInfo("Coming Soon!");}}>
+                            {t("Help center")}
                         </span>
                     </div>
                 </div>
 
                 <div className="flex items-center mt-[20px] cursor-pointer" onClick={handleLogout}>
                     <RiLogoutBoxLine className="text-[#FF6193] text-[20px]"/>
-                    <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">Logout</span>
+                    <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">{t("Logout")}</span>
                 </div>
             </div>
         </section>

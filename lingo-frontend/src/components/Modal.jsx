@@ -5,6 +5,7 @@ import useModalStore from '../store/modalStore';
 import usePlaylistsStore from "../store/playlistsStore.js";
 import useWordsStore from "../store/wordsStore.js";
 import { languages } from "../constants/mainConstants.js";
+import {useTranslation} from "react-i18next";
 
 const Modal = () => {
     const {
@@ -14,6 +15,7 @@ const Modal = () => {
         description,
         hasCloseIcon,
         buttons,
+        buttonsWithClose,
         closeModal,
         inputs,
         selects,
@@ -21,7 +23,6 @@ const Modal = () => {
         formButtons,
         selectedWord
     } = useModalStore();
-
     const [playlistInfo, setPlaylistInfo] = useState({ name: '', description: '', language: 'en' });
     const [wordInfo, setWordInfo] = useState({ word: '', translation: '' });
     const [errors, setErrors] = useState({});
@@ -29,6 +30,8 @@ const Modal = () => {
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [multiAdd, setMultiAdd] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const { t } = useTranslation();
 
     const playlists = usePlaylistsStore((state) => state.playlists);
     const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);  // Обновляем плейлисты при изменениях
@@ -92,7 +95,7 @@ const Modal = () => {
             } else if (contentType === 'word') {
                 const response = await addWord({ ...wordInfo, next_review_time: 0, playlistId: selectedPlaylist });
                 console.log(response)
-                updatedPlaylists = response.playlists; // Ожидаем, что ответ содержит обновленный список плейлистов
+                updatedPlaylists = response.playlists;
                 setWordInfo({ word: '', translation: '' });
                 if (!multiAdd) closeModal();
             } else if (contentType === 'editWord' && selectedWord) {
@@ -116,9 +119,9 @@ const Modal = () => {
     const handleDelete = async () => {
         if (selectedWord) {
             try {
-                const response = await deleteWord(selectedWord.id); // Изменение здесь
+                const response = await deleteWord(selectedWord.id);
                 if (response && response.playlists) {
-                    setPlaylists(response.playlists); // Обновляем плейлисты после удаления
+                    setPlaylists(response.playlists);
                 }
                 closeModal();
             } catch (error) {
@@ -137,12 +140,12 @@ const Modal = () => {
                         &times;
                     </button>
                 )}
-                <h2 className="dark:text-white text-[#181830] text-2xl font-bold mb-4">{title}</h2>
-                <p className="dark:text-white text-[#181830] text-opacity-75 mb-6">{description}</p>
+                <h2 className="dark:text-white text-[#181830] text-2xl font-bold mb-4">{t(title)}</h2>
+                <p className="dark:text-white text-[#181830] text-opacity-75 mb-6">{t(description)}</p>
 
                 {(contentType === 'word' || contentType === 'editWord') && (
                     <div className="mb-4">
-                        <p className="dark:text-white text-[#181830] mb-2">Select Playlist</p>
+                        <p className="dark:text-white text-[#181830] mb-2">{t("Select Playlist")}</p>
                         <ScrollContainer className="flex gap-x-4 overflow-auto">
                             <div className="flex gap-x-[10px] cursor-pointer">
                                 {playlists.map((playlist, index) => (
@@ -172,7 +175,7 @@ const Modal = () => {
                             </div>
                         </ScrollContainer>
                         {errors.playlist && (
-                            <p className="text-red-500 text-sm mt-1">{errors.playlist}</p>
+                            <p className="text-red-500 text-sm mt-1">{t(errors.playlist)}</p>
                         )}
                     </div>
                 )}
@@ -180,7 +183,7 @@ const Modal = () => {
                 <form className="mt-[30px] flex flex-col" onSubmit={handleSubmit}>
                     {inputs.map((input, index) => (
                         <div key={index} className="mb-[10px] flex flex-col gap-y-[5px]">
-                            <label htmlFor={input.name} className="dark:text-white text-[#181830]">{input.name}</label>
+                            <label htmlFor={input.name} className="dark:text-white text-[#181830]">{t(input.name)}</label>
                             <input
                                 type={input.type}
                                 name={input.name}
@@ -190,13 +193,13 @@ const Modal = () => {
                                     ${errors[input.name] ? 'border-red-500' : 'border-gray-300'}`}
                             />
                             {errors[input.name] && (
-                                <p className="text-red-500 text-sm">{errors[input.name]}</p>
+                                <p className="text-red-500 text-sm">{t(errors[input.name])}</p>
                             )}
                         </div>
                     ))}
                     {textareas.map((textarea, index) => (
                         <div key={index} className="mb-[10px] flex flex-col gap-y-[5px]">
-                            <label htmlFor={textarea.name} className="dark:text-white text-[#181830]">{textarea.name}</label>
+                            <label htmlFor={textarea.name} className="dark:text-white text-[#181830]">{t(textarea.name)}</label>
                             <textarea
                                 name={textarea.name}
                                 value={formData[textarea.name] || ''}
@@ -205,13 +208,13 @@ const Modal = () => {
                                     ${errors[textarea.name] ? 'border-red-500' : 'border-gray-300'}`}
                             ></textarea>
                             {errors[textarea.name] && (
-                                <p className="text-red-500 text-sm">{errors[textarea.name]}</p>
+                                <p className="text-red-500 text-sm">{t(errors[textarea.name])}</p>
                             )}
                         </div>
                     ))}
                     {selects.map((select, index) => (
                         <div key={index} className="mb-[20px] flex flex-col gap-y-[5px]">
-                            <label htmlFor={select.name} className="dark:text-white text-[#181830]">{select.name}</label>
+                            <label htmlFor={select.name} className="dark:text-white text-[#181830]">{t(select.name)}</label>
                             <select
                                 name={select.name}
                                 value={formData[select.name] || ''}
@@ -219,7 +222,7 @@ const Modal = () => {
                                 className='block appearance-none w-full bg-white border border-gray-400 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline'
                             >
                                 {select.options.map((option, index) => (
-                                    <option key={index} value={option.code}>{option.name}</option>
+                                    <option key={index} value={option.code}>{t(option.name)}</option>
                                 ))}
                             </select>
                         </div>
@@ -232,7 +235,7 @@ const Modal = () => {
                             className={`bg-[#936dff] hover:bg-[#7c59e6] text-white my-2 py-2 px-4 rounded-md transition ${isLoading ? 'opacity-80 cursor-not-allowed' : ''}`}
                             disabled={isLoading}
                         >
-                            {isLoading ? 'Loading...' : button.name}
+                            {t(isLoading ? 'Loading...' : button.name)}
                         </button>
                     ))}
 
@@ -246,7 +249,7 @@ const Modal = () => {
                                     onChange={() => setMultiAdd(!multiAdd)}
                                     className="form-checkbox text-purple-500"
                                 />
-                                <span className="ml-2 text-sm dark:text-white text-[#181830]">Add Multiple Words</span>
+                                <span className="ml-2 text-sm dark:text-white text-[#181830]">{t("Add Multiple Words")}</span>
                             </label>
                         </div>
                     )}
@@ -259,7 +262,18 @@ const Modal = () => {
                             onClick={button.func}
                             className="bg-[#936dff] hover:bg-[#7c59e6] text-white py-2 px-4 rounded-md transition"
                         >
-                            {button.name}
+                            {t(button.name)}
+                        </button>
+                    ))}
+                </div>
+                <div className="flex space-x-4 mt-4">
+                    {buttonsWithClose.map((button, index) => (
+                        <button
+                            key={index}
+                            onClick={()=>{closeModal()}}
+                            className="bg-[#936dff] hover:bg-[#7c59e6] text-white py-2 px-4 rounded-md transition"
+                        >
+                            {t(button.name)}
                         </button>
                     ))}
                 </div>

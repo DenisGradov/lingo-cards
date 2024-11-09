@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { RiCrosshair2Line, RiMap2Line, RiUser5Line } from "react-icons/ri";
+import {useTranslation} from "react-i18next";
 
 const Footer = () => {
+    const { t } = useTranslation();
     return (
         <nav className="relative w-full bg-[#F6F7FF] dark:bg-[#936dff] rounded-t shadow h-[80px] mt-[-14px] flex-shrink-0">
             <ul className="select-none max-w-[550px] w-full m-auto flex justify-around">
@@ -16,7 +18,7 @@ const Footer = () => {
                         style={{textDecoration: 'none'}}
                     >
                         <RiCrosshair2Line className="text-2xl mb-1"/>
-                        <span>Training</span>
+                        <span>{t("Training")}</span>
                     </NavLink>
                 </li>
                 <li className="w-full h-full">
@@ -30,7 +32,7 @@ const Footer = () => {
                         style={{textDecoration: 'none'}}
                     >
                         <RiMap2Line className="text-2xl mb-1"/>
-                        <span>Library</span>
+                        <span>{t("Library")}</span>
                     </NavLink>
                 </li>
                 <li className="w-full h-full">
@@ -44,7 +46,7 @@ const Footer = () => {
                         style={{textDecoration: 'none'}}
                     >
                         <RiUser5Line className="text-2xl mb-1"/>
-                        <span>Profile</span>
+                        <span>{t("Profile")}</span>
                     </NavLink>
                 </li>
             </ul>
