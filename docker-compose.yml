@@ -43,3 +43,4 @@ services:
 
 networks:
   lingo-network:
+    driver: bridge
