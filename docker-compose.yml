@@ -10,7 +10,7 @@ services:
     environment:
       - VITE_BACKEND_URL=${VITE_BACKEND_URL}
     env_file:
-      - ../.env
+      - .env
     networks:
       - lingo-network
 
@@ -25,7 +25,7 @@ services:
       - JWT_SECRET=${JWT_SECRET}
       - SESSION_SECRET=${SESSION_SECRET}
     env_file:
-      - ../.env
+      - .env
     networks:
       - lingo-network
 
