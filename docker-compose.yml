@@ -44,3 +44,4 @@ services:
 networks:
   lingo-network:
     driver: bridge
+    attachable: true
