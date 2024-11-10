@@ -6,9 +6,11 @@ services:
       context: ./lingo-frontend
       dockerfile: Dockerfile
     ports:
-      - "3037:3037"
+      - "${FRONTEND_PORT}:${FRONTEND_PORT}"
     environment:
-      - VITE_BACKEND_URL=https://api.dev.lingo-cards.tech
+      - VITE_BACKEND_URL=${VITE_BACKEND_URL}
+    env_file:
+      - ../.env
     networks:
       - lingo-network
 
@@ -17,9 +19,25 @@ services:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "3038:3038"
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
     environment:
-      - ALLOWED_ORIGINS=https://dev.lingo-cards.tech,https://api.dev.lingo-cards.tech
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS}
+      - JWT_SECRET=${JWT_SECRET}
+      - SESSION_SECRET=${SESSION_SECRET}
+    env_file:
+      - ../.env
+    networks:
+      - lingo-network
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - frontend
+      - backend
     networks:
       - lingo-network
 

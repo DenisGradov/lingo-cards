@@ -8,6 +8,12 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3037
+ARG VITE_BACKEND_URL
 
-CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0", "--port", "3037"]
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
+
+RUN npm run build
+
+EXPOSE ${FRONTEND_PORT}
+
+CMD ["npm", "run", "preview", "--", "--host", "0.0.0.0", "--port", "${FRONTEND_PORT}"]
