@@ -76,28 +76,40 @@ const InfoSlides = ({
   const handleMouseLeave = () => setAutoPlay(true);
 
   return (
+    <div className="min-h-screen h-full flex flex-col bg-[#fff] dark:bg-[#282950] text-black dark:text-white">
+    <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
     <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
-      <section className="flex flex-col flex-grow max-h-[90vh] overflow-auto">
-        <div className="flex flex-col flex-grow justify-between">
-          <div className=" pt-[40px] pb-[40px] pr-[30px] pl-[30px]">
-            <div className="progress-bars flex">
+     
+      <section className="flex flex-col flex-grow max-h-[100vh] overflow-auto ">
+      
+        <div className="flex flex-col flex-grow h-full">
+        
+          <div className="pt-[40px] pb-[40px] pr-[30px] pl-[30px]">
+            <div className="flex w-full place-content-end ">
+                  <button onClick={completeSlides} className=" dark:text-white text-[#181830] text-xl">
+                  &times;
+                </button>
+            </div>
+          
+
+            <div className="progress-bars flex mb-[20px] felx w-full gap-1">
               {slidesArray.map((_, index) => (
                 <div
                   key={index}
-                  className="progress-bar flex-grow bg-gray-300 mr-1 relative overflow-hidden"
+                  className="progress-bar flex-grow bg-gray-300  relative overflow-hidden"
                   style={{
                     height: "4px",
                   }}
                 >
                   <div
-                    className="absolute left-0 top-0 h-full bg-gray-300"
+                    className="absolute left-0 top-0 h-full dark:bg-[#4A4E84] bg-[#C1C3EC]"
                     style={{
                       width: "100%",
                       transition: "width 0.1s linear",
                     }}
                   />
                   <div
-                    className="absolute left-0 top-0 h-full bg-black transition-all duration-100"
+                    className="absolute left-0 top-0 h-full dark:bg-[#F3F7FF] bg-[#282950] transition-all duration-100"
                     style={{
                       width:
                         index === currentIndex
@@ -115,8 +127,7 @@ const InfoSlides = ({
 
             <Swiper
               onSwiper={(swiper) => (swiperRef.current = swiper)}
-              modules={[Pagination]}
-              pagination={{ clickable: false }}
+            
               className="mySwiper relative text-center"
               onSlideChange={handleSlideChange}
               onMouseEnter={handleMouseEnter}
@@ -130,9 +141,9 @@ const InfoSlides = ({
                   key={`slide-number-${index}`}
                   onClick={handleTapSlide}
                 >
-                  <div className="flex flex-col items-center justify-between flex-grow h-[70vh] mb-[20px]">
+                  <div className="flex flex-col items-center justify-between flex-grow h-[80vh] ">
                     <div className="flex w-full">
-                      <h2 className="text-left text-[48px] font-extrabold text-[#282950] w-[260px] leading-none">
+                      <h2 className="text-left text-[48px] font-extrabold dark:text-[#F3F7FF] text-[#282950] w-[260px] leading-none">
                         {slide.title}
                       </h2>
                     </div>
@@ -151,6 +162,8 @@ const InfoSlides = ({
           </div>
         </div>
       </section>
+    </div>
+    </div>
     </div>
   );
 };

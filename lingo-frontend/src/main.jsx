@@ -4,7 +4,7 @@ import Modal from "./components/Modal"; // Импортируем модальн
 import useModalStore from "./store/modalStore"; // Импортируем хранилище состояния модалки
 import { useEffect, useMemo } from "react"; // Для мемоизации состояния
 
-import InfoSlides from "./components/infoSlides";
+import InfoSlides from "./components/infoSlides.jsx";
 import { openInfoSlidesWithInfo } from "./utils/infoSlidesUtils";
 import useInfoSlidesStore from "./store/infoSlidesStore";
 
