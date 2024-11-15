@@ -141,20 +141,24 @@ const InfoSlides = ({
                   key={`slide-number-${index}`}
                   onClick={handleTapSlide}
                 >
-                  <div className="flex flex-col items-center justify-between flex-grow h-[80vh] ">
+                  <div className="flex flex-col items-center justify-between flex-grow h-[85vh] overflow-auto">
                     <div className="flex w-full">
-                      <h2 className="text-left text-[48px] font-extrabold dark:text-[#F3F7FF] text-[#282950] w-[260px] leading-none">
+                      <h2 className="text-left text-[36px] font-extrabold dark:text-[#F3F7FF] text-[#282950] w-[260px] leading-none pb-[5px]">
                         {slide.title}
                       </h2>
                     </div>
-                    <div className="absolute flex flex-col items-center top-[30vh] w-[180px]">
+                    <div className="flex flex-col items-center  w-[300px] ">
                       <img src={slide.image} alt="intro image" />
                     </div>
-                    <div>
-                      <p className="big:mt-[16px] mb-[20px] small:mb-[10px] max-w-[265px] text-[#9194C3] text-[14px] font-semibold">
-                        {slide.description}
-                      </p>
-                    </div>
+
+                    {slide.description &&
+                       <div>
+                          <p className="big:mt-[16px] mb-[20px] small:mb-[10px] max-w-[265px] text-[#9194C3] text-[14px] font-semibold">
+                            {slide.description}
+                          </p>
+                       </div>
+                    }
+                   
                   </div>
                 </SwiperSlide>
               ))}

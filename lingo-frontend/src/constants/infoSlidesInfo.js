@@ -3,29 +3,58 @@ export const infoSlidesData = [
       type: 'intro',
       slides: [
         {
-          image: '../public/animal.webp',
-          title: 'Welcome to Lingo!',
-          description: 'The best app for learning languages using flashcards.',
+          image: '/intro/Training(light).svg',
+          title: 'This is training page',
+        
         },
         {
-          image: '../public/intro/train.png',
-          title: 'Learn  words and collect rewards ',
-          description: 'When you learn new words - you collect rewards that you can spend on other activities in the app.',
+          image: '/intro/See cards(light).svg',
+          title: 'See cards you are going to learn',
+         
         },
         {
-          image: '../public/intro/library.png',
-          title: 'Create your own  sets ',
-          description: 'Create and organize your flashcards in sets.',
+          image: '/intro/Add word(light).svg',
+          title: 'Add new words',
+         
         },
         {
-          image: '../public/intro/theme.png',
-          title: 'Enjoy the dark theme',
-          description: 'Learn at any time of the day.',
+          image: '/intro/Library(light).svg',
+          title: 'This is Library page',
+          
         },
         {
-          image: '../public/intro/progress.png',
-          title: 'Let’s start learning!',
-          description: 'Let’s start learning and developing new skills!',
+          image: '/intro/Create playlists(light).svg',
+          title: 'Create your own playlists',
+         
+        },
+        {
+          image: '/intro/Playlist added(light).svg',
+          title: 'And they will appear in your Library',
+          
+        },
+        {
+          image: '/intro/Switch language(light).svg',
+          title: 'Switch language to learn',
+         
+        },
+        {
+          image: '/intro/Language switched(light).svg',
+          title: 'Switch language to learn',
+          
+        },
+        {
+          image: '/intro/Switch theme(light).svg',
+          title: 'Switch theme',
+          
+        },
+        {
+          image: '/intro/Switch theme(dark).svg',
+          title: 'Switch theme',
+         
+        },
+        {
+          image: '/intro/Watch tutorials(light).svg',
+          title: 'Watch tutorials',
         },
       ],
     },
