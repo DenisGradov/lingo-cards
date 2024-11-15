@@ -35,6 +35,7 @@ async function handleDeletePlaylist(req, res, playlistId) {
 
 async function handleGetPlaylists(req, res) {
     const token = req.headers.cookie.split('token=')[1];
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const userId = decoded.id;
 
