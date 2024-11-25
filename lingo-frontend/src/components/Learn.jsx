@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RiArrowLeftLine } from 'react-icons/ri';
 import useWordsStore from '../store/wordsStore.js';
 import { reviewStages } from '../constants/reviewStages.js';
+import {useTranslation} from "react-i18next";
 
 const Learn = ({ setIsLearn }) => {
     const { words, updateWordStage } = useWordsStore(); // Функция updateWordStage синхронизирует изменения с бэкендом
@@ -10,6 +11,7 @@ const Learn = ({ setIsLearn }) => {
     const [isFlipped, setIsFlipped] = useState(false);
     const [isInitial, setIsInitial] = useState(false);
     const [mode] = useState(Math.random() < 0.5 ? 'original' : 'translation');
+    const { t } = useTranslation();
 
     useEffect(() => {
         const playlist = words
@@ -32,36 +34,40 @@ const Learn = ({ setIsLearn }) => {
     };
 
     const handleNextWord = async (learned) => {
-        const updatedPlaylist = [...localPlaylist];
-        const wordIndex = currentIndex % updatedPlaylist.length;
-        const word = updatedPlaylist[wordIndex];
-        const currentStage = reviewStages[word.review_stage] || reviewStages[0];
-        let adjustedStage = word.review_stage;
+        setIsFlipped(false); // Сброс состояния переворота сразу
 
-        if (learned) {
-            adjustedStage = Math.min(adjustedStage + 1, reviewStages.length - 1);
+        // Добавляем задержку, чтобы сброс анимации применился
+        setTimeout(async () => {
+            const updatedPlaylist = [...localPlaylist];
+            const wordIndex = currentIndex % updatedPlaylist.length;
+            const word = updatedPlaylist[wordIndex];
+            const currentStage = reviewStages[word.review_stage] || reviewStages[0];
+            let adjustedStage = word.review_stage;
 
-            if (adjustedStage === reviewStages.length - 1) {
-                updatedPlaylist.splice(wordIndex, 1);
+            if (learned) {
+                adjustedStage = Math.min(adjustedStage + 1, reviewStages.length - 1);
+
+                if (adjustedStage === reviewStages.length - 1) {
+                    updatedPlaylist.splice(wordIndex, 1);
+                } else {
+                    word.review_stage = adjustedStage;
+                    word.next_review_time = Date.now() + reviewStages[adjustedStage].delay * 1000;
+                }
             } else {
+                adjustedStage = Math.max(adjustedStage - 1, 0);
                 word.review_stage = adjustedStage;
-                word.next_review_time = Date.now() + reviewStages[adjustedStage].delay * 1000;
+                word.next_review_time = Date.now();
+                updatedPlaylist.push(word);
             }
-        } else {
-            adjustedStage = Math.max(adjustedStage - 1, 0);
-            word.review_stage = adjustedStage;
-            word.next_review_time = Date.now();
-            updatedPlaylist.push(word);
-        }
 
-        await updateWordStage(word.id, word.review_stage, word.next_review_time);
+            await updateWordStage(word.id, word.review_stage, word.next_review_time);
 
-        updatedPlaylist.splice(wordIndex, 1);
-        setLocalPlaylist(updatedPlaylist);
-        setIsFlipped(false);
-        setCurrentIndex((prevIndex) => prevIndex % updatedPlaylist.length);
+            updatedPlaylist.splice(wordIndex, 1);
+            setLocalPlaylist(updatedPlaylist);
+            setCurrentIndex((prevIndex) => prevIndex % updatedPlaylist.length);
 
-        console.log('Updated localPlaylist:', updatedPlaylist);
+            console.log('Updated localPlaylist:', updatedPlaylist);
+        }, 300); // Устанавливаем паузу в 300 мс для завершения анимации
     };
 
 
@@ -111,13 +117,13 @@ const Learn = ({ setIsLearn }) => {
                         onClick={() => handleNextWord(false)}
                         className="text-red-500 font-semibold px-4 py-2 bg-gray-200 rounded-md hover:bg-red-100"
                     >
-                        Я не знал
+                        {t("I didn't know")}
                     </button>
                     <button
                         onClick={() => handleNextWord(true)}
                         className="text-green-500 font-semibold px-4 py-2 bg-gray-200 rounded-md hover:bg-green-100"
                     >
-                        Я знал
+                        {t("I knew")}
                     </button>
                 </div>
             </div>
