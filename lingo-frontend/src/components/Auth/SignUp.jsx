@@ -6,7 +6,7 @@ import useUserInfo from "../../store/userInfo.js";
 import usePlaylistsStore from "../../store/playlistsStore.js";
 import useWordsStore from "../../store/wordsStore.js";
 import { registerUser } from "../../api/user.js";
-import {useTranslation} from "react-i18next"; // Импортируем функцию для регистрации
+import {useTranslation} from "react-i18next";
 
 const SignUp = () => {
     const [userInfo, setUserInfo] = useState({

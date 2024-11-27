@@ -1,15 +1,14 @@
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
-import Modal from "./components/Modal"; // Импортируем модальное окно
-import useModalStore from "./store/modalStore"; // Импортируем хранилище состояния модалки
-import { useEffect, useMemo } from "react"; // Для мемоизации состояния
+import Modal from "./components/Modal";
+import useModalStore from "./store/modalStore";
+import { useEffect, useMemo } from "react";
 
 import InfoSlides from "./components/InfoSlides.jsx";
-import { openInfoSlidesWithInfo } from "./utils/infoSlidesUtils.js";
 import useInfoSlidesStore from "./store/infoSlidesStore.js";
 
 function Main() {
-  const isModalOpen = useModalStore((state) => state.isOpen); // Проверяем, активно ли модальное окно
+  const isModalOpen = useModalStore((state) => state.isOpen);
 
   const {
     isOpen,
@@ -20,7 +19,6 @@ function Main() {
     previousSlide,
   } = useInfoSlidesStore();
 
-  // Мемозируем пропсы модального окна, чтобы предотвратить лишние рендеры
   const modalProps = useMemo(
     () => ({
       title: useModalStore.getState().title,
@@ -29,7 +27,7 @@ function Main() {
       buttons: useModalStore.getState().buttons,
     }),
     [isModalOpen]
-  ); // Только при изменении состояния окна перерендериваем
+  );
 
   useEffect(() => {
     if (isModalOpen) {

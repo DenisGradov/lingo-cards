@@ -9,10 +9,8 @@ import { useEffect } from 'react';
 import UserProfile from './components/Me.jsx';
 import SignIn from './components/Auth/SignIn.jsx';
 import SignUp from './components/Auth/SignUp.jsx';
-import useUserInfo from './store/userInfo';  // Подключаем хранилище для пользователя
+import useUserInfo from './store/userInfo';
 import { useLocation } from 'react-router-dom';
-import useWordsStore from './store/wordsStore.js';
-import usePlaylistsStore from "./store/playlistsStore.js";
 import i18n from './i18n';
 import {useTranslation} from "react-i18next";
 
@@ -30,11 +28,9 @@ function AppContent() {
         <div className="w-full flex-grow flex flex-col m-auto overflow-hidden">
             <div className="max-w-[550px] w-full m-auto flex flex-col flex-grow">
                 <Routes>
-                    {/* Страницы входа и регистрации доступны всегда */}
                     <Route path="/signin" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
 
-                    {/* Защищенные страницы доступны только для авторизованных пользователей */}
                     <Route
                         path="/playlists"
                         element={isAuthenticated ? <Library /> : <Navigate to="/signin" />}
@@ -43,14 +39,12 @@ function AppContent() {
                         path="/me"
                         element={isAuthenticated ? <UserProfile /> : <Navigate to="/signin" />}
                     />
-                    {/* Общий маршрут размещаем последним */}
                     <Route
                         path="/"
                         element={isAuthenticated ? <Training /> : <Navigate to="/signin" />}
                     />
                 </Routes>
             </div>
-            {/* Футер не показывается на страницах signin/signup */}
             {location.pathname !== '/signin' && location.pathname !== '/signup' && <Footer />}
         </div>
     );
@@ -75,7 +69,6 @@ function App() {
         }
     }, [isDark]);
 
-    // Проверка аутентификации и получение данных пользователя при загрузке
     useEffect(() => {
         const checkAuth = async () => {
             try {
@@ -96,7 +89,7 @@ function App() {
             }
         };
         checkAuth();
-    }, [setUserName, setUserEmail, setIsAuthenticated]); // Добавляем зависимости для слов и плейлистов
+    }, [setUserName, setUserEmail, setIsAuthenticated]);
 
     if (isAuthenticated === null) {
         return (

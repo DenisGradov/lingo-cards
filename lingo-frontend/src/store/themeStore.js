@@ -9,10 +9,10 @@ const useThemeStore = create(
                 toggleTheme: () => set((state) => ({ isDark: !state.isDark })),
             }),
             {
-                name: 'theme-store', // имя для хранения в localStorage
+                name: 'theme-store',
             }
         ),
-        { name: 'ThemeStore' } // имя для отображения в DevTools
+        { name: 'ThemeStore' }
     )
 );
 

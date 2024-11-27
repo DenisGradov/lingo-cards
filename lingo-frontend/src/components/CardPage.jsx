@@ -4,7 +4,6 @@ const CardPage = () => {
   
   return (
     <section className="flex flex-col h-screen p-[16px] bg-[#E2E3FF] dark:bg-[#282950]">
-      {/* Верхня панель */}
       <div className="flex justify-between items-center">
         <RiArrowLeftSLine className="text-[40px] dark:text-[#9194C3] text-[#282950]" />
         <div className="flex items-center gap-x-[180px]">
@@ -21,7 +20,6 @@ const CardPage = () => {
       <div className="flex-grow flex flex-col items-center justify-center">
         {/* Картка */}
         <div className="bg-[#E7E7FF] dark:bg-[#2A2C55] w-[250px] h-[350px] rounded-2xl p-[24px] flex flex-col justify-between shadow-lg">
-          {/* Вміст картки */}
           <div className="text-center">
             <div className="text-[50px] text-[#775CFF] font-bold">2</div>
             <RiVolumeUpLine className="text-[40px] dark:text-[#775CFF] text-[#946DFF] mx-auto my-[10px]" />
@@ -29,7 +27,6 @@ const CardPage = () => {
             <h3 className="text-[24px] dark:text-[#F3F7FF] text-[#282950]">Два</h3>
           </div>
 
-          {/* Нижня панель на картці */}
           <div className="flex justify-between items-center py-[10px]">
             <RiInformationLine className="text-[30px] text-[#9194C3]" />
             <RiPlayFill className="text-[50px] text-[#9194C3]" />

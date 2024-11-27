@@ -1,4 +1,3 @@
-// Запрос для получения всех плейлистов
 export const getAllPlaylists = async () => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists`, {
@@ -7,17 +6,16 @@ export const getAllPlaylists = async () => {
 
         const data = await response.json();
         if (response.ok) {
-            return data; // Возвращаем данные
+            return data;
         } else {
             throw new Error(data.error || 'Failed to fetch playlists');
         }
     } catch (error) {
-        console.error('Ошибка при получении плейлистов:', error);
+        console.error('помилка', error);
         throw error;
     }
 };
 
-// Запрос для получения плейлиста по id
 export const getPlaylistById = async (id) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists/${id}`, {
@@ -26,17 +24,16 @@ export const getPlaylistById = async (id) => {
 
         const data = await response.json();
         if (response.ok) {
-            return data; // Возвращаем данные
+            return data;
         } else {
             throw new Error(data.error || 'Failed to fetch playlist');
         }
     } catch (error) {
-        console.error(`Ошибка при получении плейлиста по id: ${id}`, error);
+        console.error(`помилка: ${id}`, error);
         throw error;
     }
 };
 
-// Запрос для создания нового плейлиста
 export const createPlaylist = async (playlistData) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists`, {
@@ -50,17 +47,16 @@ export const createPlaylist = async (playlistData) => {
 
         const data = await response.json();
         if (response.ok) {
-            return data; // Возвращаем новый плейлист
+            return data;
         } else {
             throw new Error(data.error || 'Failed to create playlist');
         }
     } catch (error) {
-        console.error('Ошибка при создании плейлиста:', error);
+        console.error('помилка:', error);
         throw error;
     }
 };
 
-// Запрос для удаления плейлиста
 export const deletePlaylistById = async (id) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists/${id}`, {
@@ -69,17 +65,16 @@ export const deletePlaylistById = async (id) => {
         });
 
         if (response.ok) {
-            return true; // Успешное удаление
+            return true;
         } else {
             throw new Error('Failed to delete playlist');
         }
     } catch (error) {
-        console.error(`Ошибка при удалении плейлиста по id: ${id}`, error);
+        console.error(`помилка: ${id}`, error);
         throw error;
     }
 };
 
-// Запрос для "открытия" плейлиста, обновляя его last_open_time
 export const openPlaylist = async (id) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/playlists/open/${id}`, {
@@ -94,7 +89,7 @@ export const openPlaylist = async (id) => {
             throw new Error(data.error || 'Failed to open playlist');
         }
     } catch (error) {
-        console.error(`Ошибка при открытии плейлиста по id: ${id}`, error);
+        console.error(`помилка: ${id}`, error);
         throw error;
     }
 };

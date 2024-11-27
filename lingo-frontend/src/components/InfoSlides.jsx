@@ -1,7 +1,24 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import { Pagination } from "swiper/modules";
+import PropTypes from 'prop-types';
+
+InfoSlides.propTypes = {
+  slides: PropTypes.shape({
+    slides: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string,
+          image: PropTypes.string,
+          description: PropTypes.string,
+        })
+    ).isRequired,
+  }).isRequired,
+  currentSlide: PropTypes.number.isRequired,
+  onNext: PropTypes.func.isRequired,
+  onPrevious: PropTypes.func.isRequired,
+  completeSlides: PropTypes.func.isRequired,
+};
+
 
 const InfoSlides = ({
   slides,
@@ -13,7 +30,7 @@ const InfoSlides = ({
   const slidesArray = slides.slides;
   const [currentIndex, setCurrentIndex] = useState(currentSlide);
   const [autoPlay, setAutoPlay] = useState(true);
-  const slideDuration = 5000; // Duration for each slide in milliseconds
+  const slideDuration = 5000;
   const [progress, setProgress] = useState(0);
   const swiperRef = useRef(null);
 
@@ -37,7 +54,7 @@ const InfoSlides = ({
     setProgress(0);
     if (currentIndex < slidesArray.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      swiperRef.current.slideTo(currentIndex + 1, 0); // Миттєва зміна слайда
+      swiperRef.current.slideTo(currentIndex + 1, 0);
       onNext();
     } else {
       completeSlides();
@@ -48,7 +65,7 @@ const InfoSlides = ({
     if (currentIndex > 0) {
       setProgress(0);
       setCurrentIndex(currentIndex - 1);
-      swiperRef.current.slideTo(currentIndex - 1, 0); // Миттєва зміна слайда
+      swiperRef.current.slideTo(currentIndex - 1, 0);
       onPrevious();
     }
   };
@@ -133,8 +150,8 @@ const InfoSlides = ({
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               allowTouchMove={false}
-              effect="fade" // Миттєва зміна слайда без прокрутки
-              speed={0} // Вимикає анімацію для миттєвої зміни
+              effect="fade"
+              speed={0}
             >
               {slidesArray.map((slide, index) => (
                 <SwiperSlide

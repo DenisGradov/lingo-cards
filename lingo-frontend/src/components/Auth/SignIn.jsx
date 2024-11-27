@@ -7,7 +7,7 @@ import usePlaylistsStore from "../../store/playlistsStore.js";
 import useWordsStore from "../../store/wordsStore.js";
 import { signInUser } from "../../api/user.js";
 import {useTranslation} from "react-i18next";
-import {openModalWithInfo} from "../../utils/modalUtils.js"; // Импортируем функцию для авторизации
+import {openModalWithInfo} from "../../utils/modalUtils.js";
 
 const SignIn = () => {
     const [userInfo, setUserInfo] = useState({

@@ -9,17 +9,17 @@ import {
 import useUserInfo from '../store/userInfo.js';
 import Header from "./Header.jsx";
 import {useNavigate} from 'react-router-dom';
-import {useState} from "react"; // Для перенаправления
+import {useState} from "react";
 import { updateUserName } from '../api/user';
 import {useTranslation} from "react-i18next";
-import {openModalWithInfo} from "../utils/modalUtils.js";  // Импорт функции для смены имени
+import {openModalWithInfo} from "../utils/modalUtils.js";
 
 const UserProfile = () => {
-    const userName = useUserInfo((state) => state.userName);  // Получаем логин
-    const userEmail = useUserInfo((state) => state.userEmail);  // Получаем email
-    const setUserName = useUserInfo((state) => state.setUserName);  // Функция для изменения имени пользователя
-    const clearUserInfo = useUserInfo((state) => state.clearUserInfo);  // Очистка данных пользователя
-    const navigate = useNavigate();  // Для использования навигации
+    const userName = useUserInfo((state) => state.userName);
+    const userEmail = useUserInfo((state) => state.userEmail);
+    const setUserName = useUserInfo((state) => state.setUserName);
+    const clearUserInfo = useUserInfo((state) => state.clearUserInfo);
+    const navigate = useNavigate();
     const [changeName, setChangeName] = useState({state: false, newName: ''});
     const [error, setError] = useState(null);
 
@@ -58,7 +58,7 @@ const UserProfile = () => {
             clearUserInfo();
             navigate('/signin');
         } catch (err) {
-            setError(t("This name is already taken"));
+            setError(t("This name is already taken",err));
         }
     };
 

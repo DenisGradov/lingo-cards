@@ -4,7 +4,6 @@ import { countries } from '../constants/mainConstants.js';
 
 const countryCodes = Object.keys(countries);
 
-// Function to get the next language from the list
 const getNextLanguage = (currentCode) => {
     const currentIndex = countryCodes.indexOf(currentCode);
     const nextIndex = (currentIndex + 1) % countryCodes.length;
@@ -18,7 +17,7 @@ const useUserInfo = create(
                 selectedLanguage: 'ua',
                 userName: '',
                 userEmail: '',
-                isAuthenticated: null, // Новый флаг для аутентификации
+                isAuthenticated: null,
 
                 changeLanguage: () => {
                     const newLanguageCode = getNextLanguage(get().selectedLanguage);
@@ -28,22 +27,22 @@ const useUserInfo = create(
 
                 setUserName: (name) => set({ userName: name }),
                 setUserEmail: (email) => set({ userEmail: email }),
-                setIsAuthenticated: (isAuth) => set({ isAuthenticated: isAuth }),  // Установка аутентификации
+                setIsAuthenticated: (isAuth) => set({ isAuthenticated: isAuth }),
 
                 clearUserInfo: () => {
                     set({
                         userName: '',
                         userEmail: '',
-                        isAuthenticated: false, // Сбрасываем аутентификацию
+                        isAuthenticated: false,
                     });
                 }
 
             }),
             {
-                name: 'user-info-store', // имя для хранения в localStorage
+                name: 'user-info-store',
             }
         ),
-        { name: 'UserInfoStore' } // имя для отображения в DevTools
+        { name: 'UserInfoStore' }
     )
 );
 

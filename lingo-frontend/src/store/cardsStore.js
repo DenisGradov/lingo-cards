@@ -5,7 +5,6 @@ const useCardStore = create(
     devtools(
         persist(
             (set) => ({
-                // Example action to update 'teach'
                 setTeach: (value) => set({ teach: value }),
             }),
             {

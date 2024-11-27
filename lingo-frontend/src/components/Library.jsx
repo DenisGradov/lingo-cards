@@ -106,7 +106,6 @@ const Library = () => {
                   className="absolute top-4 right-4 text-2xl text-gray-600 dark:text-gray-300 cursor-pointer"
               />
               <h2 className="text-2xl font-semibold mb-4">
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
                 {t("Words in")} "{playlists.find((p) => p.id === openPlaylistInfo.id)?.name}"
               </h2>
               <ul className="h-full max-h-[50vh] overflow-y-auto">

@@ -1,8 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { RiArrowLeftLine } from 'react-icons/ri';
 import useWordsStore from '../store/wordsStore.js';
 import { reviewStages } from '../constants/reviewStages.js';
 import {useTranslation} from "react-i18next";
+
+import PropTypes from 'prop-types';
+
+Learn.propTypes = {
+    setIsLearn: PropTypes.func.isRequired,
+};
+
 
 const Learn = ({ setIsLearn }) => {
     const { words, updateWordStage } = useWordsStore(); // Функция updateWordStage синхронизирует изменения с бэкендом
@@ -34,14 +41,12 @@ const Learn = ({ setIsLearn }) => {
     };
 
     const handleNextWord = async (learned) => {
-        setIsFlipped(false); // Сброс состояния переворота сразу
+        setIsFlipped(false);
 
-        // Добавляем задержку, чтобы сброс анимации применился
         setTimeout(async () => {
             const updatedPlaylist = [...localPlaylist];
             const wordIndex = currentIndex % updatedPlaylist.length;
             const word = updatedPlaylist[wordIndex];
-            const currentStage = reviewStages[word.review_stage] || reviewStages[0];
             let adjustedStage = word.review_stage;
 
             if (learned) {
@@ -67,7 +72,7 @@ const Learn = ({ setIsLearn }) => {
             setCurrentIndex((prevIndex) => prevIndex % updatedPlaylist.length);
 
             console.log('Updated localPlaylist:', updatedPlaylist);
-        }, 300); // Устанавливаем паузу в 300 мс для завершения анимации
+        }, 300);
     };
 
 
@@ -88,7 +93,6 @@ const Learn = ({ setIsLearn }) => {
             </div>
 
             <div className="relative w-[300px] h-[400px] perspective-1000">
-                {/* Фоновые карточки */}
                 {visibleCards.length > 1 && (
                     <div className="absolute top-0 left-0 w-full h-full bg-gray-200 transform rotate-6 z-0 rounded-lg"></div>
                 )}
@@ -96,22 +100,18 @@ const Learn = ({ setIsLearn }) => {
                     <div className="absolute top-0 left-0 w-full h-full bg-gray-100 transform -rotate-6 z-0 rounded-lg"></div>
                 )}
 
-                {/* Основная карточка */}
                 <div
                     className={`card-container ${isFlipped ? 'flipped' : ''} z-10`}
                     onClick={handleFlip}
                 >
-                    {/* Передняя сторона */}
                     <div className="card front flex justify-center items-center bg-white text-black text-2xl font-semibold rounded-lg shadow-lg cursor-pointer">
                         <h3>{mode === 'original' ? visibleCards[0].word : visibleCards[0].translation}</h3>
                     </div>
-                    {/* Задняя сторона */}
                     <div className="card back flex justify-center items-center bg-white text-black text-2xl font-semibold rounded-lg shadow-lg cursor-pointer">
                         <h3>{mode === 'original' ? visibleCards[0].translation : visibleCards[0].word}</h3>
                     </div>
                 </div>
 
-                {/* Кнопки "Знал" и "Не знал" */}
                 <div className="flex justify-between w-full mt-6">
                     <button
                         onClick={() => handleNextWord(false)}

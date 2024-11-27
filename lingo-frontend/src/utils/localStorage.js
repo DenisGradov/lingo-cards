@@ -8,7 +8,7 @@ export const getItem = (key, defaultValue) => {
             return defaultValue;
         }
     }
-    return defaultValue;  // Если localStorage недоступен, возвращаем значение по умолчанию
+    return defaultValue;
 };
 
 export const setItem = (key, value) => {

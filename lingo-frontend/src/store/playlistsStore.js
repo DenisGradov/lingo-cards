@@ -1,4 +1,3 @@
-// playlistsStore.js
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import {createPlaylist, deletePlaylistById, getAllPlaylists, openPlaylist} from '../api/playlists';
@@ -8,7 +7,7 @@ const usePlaylistsStore = create(
         persist(
             (set) => ({
                 playlists: [],
-                isLoading: false,  // Добавляем состояние загрузки
+                isLoading: false,
                 clearPlaylists: () => set({ playlists: [] }),
 
                 setPlaylists: async () => {
@@ -17,7 +16,7 @@ const usePlaylistsStore = create(
                         const playlists = await getAllPlaylists();
                         set({ playlists });
                     } catch (error) {
-                        console.error('Ошибка при получении плейлистов:', error);
+                        console.error('помилка', error);
                     } finally {
                         set({ isLoading: false });
                     }
@@ -30,7 +29,7 @@ const usePlaylistsStore = create(
                             playlists: [...state.playlists, newPlaylist],
                         }));
                     } catch (error) {
-                        console.error('Ошибка при добавлении плейлиста:', error);
+                        console.error('помилка', error);
                     }
                 },
 
@@ -41,7 +40,7 @@ const usePlaylistsStore = create(
                             playlists: state.playlists.filter((playlist) => playlist.id !== id),
                         }));
                     } catch (error) {
-                        console.error('Ошибка при удалении плейлиста:', error);
+                        console.error('помилка', error);
                     }
                 },
 
@@ -54,7 +53,7 @@ const usePlaylistsStore = create(
                             ),
                         }));
                     } catch (error) {
-                        console.error('Ошибка при открытии плейлиста:', error);
+                        console.error('помилка', error);
                     }
                 },
             }),

@@ -1,6 +1,5 @@
-// Запрос для добавления нового слова
+
 import useWordsStore from "../store/wordsStore.js";
-import usePlaylistsStore from "../store/playlistsStore.js";
 
 
 
@@ -22,13 +21,12 @@ export const addWord = async (wordData) => {
             throw new Error(data.error || 'Failed to add word');
         }
     } catch (error) {
-        console.error('Ошибка при добавлении слова:', error);
+        console.error('помилка', error);
     }
 };
 
 
 
-// Запрос для получения всех слов
 export const getAllWords = async () => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words`, {
@@ -37,19 +35,18 @@ export const getAllWords = async () => {
 
         const data = await response.json();
         if (response.ok) {
-            return data; // Возвращаем данные
+            return data;
         } else {
             throw new Error(data.error || 'Failed to fetch words');
         }
     } catch (error) {
-        console.error('Ошибка при получении слов:', error);
-        throw error; // Выбрасываем ошибку для обработки в месте вызова
+        console.error('помилка', error);
+        throw error;
     }
 };
 
 
 
-// Запрос для удаления слова по ID и получения обновленных данных
 export const deleteWord = async (wordId) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/${wordId}`, {
@@ -61,27 +58,27 @@ export const deleteWord = async (wordId) => {
         });
         const data = await response.json();
         if (response.ok) {
-            return data;  // Возвращаем обновленный список слов и плейлистов
+            return data;
         } else {
             throw new Error(data.error || 'Failed to delete word');
         }
     } catch (error) {
-        console.error('Ошибка при удалении слова:', error);
+        console.error('помилка', error);
         throw error;
     }
 };
 
 
 
-// Функция для поиска слова по слову и возврата его ID, если найдено
+
 export const findWord = (searchWord) => {
-    const words = useWordsStore.getState().words;  // Получаем слова из состояния
-    const foundWord = words.find((word) => word.word === searchWord);  // Ищем слово
+    const words = useWordsStore.getState().words;
+    const foundWord = words.find((word) => word.word === searchWord);
 
     if (foundWord) {
-        return foundWord.id;  // Возвращаем id первого найденного слова
+        return foundWord.id;
     } else {
-        return false;  // Если слово не найдено
+        return false;
     }
 };
 
@@ -103,13 +100,12 @@ export const editWordApi = async (wordId, wordData) => {
             throw new Error(data.error || 'Failed to edit word');
         }
     } catch (error) {
-        console.error('Ошибка при редактировании слова:', error);
+        console.error('помилка', error);
     }
 };
 
 
 
-// Обновляем стадию и время появления для слова
 export const updateWordStage = async (wordId, stage, nextReviewTime) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/words/stage/${wordId}`, {
@@ -125,6 +121,6 @@ export const updateWordStage = async (wordId, stage, nextReviewTime) => {
             throw new Error('Failed to update word stage');
         }
     } catch (error) {
-        console.error('Ошибка при обновлении стадии слова:', error);
+        console.error('помилка', error);
     }
 };

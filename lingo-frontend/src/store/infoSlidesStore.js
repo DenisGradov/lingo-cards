@@ -8,7 +8,7 @@ const useInfoSlidesStore = create(
         isOpen: false,
         currentSlide: 0,
         slides: [],
-        isViewed: false, // Додаємо стан перегляду слайдів
+        isViewed: false,
 
         openSlides: (slides) =>
           set({ isOpen: true, slides, currentSlide: 0, isViewed: false }),
@@ -24,7 +24,7 @@ const useInfoSlidesStore = create(
           })),
 
         completeSlides: () =>
-          set({ isOpen: false, currentSlide: 0, isViewed: true }), // Позначаємо слайди як переглянуті
+          set({ isOpen: false, currentSlide: 0, isViewed: true }),
       }),
       {
         name: 'info-slides-store',

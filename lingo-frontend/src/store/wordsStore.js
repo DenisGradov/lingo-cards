@@ -1,4 +1,3 @@
-// wordsStore.js (frontend)
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import {addWord as addWordApi, deleteWord, editWordApi, getAllWords} from '../api/words';
@@ -8,7 +7,7 @@ const useWordsStore = create(
     devtools(
         persist(
             (set) => ({
-                words: [],  // Список всех слов
+                words: [],
                 clearWords: () => set({ words: [] }),
 
                 setWords: async () => {
@@ -24,7 +23,7 @@ const useWordsStore = create(
                 },
                 addWord: async (word) => {
                     try {
-                        const response = await addWordApi(word); // добавление слова и получение актуального списка
+                        const response = await addWordApi(word);
                         if (response && response.words && response.playlists) {
                             set({ words: response.words });
                             usePlaylistsStore.getState().setPlaylists(response.playlists);
@@ -36,7 +35,6 @@ const useWordsStore = create(
                     }
                 },
 
-                // Удаление слова по id
                 deleteWord: async (wordId) => {
                     try {
                         const response = await deleteWord(wordId);
@@ -44,10 +42,10 @@ const useWordsStore = create(
                             set({ words: response.words });
                             usePlaylistsStore.getState().setPlaylists(response.playlists);
                         } else {
-                            console.error('Ответ от API не содержит обновленных списков слов и плейлистов.');
+                            console.error('помилка');
                         }
                     } catch (error) {
-                        console.error('Ошибка при удалении слова:', error);
+                        console.error('помилка', error);
                     }
                 },
 
@@ -59,30 +57,28 @@ const useWordsStore = create(
                             usePlaylistsStore.getState().setPlaylists(response.playlists);
                             return response;
                         } else {
-                            console.error('Ответ от API не содержит обновленных списков слов и плейлистов.');
+                            console.error('помилка');
                         }
                     } catch (error) {
-                        console.error('Ошибка при редактировании слова:', error);
+                        console.error('помилка', error);
                     }
                 },
 
 
 
-                // Функция для обновления стадии слова локально и отправки на сервер
                 updateWordStage: async (wordId, stage, nextReviewTime) => {
                     set((state) => ({
                         words: state.words.map((word) =>
                             word.id === wordId ? { ...word, review_stage: stage, next_review_time: nextReviewTime } : word
                         ),
                     }));
-                    // Отправляем обновление на бэкенд
                     await updateWordStageApi(wordId, stage, nextReviewTime);
                 },
 
 
             }),
             {
-                name: 'words-store', // хранилище в localStorage
+                name: 'words-store',
             }
         ),
         { name: 'WordsStore' }

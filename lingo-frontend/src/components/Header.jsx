@@ -1,5 +1,3 @@
-// Header.jsx
-import React from "react";
 import { RiNotification2Line, RiQuestionMark } from "react-icons/ri";
 import useUserInfo from "../store/userInfo.js";
 import useInfoSlidesStore from "../store/infoSlidesStore.js";
