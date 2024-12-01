@@ -34,7 +34,7 @@ const Modal = () => {
     const { t } = useTranslation();
 
     const playlists = usePlaylistsStore((state) => state.playlists);
-    const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);  // Обновляем плейлисты при изменениях
+    const setPlaylists = usePlaylistsStore((state) => state.setPlaylists);
     const addPlaylist = usePlaylistsStore((state) => state.addPlaylist);
     const addWord = useWordsStore((state) => state.addWord);
     const editWord = useWordsStore((state) => state.editWord);
@@ -43,15 +43,15 @@ const Modal = () => {
     useEffect(() => {
         if (contentType === 'editWord' && selectedWord) {
             setWordInfo({ word: selectedWord.word, translation: selectedWord.translation });
-            setSelectedPlaylist(selectedWord.playlist_id ?? null); // Если null или undefined, не выделяем плейлист
+            setSelectedPlaylist(selectedWord.playlist_id ?? null);
         }
     }, [contentType, selectedWord]);
-
     useEffect(() => {
-        if (isOpen && playlists.length === 0) {
+        if (isOpen && playlists.length === 0 && (contentType === 'word' || contentType === 'editWord' || contentType === 'playlist')) {
             setPlaylists();
         }
-    }, [setPlaylists]);
+    }, [isOpen, playlists.length, setPlaylists, contentType]);
+
     if (!isOpen) return null;
     const handleChange = (e) => {
         const { name, value } = e.target;

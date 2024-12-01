@@ -88,7 +88,7 @@ const SignUp = () => {
 
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
-            <form className="mt-[30px] flex flex-col" onSubmit={handleSubmit}>
+            <form className="big:mt-[120px] mt-[20px] flex flex-col" onSubmit={handleSubmit}>
                 <span className="text-[#9194C3] text-[14px] font-semibold">{t("Login")}</span>
                 <input
                     className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] py-[12px] bg-transparent border-b-2 
@@ -129,7 +129,7 @@ const SignUp = () => {
                     </div>
                 </div>
 
-                <div className="mt-[120px] flex flex-col items-center">
+                <div className="big:mt-[120px] mt-[20px] flex flex-col items-center">
                     <button
                         type="submit"
                         className="duration-300 hover:opacity-60 cursor-pointer bg-[#936dff] text-[#F3F7FF] text-[14px] font-bold py-[20px] rounded-2xl w-full flex justify-center"
