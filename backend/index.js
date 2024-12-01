@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initDatabase } from './db/database.js';
-import { handleRoutes } from './routes/index.js'; // Импорт маршрутов
+import { handleRoutes } from './routes/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,10 +14,8 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [];
 
-// Initialize the database
 initDatabase();
 
-// Utility function for handling CORS preflight
 function handleCorsPreflight(res, origin) {
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -39,7 +37,6 @@ function handleCorsPreflight(res, origin) {
   res.end();
 }
 
-// Utility function for handling CORS headers
 function handleCorsHeaders(res, origin) {
   if (allowedOrigins.includes(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin);
@@ -54,27 +51,22 @@ function handleCorsHeaders(res, origin) {
   return true;
 }
 
-// Create HTTP server
 const server = http.createServer((req, res) => {
   const origin = req.headers.origin;
   const method = req.method;
 
-  // Handle CORS preflight requests
   if (method === 'OPTIONS') {
     handleCorsPreflight(res, origin);
     return;
   }
 
-  // Handle CORS headers
   if (!handleCorsHeaders(res, origin)) {
     return;
   }
 
-  // Routing based on the path and method
-  handleRoutes(req, res); // Все маршруты теперь через handleRoutes
+  handleRoutes(req, res);
 });
 
-// Start the server
 server.listen(PORT, () => {
   console.log(`Backend server is running on port ${PORT}`);
 });

@@ -3,9 +3,8 @@ import wordsRoutes from './words.js';
 import playlistsRoutes from './playlists.js';
 
 export function handleRoutes(req, res) {
-  const pathName = req.url.split('?')[0]; // Без query параметров
+  const pathName = req.url.split('?')[0];
 
-  // Передача маршрутов в зависимости от пути
   if (pathName.startsWith('/users')) {
     return usersRoutes(req, res);
   } else if (pathName.startsWith('/words')) {

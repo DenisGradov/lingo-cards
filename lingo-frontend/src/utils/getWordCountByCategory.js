@@ -13,7 +13,6 @@ export function getWordCountByCategory(words) {
         if (word.next_review_time === 0 || word.next_review_time <= now) {
             counts.teach += 1;
         } else if (word.review_stage < I_KNOW_STAGE) {
-            console.log('ss',word.review_stage)
             counts.iKnow += 1;
         } else {
             counts.learned += 1;

@@ -2,7 +2,6 @@ import sqlite3 from 'sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-// Получаем __dirname в ES6 модуле
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,11 +13,10 @@ const db = new sqlite.Database(dbFile, (err) => {
     console.error('Could not connect to database', err);
   } else {
     console.log('Connected to SQLite database');
-    initDatabase(); // Важно, чтобы эта функция вызвалась при подключении
+    initDatabase();
   }
 });
 
-// Получение слов по user_id
 export function getWordsByUserId(userId) {
   return new Promise((resolve, reject) => {
     db.all('SELECT * FROM words WHERE user_id = ?', [userId], (err, rows) => {
@@ -31,7 +29,6 @@ export function getWordsByUserId(userId) {
   });
 }
 
-// Получение плейлистов по user_id
 export function getPlaylistsByUserId(userId) {
   return new Promise((resolve, reject) => {
     db.all(
@@ -50,7 +47,6 @@ export function getPlaylistsByUserId(userId) {
 
 export function initDatabase() {
   db.serialize(() => {
-    // Users table
     db.run(`CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             login TEXT UNIQUE,
@@ -58,7 +54,6 @@ export function initDatabase() {
             password TEXT
         )`);
 
-    // Words table
     db.run(`CREATE TABLE IF NOT EXISTS words (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             word TEXT,
@@ -71,7 +66,6 @@ export function initDatabase() {
             FOREIGN KEY (user_id) REFERENCES users(id)
         )`);
 
-    // Playlists table
     db.run(`CREATE TABLE IF NOT EXISTS playlists (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT,

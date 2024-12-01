@@ -1,8 +1,5 @@
-// playlistModel.js
+ import { db } from './database.js';
 
-import { db } from './database.js';
-
-// Функция для получения всех плейлистов пользователя по ID пользователя
 export const getPlaylistsByUserId = (userId) => {
   return new Promise((resolve, reject) => {
     db.all(
@@ -19,7 +16,6 @@ export const getPlaylistsByUserId = (userId) => {
   });
 };
 
-// Функция для получения плейлиста по ID
 export const getPlaylistById = (playlistId) => {
   return new Promise((resolve, reject) => {
     db.get('SELECT * FROM playlists WHERE id = ?', [playlistId], (err, row) => {
@@ -32,7 +28,6 @@ export const getPlaylistById = (playlistId) => {
   });
 };
 
-// Функция для добавления нового плейлиста
 export const addPlaylist = ({ name, description, user_id, language_code }) => {
   return new Promise((resolve, reject) => {
     db.run(
@@ -57,7 +52,6 @@ export const addPlaylist = ({ name, description, user_id, language_code }) => {
   });
 };
 
-// Функция для удаления плейлиста по ID
 export const deletePlaylistById = (playlistId, userId) => {
   return new Promise((resolve, reject) => {
     db.run(
@@ -74,10 +68,9 @@ export const deletePlaylistById = (playlistId, userId) => {
   });
 };
 
-// Обновление времени последнего открытия плейлиста
 export const updatePlaylistOpenTime = (playlistId) => {
   return new Promise((resolve, reject) => {
-    const currentTime = Date.now(); // Текущее время в миллисекундах
+    const currentTime = Date.now();
     db.run(
       'UPDATE playlists SET last_open_time = ? WHERE id = ?',
       [currentTime, playlistId],

@@ -4,12 +4,6 @@ import useWordsStore from '../store/wordsStore.js';
 import { reviewStages } from '../constants/reviewStages.js';
 import {useTranslation} from "react-i18next";
 
-import PropTypes from 'prop-types';
-
-Learn.propTypes = {
-    setIsLearn: PropTypes.func.isRequired,
-};
-
 
 const Learn = ({ setIsLearn }) => {
     const { words, updateWordStage } = useWordsStore(); // Функция updateWordStage синхронизирует изменения с бэкендом
@@ -92,7 +86,7 @@ const Learn = ({ setIsLearn }) => {
                 />
             </div>
 
-            <div className="relative w-[300px] h-[400px] perspective-1000">
+            <div className="relative w-[300px] small:h-[250px] h-[400px] perspective-1000">
                 {visibleCards.length > 1 && (
                     <div className="absolute top-0 left-0 w-full h-full bg-gray-200 transform rotate-6 z-0 rounded-lg"></div>
                 )}

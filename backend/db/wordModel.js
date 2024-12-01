@@ -1,7 +1,5 @@
-// wordModel.js
-import { db } from './database.js';
+ import { db } from './database.js';
 
-// Увеличивает количество слов в указанном плейлисте
 function incrementWordCount(playlistId) {
   return new Promise((resolve, reject) => {
     const query =
@@ -13,7 +11,6 @@ function incrementWordCount(playlistId) {
   });
 }
 
-// Уменьшает количество слов в указанном плейлисте
 function decrementWordCount(playlistId) {
   return new Promise((resolve, reject) => {
     const query =
@@ -25,7 +22,6 @@ function decrementWordCount(playlistId) {
   });
 }
 
-// Получение слов по user_id
 function getWordsByUserId(userId) {
   return new Promise((resolve, reject) => {
     db.all('SELECT * FROM words WHERE user_id = ?', [userId], (err, rows) => {
@@ -35,7 +31,6 @@ function getWordsByUserId(userId) {
   });
 }
 
-// Добавление нового слова и обновление счетчика в плейлисте
 function addWord(wordData) {
   const {
     word,
@@ -44,7 +39,6 @@ function addWord(wordData) {
     user_id,
     playlist_id = null,
   } = wordData;
-  console.log(wordData);
   return new Promise((resolve, reject) => {
     db.run(
       'INSERT INTO words (word, translation, next_review_time, user_id, playlist_id) VALUES (?, ?, ?, ?, ?)',
@@ -72,7 +66,6 @@ function addWord(wordData) {
   });
 }
 
-// Удаление слова по его ID и обновление счетчика плейлиста
 function deleteWordById(wordId, userId) {
   return new Promise((resolve, reject) => {
     db.get(
@@ -96,7 +89,6 @@ function deleteWordById(wordId, userId) {
   });
 }
 
-// Обновление слова по ID и изменение привязки к плейлисту с обновлением счетчиков
 function updateWordById(wordId, updatedWordData) {
   const { word, translation, user_id, playlistId } = updatedWordData;
 
@@ -116,8 +108,6 @@ function updateWordById(wordId, updatedWordData) {
               if (updateErr) reject(updateErr);
               else {
                 try {
-                  // Обновляем счетчики плейлистов, если плейлист изменился
-                  console.log(oldPlaylistId, playlistId);
                   if (oldPlaylistId !== playlistId) {
                     if (oldPlaylistId) await decrementWordCount(oldPlaylistId);
                     if (playlistId) await incrementWordCount(playlistId);
@@ -135,7 +125,6 @@ function updateWordById(wordId, updatedWordData) {
   });
 }
 
-// Обновляем стадию и время для слова
 const updateWordStage = async (wordId, stage, nextReviewTime) => {
   const query =
     'UPDATE words SET review_stage = ?, next_review_time = ? WHERE id = ?';

@@ -1,24 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
-import PropTypes from 'prop-types';
-
-InfoSlides.propTypes = {
-  slides: PropTypes.shape({
-    slides: PropTypes.arrayOf(
-        PropTypes.shape({
-          title: PropTypes.string,
-          image: PropTypes.string,
-          description: PropTypes.string,
-        })
-    ).isRequired,
-  }).isRequired,
-  currentSlide: PropTypes.number.isRequired,
-  onNext: PropTypes.func.isRequired,
-  onPrevious: PropTypes.func.isRequired,
-  completeSlides: PropTypes.func.isRequired,
-};
-
 
 const InfoSlides = ({
   slides,

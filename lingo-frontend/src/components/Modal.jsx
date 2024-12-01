@@ -94,7 +94,6 @@ const Modal = () => {
                 closeModal();
             } else if (contentType === 'word') {
                 const response = await addWord({ ...wordInfo, next_review_time: 0, playlistId: selectedPlaylist });
-                console.log(response)
                 updatedPlaylists = response.playlists;
                 setWordInfo({ word: '', translation: '' });
                 if (!multiAdd) closeModal();
