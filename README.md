@@ -44,3 +44,44 @@ Or via docker-compose:
 ``` 
 docker-compose up -d --build 
 ```
+### Лабораторна №2: Налаштування проєкту та інструментів розробки
+
+#### Виконані завдання:
+1. **Налаштування Prettier** для автоматичного форматування коду:
+   - Додано конфігураційні файли: 
+     - [backend/.prettierrc](./backend/.prettierrc)
+     - [lingo-frontend/.prettierrc](./lingo-frontend/.prettierrc)
+   - Додано ігнорування певних файлів і папок у:
+     - [backend/.prettierignore](./backend/.prettierignore)
+     - [lingo-frontend/.prettierignore](./lingo-frontend/.prettierignore)
+   - Додано команду для запуску форматування в `package.json`:
+     ```bash
+     npm run format
+     ```
+
+2. **Налаштування ESLint** для статичного аналізу коду:
+   - Додано конфігураційні файли:
+     - [backend/eslint.config.js](./backend/eslint.config.js)
+     - [lingo-frontend/eslint.config.js](./lingo-frontend/eslint.config.js)
+   - Додано команду для перевірки коду в `package.json`:
+     ```bash
+     npm run lint
+     ```
+
+3. **Налаштування Git-хуків за допомогою Husky**:
+   - Ініціалізовано Husky:
+     - [backend/.husky/pre-commit](./backend/.husky/pre-commit)
+     - [lingo-frontend/.husky/pre-commit](./lingo-frontend/.husky/pre-commit)
+   - Додано хук `pre-commit`, який запускає автоматичну перевірку коду (ESLint) та форматування (Prettier) перед кожним комітом.
+
+4. **Перевірка збірки та роботи середовища розробки**:
+   - Виконано запуск серверної частини:
+     ```bash
+     cd backend
+     npm run dev
+     ```
+   - Виконано запуск клієнтської частини:
+     ```bash
+     cd lingo-frontend
+     npm run dev
+     ```

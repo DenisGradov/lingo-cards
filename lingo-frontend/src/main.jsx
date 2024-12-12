@@ -1,11 +1,11 @@
-import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
-import Modal from "./components/Modal";
-import useModalStore from "./store/modalStore";
-import { useEffect, useMemo } from "react";
+import { createRoot } from 'react-dom/client';
+import App from './App.jsx';
+import Modal from './components/Modal';
+import useModalStore from './store/modalStore';
+import { useEffect, useMemo } from 'react';
 
-import InfoSlides from "./components/InfoSlides.jsx";
-import useInfoSlidesStore from "./store/infoSlidesStore.js";
+import InfoSlides from './components/InfoSlides.jsx';
+import useInfoSlidesStore from './store/infoSlidesStore.js';
 
 function Main() {
   const isModalOpen = useModalStore((state) => state.isOpen);
@@ -26,7 +26,7 @@ function Main() {
       hasCloseIcon: useModalStore.getState().hasCloseIcon,
       buttons: useModalStore.getState().buttons,
     }),
-    [isModalOpen]
+    [isModalOpen],
   );
 
   useEffect(() => {
@@ -59,4 +59,4 @@ function Main() {
   );
 }
 
-createRoot(document.getElementById("root")).render(<Main />);
+createRoot(document.getElementById('root')).render(<Main />);

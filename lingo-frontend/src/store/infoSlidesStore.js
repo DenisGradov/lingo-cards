@@ -28,10 +28,10 @@ const useInfoSlidesStore = create(
       }),
       {
         name: 'info-slides-store',
-      }
+      },
     ),
-    { name: 'info-slides-store' }
-  )
+    { name: 'info-slides-store' },
+  ),
 );
 
 export default useInfoSlidesStore;
