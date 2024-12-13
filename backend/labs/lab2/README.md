@@ -1,8 +1,10 @@
 ### Лабораторна №2: Налаштування проєкту та інструментів розробки
 
 #### Виконані завдання:
+
 1. **Налаштування Prettier** для автоматичного форматування коду:
-   - Додано конфігураційні файли: 
+
+   - Додано конфігураційні файли:
      - [../.prettierrc](../.prettierrc) (backend)
      - [../../lingo-frontend/.prettierrc](../../lingo-frontend/.prettierrc) (frontend)
    - Додано ігнорування певних файлів і папок у:
@@ -14,6 +16,7 @@
      ```
 
 2. **Налаштування ESLint** для статичного аналізу коду:
+
    - Додано конфігураційні файли:
      - [../eslint.config.js](../eslint.config.js) (backend)
      - [../../lingo-frontend/eslint.config.js](../../lingo-frontend/eslint.config.js) (frontend)
@@ -23,6 +26,7 @@
      ```
 
 3. **Налаштування Git-хуків за допомогою Husky**:
+
    - Ініціалізовано Husky:
      - [../.husky/pre-commit](../.husky/pre-commit) (backend)
      - [../../lingo-frontend/.husky/pre-commit](../../lingo-frontend/.husky/pre-commit) (frontend)
