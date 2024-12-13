@@ -70,19 +70,25 @@
 
 1. **Реєстрація та авторизація**:
    - **Реєстрація**: Додає нового користувача до таблиці `users`. Пароль хешується перед збереженням.
+     - [Код: usersRoutes → handleRegister](../../backend/routes/users.js#L6)
    - **Авторизація**: Після успішної перевірки логіна та пароля видає токен авторизації.
+     - [Код: usersRoutes → handleLogin](../../backend/routes/users.js#L52)
 
 2. **Робота з плейлистами**:
    - Додавання нового плейлиста додає запис до таблиці `playlists` і автоматично прив’язує його до користувача.
+     - [Код: playlistsRoutes → handleAddPlaylist](../../backend/routes/playlists.js#L10)
    - Видалення плейлиста видаляє відповідний запис із таблиці `playlists`.
+     - [Код: playlistsRoutes → handleDeletePlaylist](../../backend/routes/playlists.js#L31)
 
 3. **Робота зі словами**:
    - Додавання нового слова додає запис до таблиці `words` і пов’язує його з користувачем та плейлистом (якщо вказано).
+     - [Код: wordsRoutes → handleAddWord](../../backend/routes/words.js#L10)
    - Оновлення етапу навчання змінює поля `review_stage` і `next_review_time` у таблиці `words`.
+     - [Код: wordsRoutes → handleUpdateWordStage](../../backend/routes/words.js#L46)
 
 4. **Отримання даних для клієнта**:
    - Дані про користувача, плейлисти та слова агрегуються для передачі на Frontend.
-   - Використовуються зв’язки між таблицями (`JOIN` у запитах) для отримання потрібної інформації.
+     - [Код: usersRoutes → handleCheckAuth](../../backend/routes/users.js#L82)
 
 ---
 
