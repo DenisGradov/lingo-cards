@@ -4,8 +4,8 @@
 
 1. **Реалізовано використання статичних даних на Backend**:
    - Додано mock-дані для роботи з плейлистами у файлі:
-     - [backend/mockData.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/mockData.js)
-   - Оновлено маршрути для роботи з плейлистами у файлі:
+     - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js)
+   - Створено маршрути для роботи з плейлистами у файлі:
      - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js)
    - Реалізовано основні сценарії роботи з плейлистами:
      - **Отримання всіх плейлистів**: 
@@ -20,7 +20,7 @@
        [Код: handleOpenPlaylist](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L52)
 
 2. **Інтеграція Frontend із Backend**:
-   - Оновлено API для роботи з плейлистами у файлі:
+   - Створено API для роботи з плейлистами у файлі:
      - [lingo-frontend/api/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/lingo-frontend/api/playlists.js)
    - Реалізовано основні функції:
      - Отримання всіх плейлистів із mock-даних.
@@ -28,8 +28,8 @@
      - Видалення плейлиста через API.
      - Оновлення часу відкриття плейлиста через API.
 
-3. **Оновлено компонент Library для роботи з mock-даними**:
-   - Оновлено логіку у файлі:
+3. **Створено компонент Library для роботи з mock-даними**:
+   - Описано логіку у файлі:
      - [lingo-frontend/components/Library.jsx](https://github.com/DenisGradov/lingo-cards/blob/lab4/lingo-frontend/components/Library.jsx)
    - Додано функції для роботи з API:
      - Отримання плейлистів та їх відображення.
