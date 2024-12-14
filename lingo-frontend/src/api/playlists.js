@@ -1,4 +1,4 @@
-// API для работы с mock-данными (плейлисты)
+// API для роботи з mock-даними
 
 export const getAllPlaylists = async () => {
     try {
@@ -26,7 +26,7 @@ export const getAllPlaylists = async () => {
   
       const data = await response.json();
       if (response.ok) {
-        return data; // Возвращаем данные конкретного плейлиста
+        return data; 
       } else {
         throw new Error(data.error || 'Failed to fetch playlist');
       }
@@ -44,13 +44,12 @@ export const getAllPlaylists = async () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(playlistData), // Данные нового плейлиста
+        body: JSON.stringify(playlistData), 
       });
   
       const data = await response.json();
       if (response.ok) {
-        return data; // Возвращаем созданный плейлист
-      } else {
+        return data;
         throw new Error(data.error || 'Failed to create playlist');
       }
     } catch (error) {
@@ -67,7 +66,7 @@ export const getAllPlaylists = async () => {
       });
   
       if (response.ok) {
-        return true; // Удаление прошло успешно
+        return true;
       } else {
         throw new Error('Failed to delete playlist');
       }
@@ -86,7 +85,7 @@ export const getAllPlaylists = async () => {
   
       const data = await response.json();
       if (response.ok) {
-        return data; // Возвращаем обновлённые данные плейлиста
+        return data;
       } else {
         throw new Error(data.error || 'Failed to open playlist');
       }
