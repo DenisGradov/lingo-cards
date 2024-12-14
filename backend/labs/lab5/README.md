@@ -29,12 +29,12 @@
      - **PUT /playlists/open/:id**: [Оновлення часу відкриття плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/backend/routes/playlists.js#L58-L71).
 
 4. **Інтеграція Backend із Frontend:**
-   - На Frontend реалізовано API для взаємодії з Backend через файл [frontend/api/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js).
-     - **getAllPlaylists**: [Отримання всіх плейлистів](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js#L1-L13).
-     - **getPlaylistById**: [Отримання конкретного плейлиста за `id`](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js#L15-L27).
-     - **createPlaylist**: [Створення нового плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js#L29-L42).
-     - **deletePlaylistById**: [Видалення плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js#L44-L54).
-     - **openPlaylist**: [Оновлення часу відкриття плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/api/playlists.js#L56-L66).
+   - На Frontend реалізовано API для взаємодії з Backend через файл [frontend/api/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js).
+     - **getAllPlaylists**: [Отримання всіх плейлистів](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js#L1-L13).
+     - **getPlaylistById**: [Отримання конкретного плейлиста за `id`](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js#L15-L27).
+     - **createPlaylist**: [Створення нового плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js#L29-L42).
+     - **deletePlaylistById**: [Видалення плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js#L44-L54).
+     - **openPlaylist**: [Оновлення часу відкриття плейлиста](https://github.com/DenisGradov/lingo-cards/blob/lab5/lingo-frontend/src/api/playlists.js#L56-L66).
 
 5. **Перевірка роботи інтеграції:**
    - Дані успішно зчитуються з бази даних і відображаються у компоненті `Library` на Frontend.
