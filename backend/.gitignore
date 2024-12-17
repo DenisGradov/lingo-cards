@@ -1,0 +1,17 @@
+node_modules
+npm-debug.log
+.env
+*.db
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.idea/
+node_modules/
+# stryker temp files
+.stryker-tmp
