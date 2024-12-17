@@ -40,13 +40,12 @@ async function handleDeletePlaylist(req, res, playlistId) {
 
 async function handleGetPlaylists(req, res) {
   const token = req.headers.cookie.split('token=')[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decoded.id;
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const userId = decoded.id;
 
-    const playlists = await getPlaylistsByUserId(userId);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(playlists));
-
+  const playlists = await getPlaylistsByUserId(userId);
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(JSON.stringify(playlists));
 }
 
 async function handleGetPlaylistById(req, res, playlistId) {
