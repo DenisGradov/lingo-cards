@@ -15,7 +15,7 @@
 **Обов'язкові функції та результати:**
 
 - Модуль: **`playlistModel.js`**
-- **Файл тестів:** [playlistModel.test.js](backend/db/__tests__/playlistModel.test.js)
+- **Файл тестів:** [playlistModel.test.js](../../db/__tests__/playlistModel.test.js)
 
 ### Перевірені функції:
 1. `addPlaylist` – додавання плейлиста.
@@ -36,7 +36,7 @@
 - **DELETE** `/playlists/:id` – видалення плейлиста.
 - **PUT** `/playlists/open/:id` – оновлення часу.
 
-### **Файл тестів:** [integration.test.js](backend/db/__tests__/integration.test.js)
+### **Файл тестів:** [integration.test.js](../../db/__tests__/integration.test.js)
 
 **Приклад запуску:**
 ```javascript
@@ -52,8 +52,8 @@ beforeAll(() => {
 **Інструмент**: **Cypress**
 
 ### **Конфігурація**:
-- [cypress.config.js](lingo-frontend/cypress.config.js)
-- **E2E-тести:** [playlists.cy.js](lingo-frontend/cypress/e2e/playlists.cy.js)
+- [cypress.config.js](../../../lingo-frontend/cypress.config.js)
+- **E2E-тести:** [playlists.cy.js](../../../lingo-frontend/cypress/e2e/playlists.cy.js)
 
 ### **Сценарії:**
 1. **Логін** та редірект.
@@ -79,7 +79,7 @@ beforeEach(() => {
 
 ### **Результат:**
 - **Mutation Score:** 76.40%
-- **HTML-звіт:** [mutation.html](backend/reports/mutation/mutation.html)
+- **HTML-звіт:** [mutation.html](../../reports/mutation/mutation.html)
 
 **Покриття:**
 - `playlistModel.js` – 90.54%
