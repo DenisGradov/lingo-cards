@@ -81,6 +81,8 @@ beforeEach(() => {
 - **Mutation Score:** 76.40%
 - **HTML-звіт:** [mutation.html](../../reports/mutation/mutation.html)
 
+![](mutation.png)
+
 **Покриття:**
 - `playlistModel.js` – 90.54%
 - `userModel.js` – 45.45%
