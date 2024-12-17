@@ -77,9 +77,17 @@ beforeEach(() => {
 
 **Інструмент**: **Stryker Mutator**
 
-### **Результат:**
-- **Mutation Score:** 76.40%
-- **HTML-звіт:** [mutation.html](../../reports/mutation/mutation.html)
+**Конфігурація Stryker**: [stryker.config.js](../../stryker.config.js)  
+**Лог результатів**: [stryker.log](../../stryker.log)
+
+**Результати мутаційного тестування**:
+- Загальний **Mutation Score**: 76.40%.
+- **Файли з найвищим покриттям**:
+  - playlistModel.js: 90.54%.
+  - database.js: 76.00%.
+- **Файли з низьким покриттям**:
+  - userModel.js: 45.45%.
+  - wordModel.js: 58.95%.
 
 ![](mutation.png)
 
