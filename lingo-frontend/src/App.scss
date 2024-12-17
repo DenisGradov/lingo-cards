@@ -11,19 +11,15 @@ $background-color: #282950;
 $default-padding: 1rem;
 $default-margin: 1rem;
 
-
-
 * {
- margin: 0;
- padding: 0;
- box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
- font-size: $base-font-size;
+  font-size: $base-font-size;
 }
-
-
 
 body {
   font-family: $font-family;
@@ -31,22 +27,27 @@ body {
   color: $text-color;
 }
 
-   h1, h2, h3, h4, h5, h6 {
-     font-weight: 500;
-   }
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
 
-   p {
-     margin-bottom: $default-margin;
-   }
+p {
+  margin-bottom: $default-margin;
+}
 
-   a {
-     color: inherit;
-     text-decoration: none;
+a {
+  color: inherit;
+  text-decoration: none;
 
-     &:hover {
-       text-decoration: underline;
-     }
-   }
+  &:hover {
+    text-decoration: underline;
+  }
+}
 
 /* Для веб-кита (Chrome, Safari и новые версии Edge) */
 ::-webkit-scrollbar {
@@ -89,32 +90,28 @@ body.dark * {
   scrollbar-color: #7c59e6 #1e1e1e; /* Цвет полосы прокрутки и трека в темном режиме */
 }
 
-.prev-small{
+.prev-small {
   @apply w-[148px] h-[156px] rounded-t-3xl rounded-b-2xl;
 }
-.prev-medium{
+.prev-medium {
   @apply w-[170px] h-[199px] rounded-t-3xl rounded-b-2xl;
 }
-.play-hover{
-  @apply  group-hover:bg-[#232544] group-hover:bg-opacity-40 group-hover:backdrop-blur-lg;
+.play-hover {
+  @apply group-hover:bg-[#232544] group-hover:bg-opacity-40 group-hover:backdrop-blur-lg;
 }
 
-.hide-scrollbar{
+.hide-scrollbar {
   @apply [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none];
 }
 
-.bg-gradient-dark{
-  @apply  from-[#333560]/75 to-[#333560]/75;
+.bg-gradient-dark {
+  @apply from-[#333560]/75 to-[#333560]/75;
 }
 
-.bg-gradient-dark-theme{
-  @apply  dark:from-[#333560]/75 dark:to-[#333560]/75;
+.bg-gradient-dark-theme {
+  @apply dark:from-[#333560]/75 dark:to-[#333560]/75;
 }
 
-.bg-gradient-light{
+.bg-gradient-light {
   @apply from-[#E1E2FE]/85 to-[#E1E2FE]/85;
 }
-
-
-
-
