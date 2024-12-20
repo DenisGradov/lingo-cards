@@ -1,0 +1,38 @@
+name: CD Pipeline
+
+on:
+  push:
+    branches: [lab7] 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # Перейти в директорию проекта
+            cd ~/lingo-cards
+            
+            # Переключиться на ветку lab7
+            git fetch origin
+            git checkout lab7
+            git pull origin lab7
+
+            # Установить зависимости и запустить backend
+            cd backend
+            npm install
+            pm2 restart backend || pm2 start index.js --name backend
+
+            # Установить зависимости и запустить frontend
+            cd ../lingo-frontend
+            npm install
+            pm2 restart frontend || pm2 start npm --name frontend -- run dev
