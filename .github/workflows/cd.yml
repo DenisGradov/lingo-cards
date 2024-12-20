@@ -1,8 +1,8 @@
-name: CD Pipeline
+name: CD Pipeline for lab7
 
 on:
   push:
-    branches: [lab7] 
+    branches: [lab7]
 
 jobs:
   deploy:
@@ -19,20 +19,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Перейти в директорию проекта
             cd ~/lingo-cards
-            
-            # Переключиться на ветку lab7
-            git fetch origin
+            git fetch origin lab7
             git checkout lab7
             git pull origin lab7
 
-            # Установить зависимости и запустить backend
             cd backend
             npm install
-            pm2 restart backend || pm2 start index.js --name backend
+            pm2 restart backend-lab7 || pm2 start index.js --name backend-lab7
 
-            # Установить зависимости и запустить frontend
             cd ../lingo-frontend
             npm install
-            pm2 restart frontend || pm2 start npm --name frontend -- run dev
+            pm2 restart frontend-lab7 || pm2 start npm --name frontend-lab7 -- run dev
