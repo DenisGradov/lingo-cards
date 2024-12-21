@@ -11,32 +11,101 @@
 
 ## 1. Налаштування CI
 
-**Ціль:** Автоматична перевірка комітів та Pull Request'ів на відповідність стилю коду, перевірка на помилки, тестування.
-
-### **Інструменти:**
-- **Prettier**: для перевірки стилю коду.
-- **ESLint**: для пошуку статичних помилок.
-- **CommitLint**: провірка стилю опису комітів (стиль Conventional Commits).
-- **GitHub Actions**: сервіс для CI.
-
-### **Налаштовані перевірки:**
-1. Форматування коду за допомогою Prettier.
-2. Лінтинг коду з використанням ESLint.
-3. Перевірка опису комітів за допомогою CommitLint.
-4. Переконання, що проект "збирається" без помилок.
-5. Виконання стаб-файлу тестів (успішно проходить завжди).
-
-### **Файл налаштування GitHub Actions:** [.github/workflows/ci.yml](https://github.com/ваш-репозиторій/.github/workflows/ci.yml)
-
-### **Результат:**
-- CI автоматично запускається для кожного Pull Request або коміту.
-- Pull Request не може бути змерджений, якщо хоча б одна перевірка не пройдена.
+**Ціль:** Забезпечення автоматичної перевірки якості коду та дотримання стилю як на локальному рівні, так і при створенні Pull Request'ів або комітів до гілки `lab7`.
 
 ---
 
+### **Інструменти:**
+- **Prettier**: Автоматичне форматування коду.
+- **ESLint**: Перевірка коду на статичні помилки.
+- **CommitLint**: Перевірка повідомлень комітів на відповідність стандарту Conventional Commits.
+- **Husky**: Використовується для виконання локальних Git-хуків (pre-commit та commit-msg).
+- **GitHub Actions**: Виконує перевірки на рівні CI (сборка, лінтинг, тестування).
+
+---
+
+### **Локальні перевірки за допомогою Husky**
+
+Husky використовується для автоматичного запуску перевірок при створенні комітів.
+
+#### **Налаштування Husky:**
+1. Husky інтегрується через скрипт `prepare`, зазначений у `package.json`:
+   ```json
+   "prepare": "husky install"
+   ```
+2. Хуки налаштовані через файли:
+   - **`pre-commit`:** Виконує перевірку ESLint та Prettier.
+   - **`commit-msg`:** Перевіряє стиль комітів за допомогою CommitLint.
+
+#### **Зміст файлів:**
+- **pre-commit**: [Файл pre-commit](../../../.husky/pre-commit)
+  ```bash
+  npm run lint
+  npm run format
+  ```
+- **commit-msg**: [Файл commit-msg](../../../.husky/commit-msg)
+  ```bash
+  npx --no-install commitlint --edit "$1"
+  ```
+
+#### **Конфігурації:**
+- **CommitLint:** Використовує конфігурацію Conventional Commits:
+  ```json
+  {
+    "extends": ["@commitlint/config-conventional"]
+  }
+  ```
+- **ESLint і Prettier:** Конфігурації розташовані у файлах:
+  - ESLint: [eslint.config.js](../../../eslint.config.js)
+  - Prettier: [`.prettierrc`](../../../.prettierrc)
+
+#### **Результат:**
+- **Коміт блокується**, якщо не виконані вимоги щодо коду чи стилю комітів.
+- Всі файли форматуються та перевіряються перед додаванням у репозиторій.
+
+---
+
+### **Серверні перевірки через GitHub Actions**
+
+GitHub Actions забезпечує автоматизацію перевірок на рівні сервера.
+
+#### **CI Конфігурація (файл [ci.yml](../../../.github/workflows/ci.yml))**:
+- Виконується на кожен **Pull Request** і **Push** у гілку `lab7`.
+- Основні етапи:
+  1. **Checkout коду.**
+  2. **Установка залежностей.**
+  3. **Перевірка коду ESLint та Prettier.**
+  4. **Сборка проекту.**
+  5. **Виконання тестів.**
+
+#### **Результат:**
+- CI гарантує, що Pull Request не може бути злитий без проходження перевірок.
+
+---
+
+### **Файли та конфігурації**
+1. **Husky:** [`.husky/pre-commit`](../../../.husky/pre-commit), [`.husky/commit-msg`](../../../.husky/commit-msg)
+2. **GitHub Actions:** [`.github/workflows/ci.yml`](../../../.github/workflows/ci.yml)
+3. **Скрипти package.json:**
+   ```json
+   {
+     "scripts": {
+       "lint": "eslint .",
+       "format": "prettier --write .",
+       "prepare": "husky install"
+     }
+   }
+   ```
+
+--- 
+
+### **Результат**
+- Локальні перевірки Husky гарантують якість перед комітами.
+- CI через GitHub Actions забезпечує додатковий рівень контролю під час розробки та злиття.
+
 ## 2. Налаштування CD
 
-**Ціль:** Автоматичне розгортання нової версії проекту на сервері після додавання нових змін до ветки `lab7`.
+**Ціль:** Автоматичне розгортання нової версії проекту на сервері після додавання нових змін до вiтки `lab7`.
 
 ### **Інструменти:**
 - **PM2**: для управління процесами Node.js додатків.
@@ -55,15 +124,15 @@
      ```
 2. **Nginx:**
    - Налаштований для проксування запитів:
-     - **Фронтенд:** `http://prod.lingo-cards.pro`
-     - **Бекенд:** `http://api.prod.lingo-cards.pro`
+     - **Фронтенд:** `https://lingo-cards.pro`
+     - **Бекенд:** `https://api.lingo-cards.pro`
    - Перевірити конфігурацію Nginx:
      ```bash
      sudo nginx -t
      sudo systemctl reload nginx
      ```
 3. **GitHub Actions для CD:**
-   - Додано файл [deploy.yml](https://github.com/ваш-репозиторій/.github/workflows/deploy.yml), який:
+   - Додано файл [.github/workflows/cd.yml](../../../.github/workflows/cd.yml), який:
      - Перевіряє код.
      - Підключається до сервера через SSH.
      - Автоматично виконує команду `git pull` і перезапускає додатки через PM2.
@@ -76,16 +145,16 @@
 ## 3. Доступність сервісу
 
 ### **Домен:**
-- **Frontend:** [http://prod.lingo-cards.pro](http://prod.lingo-cards.pro)
-- **Backend API:** [http://api.prod.lingo-cards.pro](http://api.prod.lingo-cards.pro)
+- **Frontend:** [https://lingo-cards.pro](https://lingo-cards.pro)
+- **Backend API:** [https://api.lingo-cards.pro](https://api.lingo-cards.pro)
 
 ### **Додатки працюють на портах:**
 - **Frontend:** 3000 (проксування через Nginx).
 - **Backend:** 5000 (проксування через Nginx).
 
 ### **Перевірка доступності:**
-1. За доменами: `curl http://prod.lingo-cards.pro`.
-2. API: `curl http://api.prod.lingo-cards.pro`.
+1. За доменами: `curl https://lingo-cards.pro`.
+2. API: `curl https://api.lingo-cards.pro`.
 
 ---
 
@@ -96,10 +165,4 @@
 3. Сервіс доступний за доменами і відповідає вимогам лабораторної роботи.
 
 ---
-
-## 5. Подальші кроки
-
-1. Додати HTTPS для захисту сервісу (Let's Encrypt).
-2. Оптимізувати конфігурацію Nginx для підвищення продуктивності.
-3. Розширити перевірки CI для автоматичного тестування API.
 
