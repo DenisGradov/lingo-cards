@@ -1,53 +1,85 @@
 import http from 'k6/http';
 import { check, sleep } from 'k6';
-import { randomString } from 'https://jslib.k6.io/k6-utils/1.4.0/index.js';
 
 export let options = {
   stages: [
-    { duration: '1m', target: 10 }, // Рамп-ап: 10 пользователей за 1 минуту
-    { duration: '1m', target: 50 }, // Постоянное навантаження: 50 пользователей
-    { duration: '1m', target: 0 },  // Завершение нагрузки
+    { duration: '30s', target: 10 },
+    { duration: '30s', target: 50 },
+    { duration: '30s', target: 0 },
   ],
 };
 
-const API_BASE_URL = 'https://api.lingo-cards.pro/api';
+const BASE_URL = 'https://api.lingo-cards.pro';
+let uniqueId = 0;
 
 export default function () {
-  // Регистрация пользователя
-  const username = `user_${randomString(5)}`;
-  const password = `password123`;
-  const registerPayload = JSON.stringify({ username, password });
-  let res = http.post(`${API_BASE_URL}/users/register`, registerPayload, {
+  uniqueId++;
+
+  let registerPayload = JSON.stringify({
+    login: `testuser_${__VU}_${uniqueId}`,
+    email: `testuser_${__VU}_${uniqueId}@example.com`,
+    password: 'password123',
+  });
+
+  let registerRes = http.post(`${BASE_URL}/users/register`, registerPayload, {
     headers: { 'Content-Type': 'application/json' },
   });
-  check(res, { 'registration successful': (r) => r.status === 201 });
 
-  // Авторизация пользователя
-  const loginPayload = JSON.stringify({ username, password });
-  res = http.post(`${API_BASE_URL}/users/login`, loginPayload, {
+  check(registerRes, {
+    'Register: status is 200': (r) => r.status === 200,
+  });
+
+  let token = '';
+  if (registerRes.status === 200) {
+    token = registerRes.json('user.token');
+  }
+
+  let loginPayload = JSON.stringify({
+    login: `testuser_${__VU}_${uniqueId}`,
+    password: 'password123',
+  });
+
+  let loginRes = http.post(`${BASE_URL}/users/login`, loginPayload, {
     headers: { 'Content-Type': 'application/json' },
   });
-  check(res, { 'login successful': (r) => r.status === 200 });
-  const token = res.json('token');
 
-  // Получение списка плейлистов
-  res = http.get(`${API_BASE_URL}/playlists`, {
-    headers: { Authorization: `Bearer ${token}` },
+  check(loginRes, {
+    'Login: status is 200': (r) => r.status === 200,
   });
-  check(res, { 'fetch playlists': (r) => r.status === 200 });
 
-  // Добавление нового плейлиста
-  const playlistPayload = JSON.stringify({ name: `Playlist_${randomString(5)}` });
-  res = http.post(`${API_BASE_URL}/playlists`, playlistPayload, {
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-  });
-  check(res, { 'create playlist': (r) => r.status === 201 });
+  if (loginRes.status === 200) {
+    token = loginRes.json('token');
+  }
 
-  // Получение слов
-  res = http.get(`${API_BASE_URL}/words`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  check(res, { 'fetch words': (r) => r.status === 200 });
+  if (token) {
+    let profileRes = http.get(`${BASE_URL}/users/checkAuth`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-  sleep(1); // Ожидание перед следующим циклом
+    check(profileRes, {
+      'Get Profile: status is 200': (r) => r.status === 200,
+    });
+  }
+
+  if (token) {
+    let playlistsRes = http.get(`${BASE_URL}/playlists`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    check(playlistsRes, {
+      'Get Playlists: status is 200': (r) => r.status === 200,
+    });
+  }
+
+  if (token) {
+    let wordsRes = http.get(`${BASE_URL}/words`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    check(wordsRes, {
+      'Get Words: status is 200': (r) => r.status === 200,
+    });
+  }
+
+  sleep(1);
 }
