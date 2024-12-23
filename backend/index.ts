@@ -7,9 +7,10 @@ import { handleRoutes } from './routes/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-const PORT = process.env.BACKEND_PORT || 5000;
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+const PORT = process.env.BACKEND_PORT || 5001;
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [];
@@ -18,19 +19,13 @@ console.log('Allowed Origins:', allowedOrigins);
 
 initDatabase();
 
-function handleCorsPreflight(res, origin) {
+function handleCorsPreflight(res: http.ServerResponse, origin: string | undefined): void {
   console.log('Preflight Request Origin:', origin);
   if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', '*'); 
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
-    res.setHeader(
-      'Access-Control-Allow-Methods',
-      'GET, POST, DELETE, OPTIONS, PUT',
-    );
-    res.setHeader(
-      'Access-Control-Allow-Headers',
-      'Content-Type, Authorization',
-    );
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS, PUT');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.writeHead(204);
     res.end();
   } else {
@@ -40,10 +35,10 @@ function handleCorsPreflight(res, origin) {
   }
 }
 
-function handleCorsHeaders(res, origin) {
+function handleCorsHeaders(res: http.ServerResponse, origin: string | undefined): boolean {
   console.log('Request Origin:', origin);
   if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', '*'); 
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -55,7 +50,6 @@ function handleCorsHeaders(res, origin) {
     return false;
   }
 }
-
 
 const server = http.createServer((req, res) => {
   const origin = req.headers.origin;
@@ -72,7 +66,7 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  handleRoutes(req, res);
+  handleRoutes(req, res); 
 });
 
 server.listen(PORT, () => {
