@@ -4,18 +4,18 @@ import pluginJs from '@eslint/js';
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
-    files: ['**/*.js'], // Применяется ко всем JS-файлам
+    files: ['**/*.js'], 
     languageOptions: {
-      ecmaVersion: 'latest', // Используем последнюю версию ECMAScript
-      sourceType: 'module', // Указываем модульный тип
+      ecmaVersion: 'latest', 
+      sourceType: 'module', 
       globals: {
-        ...globals.node, // Включаем глобальные переменные Node.js
+        ...globals.node, 
       },
     },
     rules: {
       'no-unused-vars': ['warn', { args: 'none', varsIgnorePattern: '^_' }],
-      'no-undef': 'error', // Ошибка при использовании необъявленных переменных
+      'no-undef': 'error', 
     },
   },
-  pluginJs.configs.recommended, // Подключаем рекомендованные правила ESLint
+  pluginJs.configs.recommended, 
 ];
