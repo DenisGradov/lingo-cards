@@ -109,7 +109,7 @@ export class UserModel {
 ### **Звіти тестування:**
 1. **k6:** Скріншот з результатами:
    ![k6 results](k6.png)
-2. **Clinic.js Flame:** Скріншот з графом полум'я:
+2. **Clinic.js:** Скріншот p результатами:
    ![Clinic.js Flame](clinic.png)
 
 ---
