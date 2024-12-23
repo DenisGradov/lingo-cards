@@ -4,24 +4,24 @@
 
 1. **Реалізовано використання статичних даних на Backend**:
    - Додано mock-дані для роботи з плейлистами у файлі:
-     - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js)
+     - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js)
    - Створено маршрути для роботи з плейлистами у файлі:
-     - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js)
+     - [backend/routes/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js)
    - Реалізовано основні сценарії роботи з плейлистами:
      - **Отримання всіх плейлистів**: 
-       [Код: handleGetPlaylists](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L25)
+       [Код: handleGetPlaylists](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js#L25)
      - **Отримання конкретного плейлиста за його `id`**: 
-       [Код: handleGetPlaylistById](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L39)
+       [Код: handleGetPlaylistById](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js#L39)
      - **Додавання нового плейлиста**: 
-       [Код: handleAddPlaylist](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L10)
+       [Код: handleAddPlaylist](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js#L10)
      - **Видалення плейлиста**: 
-       [Код: handleDeletePlaylist](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L31)
+       [Код: handleDeletePlaylist](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js#L31)
      - **Оновлення часу відкриття плейлиста**: 
-       [Код: handleOpenPlaylist](https://github.com/DenisGradov/lingo-cards/blob/lab4/backend/routes/playlists.js#L52)
+       [Код: handleOpenPlaylist](https://github.com/DenisGradov/lingo-cards/blob/main/backend/routes/playlists.js#L52)
 
 2. **Інтеграція Frontend із Backend**:
    - Створено API для роботи з плейлистами у файлі:
-     - [lingo-frontend/api/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/lab4/lingo-frontend/api/playlists.js)
+     - [lingo-frontend/api/playlists.js](https://github.com/DenisGradov/lingo-cards/blob/main/lingo-frontend/api/playlists.js)
    - Реалізовано основні функції:
      - Отримання всіх плейлистів із mock-даних.
      - Додавання нового плейлиста через API.
@@ -30,7 +30,7 @@
 
 3. **Створено компонент Library для роботи з mock-даними**:
    - Описано логіку у файлі:
-     - [lingo-frontend/components/Library.jsx](https://github.com/DenisGradov/lingo-cards/blob/lab4/lingo-frontend/components/Library.jsx)
+     - [lingo-frontend/components/Library.jsx](https://github.com/DenisGradov/lingo-cards/blob/main/lingo-frontend/components/Library.jsx)
    - Додано функції для роботи з API:
      - Отримання плейлистів та їх відображення.
      - Видалення плейлиста.
