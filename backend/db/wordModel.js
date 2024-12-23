@@ -1,4 +1,4 @@
- import { db } from './database.js';
+import { db } from './database.js';
 
 function incrementWordCount(playlistId) {
   return new Promise((resolve, reject) => {

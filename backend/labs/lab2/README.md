@@ -5,8 +5,8 @@
 1. **Налаштування Prettier** для автоматичного форматування коду:
 
    - Додано конфігураційні файли:
-     - [backend/.prettierrc](https://github.com/DenisGradov/lingo-cards/blob/lab2/backend/.prettierrc) (backend)
-     - [lingo-frontend/.prettierrc](https://github.com/DenisGradov/lingo-cards/blob/lab2/lingo-frontend/.prettierrc) (frontend)
+     - [../.prettierrc](../.prettierrc) (backend)
+     - [../../lingo-frontend/.prettierrc](../../lingo-frontend/.prettierrc) (frontend)
    - Додано ігнорування певних файлів і папок у:
      - [backend/.prettierignore](https://github.com/DenisGradov/lingo-cards/blob/lab2/backend/.prettierignore) (backend)
      - [lingo-frontend/.prettierignore](https://github.com/DenisGradov/lingo-cards/blob/lab2/lingo-frontend/.prettierignore) (frontend)
