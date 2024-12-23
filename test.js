@@ -3,21 +3,26 @@ import { check, sleep } from 'k6';
 
 export let options = {
   stages: [
-    { duration: '30s', target: 10 },
-    { duration: '30s', target: 50 },
-    { duration: '30s', target: 0 },
+    { duration: '10s', target: 10 }, 
+    { duration: '30s', target: 50 }, 
+    { duration: '10s', target: 0 },  
   ],
 };
 
-const BASE_URL = 'https://api.lingo-cards.pro';
-let uniqueId = 0;
+const BASE_URL = 'http://localhost:5001';
+
+function generateUniqueId() {
+  const timestamp = Date.now(); 
+  const random = Math.floor(Math.random() * 100000); 
+  return `${timestamp}_${random}`;
+}
 
 export default function () {
-  uniqueId++;
+  const uniqueId = generateUniqueId();
 
   let registerPayload = JSON.stringify({
-    login: `testuser_${__VU}_${uniqueId}`,
-    email: `testuser_${__VU}_${uniqueId}@example.com`,
+    login: `testuser_${uniqueId}`,
+    email: `testuser_${uniqueId}@example.com`,
     password: 'password123',
   });
 
@@ -26,16 +31,16 @@ export default function () {
   });
 
   check(registerRes, {
-    'Register: status is 200': (r) => r.status === 200,
+    'Register: status is 201': (r) => r.status === 201,
   });
 
   let token = '';
-  if (registerRes.status === 200) {
-    token = registerRes.json('user.token');
+  if (registerRes.status === 201) {
+    token = registerRes.json('token');
   }
 
   let loginPayload = JSON.stringify({
-    login: `testuser_${__VU}_${uniqueId}`,
+    login: `testuser_${uniqueId}`,
     password: 'password123',
   });
 
@@ -52,12 +57,12 @@ export default function () {
   }
 
   if (token) {
-    let profileRes = http.get(`${BASE_URL}/users/checkAuth`, {
+    let checkAuthRes = http.get(`${BASE_URL}/users/checkAuth`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    check(profileRes, {
-      'Get Profile: status is 200': (r) => r.status === 200,
+    check(checkAuthRes, {
+      'Check Auth: status is 200': (r) => r.status === 200,
     });
   }
 
