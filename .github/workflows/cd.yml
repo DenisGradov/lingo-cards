@@ -24,9 +24,12 @@ jobs:
             git checkout main
             git pull origin main
 
+            npm install
+
             cd backend
             npm install
-            pm2 restart backend-lab7 || pm2 start index.js --name backend-lab7
+            npm run build 
+            pm2 restart backend-lab7 || pm2 start dist/index.js --name backend-lab7
 
             cd ../lingo-frontend
             npm install
