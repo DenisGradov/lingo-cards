@@ -70,7 +70,7 @@ const server = http.createServer(app);
 
 server.listen(PORT, () => {
   console.log(
-    `Backend server is running on port ${PORT} in ${process.env.NODE_ENV} mode TYPESCRIPT`,
+    `Backend server is running on port ${PORT} in ${process.env.NODE_ENV} mode TYPESCRIPT123`,
   );
 });
 
