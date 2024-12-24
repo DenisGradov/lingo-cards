@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 const sqlite = sqlite3.verbose();
 
-const dbFile = path.resolve(__dirname, 'users.db            ');
+const dbFile = path.resolve(__dirname, 'users.db              ');
 const db = new sqlite.Database(dbFile, (err) => {
   if (err) {
     console.error('Could not connect to database:', err.message);
