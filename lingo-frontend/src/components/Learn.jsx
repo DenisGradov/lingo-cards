@@ -5,7 +5,7 @@ import { reviewStages } from '../constants/reviewStages.js';
 import { useTranslation } from 'react-i18next';
 
 const Learn = ({ setIsLearn }) => {
-  const { words, updateWordStage } = useWordsStore(); // Функция updateWordStage синхронизирует изменения с бэкендом
+  const { words, updateWordStage } = useWordsStore();
   const [localPlaylist, setLocalPlaylist] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -17,7 +17,7 @@ const Learn = ({ setIsLearn }) => {
     const playlist = words
       .filter(
         (word) =>
-          word.next_review_time === 0 || word.next_review_time <= Date.now(),
+          word.next_review_time === 0 || word.next_review_time <= Date.now()
       )
       .map((word) => ({
         ...word,

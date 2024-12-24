@@ -13,7 +13,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 apiClient.interceptors.response.use(
@@ -22,7 +22,7 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 export default apiClient;

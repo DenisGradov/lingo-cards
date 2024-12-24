@@ -5,14 +5,14 @@ import {
   RiNotification2Line,
   RiPencilLine,
   RiUser5Line,
-} from 'react-icons/ri';
-import useUserInfo from '../store/userInfo.js';
-import Header from './Header.jsx';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { updateUserName } from '../api/user';
-import { useTranslation } from 'react-i18next';
-import { openModalWithInfo } from '../utils/modalUtils.js';
+} from "react-icons/ri";
+import useUserInfo from "../store/userInfo.js";
+import Header from "./Header.jsx";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { updateUserName } from "../api/user";
+import { useTranslation } from "react-i18next";
+import { openModalWithInfo } from "../utils/modalUtils.js";
 
 const UserProfile = () => {
   const userName = useUserInfo((state) => state.userName);
@@ -20,7 +20,7 @@ const UserProfile = () => {
   const setUserName = useUserInfo((state) => state.setUserName);
   const clearUserInfo = useUserInfo((state) => state.clearUserInfo);
   const navigate = useNavigate();
-  const [changeName, setChangeName] = useState({ state: false, newName: '' });
+  const [changeName, setChangeName] = useState({ state: false, newName: "" });
   const [error, setError] = useState(null);
 
   const { t } = useTranslation();
@@ -29,18 +29,18 @@ const UserProfile = () => {
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/users/logout`,
         {
-          method: 'POST',
-          credentials: 'include',
-        },
+          method: "POST",
+          credentials: "include",
+        }
       );
       if (response.ok) {
         clearUserInfo();
-        navigate('/signin');
+        navigate("/signin");
       } else {
-        console.error('Logout failed');
+        console.error("Logout failed");
       }
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
     }
   };
 
@@ -53,8 +53,8 @@ const UserProfile = () => {
     if (!regex.test(changeName.newName)) {
       setError(
         t(
-          'The name must contain at least 6 characters, only Latin letters and numbers',
-        ),
+          "The name must contain at least 6 characters, only Latin letters and numbers"
+        )
       );
       return;
     }
@@ -63,9 +63,9 @@ const UserProfile = () => {
       const result = await updateUserName(changeName.newName);
       setUserName(result.newLogin);
       clearUserInfo();
-      navigate('/signin');
+      navigate("/signin");
     } catch (err) {
-      setError(t('This name is already taken', err));
+      setError(t("This name is already taken", err));
     }
   };
 
@@ -81,12 +81,10 @@ const UserProfile = () => {
           <div className="mt-[20px] flex items-center">
             {changeName.state ? (
               <div className="flex relative mt-[20px]">
-                <h2 className="absolute bottom-[35px]">
-                  {t('Your new name:')}
-                </h2>
+                <h2 className="absolute bottom-[35px]">{t("Your new name:")}</h2>
                 <input
                   className={`max-w-[100%] w-full text-[#000] dark:text-[#fff] p-[3px] bg-transparent border-2 
-                    ${error ? 'border-red-500' : 'border-[#C1C3EC] dark:border-[#333560]'} 
+                    ${error ? "border-red-500" : "border-[#C1C3EC] dark:border-[#333560]"} 
                     caret-[#333560] focus:outline-none`}
                   value={changeName.newName}
                   onChange={(e) =>
@@ -122,10 +120,10 @@ const UserProfile = () => {
             <span
               className="ml-[32px] text-[#5484FF] text-[20px] font-semibold"
               onClick={() => {
-                openModalWithInfo('Coming Soon!');
+                openModalWithInfo("Coming Soon!");
               }}
             >
-              {t('Notifications')}
+              {t("Notifications")}
             </span>
           </div>
           <div className="flex items-center">
@@ -133,10 +131,10 @@ const UserProfile = () => {
             <span
               className="ml-[32px] text-[#5484FF] text-[20px] font-semibold"
               onClick={() => {
-                openModalWithInfo('Coming Soon!');
+                openModalWithInfo("Coming Soon!");
               }}
             >
-              {t('Help center')}
+              {t("Help center")}
             </span>
           </div>
         </div>
@@ -147,7 +145,7 @@ const UserProfile = () => {
         >
           <RiLogoutBoxLine className="text-[#FF6193] text-[20px]" />
           <span className="ml-[32px] text-[#FF6193] text-[20px] font-semibold">
-            {t('Logout')}
+            {t("Logout")}
           </span>
         </div>
       </div>

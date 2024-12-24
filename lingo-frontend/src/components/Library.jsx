@@ -7,17 +7,17 @@ import {
   RiStarFill,
   RiBallPenFill,
   RiCloseLine,
-} from 'react-icons/ri';
-import { useState, useRef, useEffect } from 'react';
-import ScrollContainer from 'react-indiana-drag-scroll';
-import usePlaylistsStore from '../store/playlistsStore.js';
-import useWordsStore from '../store/wordsStore.js';
-import useModalStore from '../store/modalStore.js';
-import { openModalWithInfo } from '../utils/modalUtils.js';
-import { languages } from '../constants/mainConstants.js';
-import Header from './Header.jsx';
-import { modalInfo } from '../constants/modalInfo.js';
-import { useTranslation } from 'react-i18next';
+} from "react-icons/ri";
+import { useState, useRef, useEffect } from "react";
+import ScrollContainer from "react-indiana-drag-scroll";
+import usePlaylistsStore from "../store/playlistsStore.js";
+import useWordsStore from "../store/wordsStore.js";
+import useModalStore from "../store/modalStore.js";
+import { openModalWithInfo } from "../utils/modalUtils.js";
+import { languages } from "../constants/mainConstants.js";
+import Header from "./Header.jsx";
+import { modalInfo } from "../constants/modalInfo.js";
+import { useTranslation } from "react-i18next";
 
 const Library = () => {
   const [sortedLastOpened, setSortedLastOpened] = useState([]);
@@ -73,13 +73,13 @@ const Library = () => {
   const handleEditWord = (word) => {
     setSelectedWord(word);
     openModal({
-      ...modalInfo.find((modal) => modal.type === 'Edit Word'),
-      contentType: 'editWord',
+      ...modalInfo.find((modal) => modal.type === "Edit Word"),
+      contentType: "editWord",
       selectedWord: word,
     });
   };
 
-  const getFlagURL = (code) => languages[code]?.flag || './flags/default.webp';
+  const getFlagURL = (code) => languages[code]?.flag || "./flags/default.webp";
 
   const scrollRef = useRef(null);
 
@@ -106,7 +106,7 @@ const Library = () => {
             className="absolute top-4 right-4 text-2xl text-gray-600 dark:text-gray-300 cursor-pointer"
           />
           <h2 className="text-2xl font-semibold mb-4">
-            {t('Words in')} "
+            {t("Words in")} "
             {playlists.find((p) => p.id === openPlaylistInfo.id)?.name}"
           </h2>
           <ul className="h-full max-h-[50vh] overflow-y-auto">
@@ -133,14 +133,14 @@ const Library = () => {
               className="bg-[#936dff] hover:bg-[#7c59e6] text-white py-2 px-4 rounded-md transition"
               onClick={() => setOpenPlaylistInfo({ state: false, id: 0 })}
             >
-              {t('Go Back')}
+              {t("Go Back")}
             </button>
             <button
               className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-md transition"
               onClick={() => {
                 if (
                   window.confirm(
-                    'Are you sure you want to delete this playlist?',
+                    "Are you sure you want to delete this playlist?"
                   )
                 ) {
                   deletePlaylist(openPlaylistInfo.id);
@@ -148,7 +148,7 @@ const Library = () => {
                 }
               }}
             >
-              {t('Delete Playlist')}
+              {t("Delete Playlist")}
             </button>
           </div>
         </div>
@@ -158,7 +158,7 @@ const Library = () => {
             <div className="flex items-center">
               <RiTimerLine className="text-[20px] text-[#9194C3] mr-[18px]" />
               <h2 className="dark:text-[#F3F7FF] text-[#282950] text-[40px] font-semibold">
-                {t('Last Open')}
+                {t("Last Open")}
               </h2>
             </div>
             <ScrollContainer ref={scrollRef} onWheel={handleWheel}>
@@ -168,7 +168,7 @@ const Library = () => {
                     key={`last-opened-${index}`}
                     style={{
                       backgroundImage: `url('${getFlagURL(
-                        playlist.language_code,
+                        playlist.language_code
                       )}')`,
                     }}
                     className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"
@@ -209,11 +209,11 @@ const Library = () => {
           <div className="flex flex-col gap-y-[25px]">
             <div className="flex items-center">
               <h2 className="dark:text-[#F3F7FF] text-[#282950] text-[32px] font-semibold">
-                {t('Playlists')}
+                {t("Playlists")}
               </h2>
               <RiArrowRightSLine className="text-[25px] dark:text-[#9194C3] text-[#282950]" />
               <div
-                onClick={() => openModalWithInfo('Create playlist')}
+                onClick={() => openModalWithInfo("Create playlist")}
                 className="rounded-full bg-gradient-radial from-[#946DFF] to-[#5A4BFF] w-[40px] h-[40px] flex items-center justify-center ml-auto flex-shrink-0 drop-shadow-xl cursor-pointer"
               >
                 <RiAddLine className="text-[25px] text-[#F3F7FF]" />
@@ -226,7 +226,7 @@ const Library = () => {
                     key={`playlist-${index}`}
                     style={{
                       backgroundImage: `url('${getFlagURL(
-                        playlist.language_code,
+                        playlist.language_code
                       )}')`,
                     }}
                     className="group relative bg-cover bg-center grow-0 shrink-0 rounded-t-3xl rounded-b-2xl select-none"

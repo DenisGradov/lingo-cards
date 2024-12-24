@@ -1,11 +1,6 @@
 import './App.scss';
 import './components/styles/cards.scss';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Training from './components/Training';
 import Library from './components/Library';
 import Footer from './components/Footer';
@@ -61,9 +56,9 @@ function AppContent() {
 
 function App() {
   const isDark = useThemeStore((state) => state.isDark);
-  const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated); // Для сохранения состояния аутентификации
-  const setUserName = useUserInfo((state) => state.setUserName); // Для сохранения логина пользователя
-  const setUserEmail = useUserInfo((state) => state.setUserEmail); // Для сохранения email пользователя
+  const setIsAuthenticated = useUserInfo((state) => state.setIsAuthenticated); 
+  const setUserName = useUserInfo((state) => state.setUserName); 
+  const setUserEmail = useUserInfo((state) => state.setUserEmail);
   const isAuthenticated = useUserInfo((state) => state.isAuthenticated);
 
   const { t } = useTranslation();

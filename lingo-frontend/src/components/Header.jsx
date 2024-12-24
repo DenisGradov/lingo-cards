@@ -1,7 +1,7 @@
-import { RiNotification2Line, RiQuestionMark } from 'react-icons/ri';
-import useUserInfo from '../store/userInfo.js';
-import useInfoSlidesStore from '../store/infoSlidesStore.js';
-import { openInfoSlidesWithInfo } from '../utils/infoSlidesUtils.js';
+import { RiNotification2Line, RiQuestionMark } from "react-icons/ri";
+import useUserInfo from "../store/userInfo.js";
+import useInfoSlidesStore from "../store/infoSlidesStore.js";
+import { openInfoSlidesWithInfo } from "../utils/infoSlidesUtils.js";
 
 const Header = () => {
   const selectedLanguage = useUserInfo((state) => state.selectedLanguage);
@@ -16,7 +16,7 @@ const Header = () => {
   };
 
   const handleInfoSlides = () => {
-    openInfoSlidesWithInfo('intro');
+    openInfoSlidesWithInfo("intro");
   };
 
   return (
@@ -30,13 +30,13 @@ const Header = () => {
       />
       <div
         className={`relative cursor-pointer ${
-          isViewed ? '' : 'ring-2 ring-purple-500 rounded-full'
+          isViewed ? "" : "ring-2 ring-purple-500 rounded-full"
         }`}
         onClick={handleInfoSlides}
       >
         <RiQuestionMark
           className={`text-[25px] ${
-            isViewed ? 'dark:text-[#9194C3] text-[#282950]' : 'text-purple-500'
+            isViewed ? "dark:text-[#9194C3] text-[#282950]" : "text-purple-500"
           }`}
         />
       </div>

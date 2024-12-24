@@ -7,18 +7,21 @@ import { handleRoutes } from './routes/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 dotenv.config({ path: path.resolve(__dirname, '../.env') });
 
-const PORT = process.env.BACKEND_PORT || 5000;
+const PORT = process.env.BACKEND_PORT || 5001;
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(',')
   : [];
 
-initDatabase();
+if (process.env.NODE_ENV !== 'test') {
+  initDatabase();
+}
 
 function handleCorsPreflight(res, origin) {
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+  if (process.env.NODE_ENV === 'test' || allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader(
       'Access-Control-Allow-Methods',
@@ -38,8 +41,8 @@ function handleCorsPreflight(res, origin) {
 }
 
 function handleCorsHeaders(res, origin) {
-  if (allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin);
+  if (process.env.NODE_ENV === 'test' || allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin || '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
   } else {
     res.statusCode = 403;
@@ -51,7 +54,7 @@ function handleCorsHeaders(res, origin) {
   return true;
 }
 
-const server = http.createServer((req, res) => {
+const app = (req, res) => {
   const origin = req.headers.origin;
   const method = req.method;
 
@@ -60,13 +63,21 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  if (!handleCorsHeaders(res, origin)) {
-    return;
+  if (process.env.NODE_ENV !== 'test') {
+    if (!handleCorsHeaders(res, origin)) {
+      return;
+    }
   }
 
   handleRoutes(req, res);
-});
+};
+
+const server = http.createServer(app);
 
 server.listen(PORT, () => {
-  console.log(`Backend server is running on port ${PORT}`);
+  console.log(
+    `Backend server is running on port ${PORT} in ${process.env.NODE_ENV} mode`,
+  );
 });
+
+export default server;

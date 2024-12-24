@@ -26,7 +26,7 @@ function Main() {
       hasCloseIcon: useModalStore.getState().hasCloseIcon,
       buttons: useModalStore.getState().buttons,
     }),
-    [isModalOpen],
+    [isModalOpen]
   );
 
   useEffect(() => {

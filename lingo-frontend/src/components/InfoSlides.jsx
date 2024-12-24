@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import { useState, useEffect, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
 
 const InfoSlides = ({
   slides,
@@ -96,14 +96,14 @@ const InfoSlides = ({
                       key={index}
                       className="progress-bar flex-grow bg-gray-300  relative overflow-hidden"
                       style={{
-                        height: '4px',
+                        height: "4px",
                       }}
                     >
                       <div
                         className="absolute left-0 top-0 h-full dark:bg-[#4A4E84] bg-[#C1C3EC]"
                         style={{
-                          width: '100%',
-                          transition: 'width 0.1s linear',
+                          width: "100%",
+                          transition: "width 0.1s linear",
                         }}
                       />
                       <div
@@ -113,12 +113,12 @@ const InfoSlides = ({
                             index === currentIndex
                               ? `${progress}%`
                               : index < currentIndex
-                                ? '100%'
-                                : '0%',
+                              ? "100%"
+                              : "0%",
                           transition:
                             index === currentIndex
-                              ? 'width 0.1s linear'
-                              : 'none',
+                              ? "width 0.1s linear"
+                              : "none",
                         }}
                       />
                     </div>
