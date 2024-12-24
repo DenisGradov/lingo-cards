@@ -6,8 +6,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sqlite = sqlite3.verbose();
+const test = "";
 
-const dbFile = path.resolve(__dirname, 'users.db              ');
+const dbFile = path.resolve(__dirname, 'users.db');
 const db = new sqlite.Database(dbFile, (err) => {
   if (err) {
     console.error('Could not connect to database:', err.message);
@@ -57,7 +58,7 @@ export function initDatabase() {
         )`,
         (err) => {
           if (err) return reject(`Error creating users table: ${err.message}`);
-        }
+        },
       );
 
       db.run(
@@ -73,7 +74,7 @@ export function initDatabase() {
         )`,
         (err) => {
           if (err) return reject(`Error creating words table: ${err.message}`);
-        }
+        },
       );
 
       db.run(
@@ -88,8 +89,9 @@ export function initDatabase() {
           FOREIGN KEY (user_id) REFERENCES users(id)
         )`,
         (err) => {
-          if (err) return reject(`Error creating playlists table: ${err.message}`);
-        }
+          if (err)
+            return reject(`Error creating playlists table: ${err.message}`);
+        },
       );
 
       resolve();
