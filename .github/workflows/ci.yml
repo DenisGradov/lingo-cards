@@ -1,0 +1,46 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint-build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          npm install
+          cd backend && npm install
+          cd ../lingo-frontend && npm install
+
+      - name: Run lint
+        run: |
+          cd backend && npm run lint
+          cd ../lingo-frontend && npm run lint
+
+      - name: Run Prettier
+        run: |
+          cd backend && npm run format -- --check
+          cd ../lingo-frontend && npm run format -- --check
+
+      - name: Run build
+        run: |
+          cd backend && npm run build
+          cd ../lingo-frontend && npm run build
+
+      - name: Run tests
+        run: |
+          cd backend && npm run test
+          cd ../lingo-frontend && npm run test

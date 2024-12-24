@@ -1,1 +1,28 @@
-{}
+{
+    "type": "module",
+    "scripts": {
+      "lint": "eslint .",
+      "format": "prettier --write .",
+      "build": "echo 'Build completed successfully!'",
+      "test": "echo 'Tests passed!'",
+      "prepare": "husky install"
+    },
+    "lint-staged": {
+      "*.{js,jsx}": [
+        "eslint --fix",
+        "prettier --write"
+      ]
+    },
+    "devDependencies": {
+      "@commitlint/cli": "^19.6.1",
+      "@commitlint/config-conventional": "^19.6.0",
+      "eslint": "^8.57.1",
+      "eslint-config-prettier": "^9.1.0",
+      "eslint-plugin-prettier": "^5.2.1",
+      "eslint-plugin-react": "^7.37.2",
+      "eslint-plugin-react-hooks": "^5.1.0",
+      "husky": "^9.1.7",
+      "lint-staged": "^15.2.11",
+      "prettier": "^3.4.2"
+    }
+  }
