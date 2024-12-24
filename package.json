@@ -4,7 +4,6 @@
       "lint": "eslint .",
       "format": "prettier --write .",
       "build": "echo 'Build completed successfully!'",
-      "test": "echo 'Tests passed!'",
       "prepare": "husky install"
     },
     "lint-staged": {
