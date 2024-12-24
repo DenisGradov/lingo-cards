@@ -1,4 +1,4 @@
-name: CD Pipeline for lab7
+name: CD Pipeline 
 
 on:
   push:
