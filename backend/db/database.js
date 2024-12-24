@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const sqlite = sqlite3.verbose();
-const test = " ";
+const test = ' ';
 
 const dbFile = path.resolve(__dirname, 'users.db');
 const db = new sqlite.Database(dbFile, (err) => {

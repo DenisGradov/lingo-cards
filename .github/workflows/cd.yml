@@ -26,8 +26,8 @@ jobs:
 
             cd backend
             npm install
-            pm2 restart backend-main || pm2 start index.js --name backend-main
+            pm2 restart backend-lab7 || pm2 start index.js --name backend-lab7
 
             cd ../lingo-frontend
             npm install
-            pm2 restart frontend-main || pm2 start npm --name frontend-main -- run dev
+            pm2 restart frontend-lab7 || pm2 start npm --name frontend-lab7 -- run dev
