@@ -17,29 +17,32 @@ if (process.env.NODE_ENV !== 'test') {
   initDatabase();
 }
 
-function handleCorsPreflight(res: ServerResponse, origin?: string): void {
-  if (origin && (allowedOrigins.includes('*') || allowedOrigins.includes(origin))) {
-    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+function handleCorsPreflight(res: ServerResponse, origin: string | undefined): void {
+  console.log('Preflight Request Origin:', origin);
+  if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS, PUT');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.writeHead(204);
+    res.end();
   } else {
+    console.log('CORS Preflight Rejected:', origin);
     res.statusCode = 403;
-    res.end('CORS error: Origin not allowed');
-    return;
+    res.end();
   }
-  res.writeHead(204);
-  res.end();
 }
 
-function handleCorsHeaders(res: ServerResponse, origin?: string): boolean {
-  if (origin && (allowedOrigins.includes('*') || allowedOrigins.includes(origin))) {
-    res.setHeader('Access-Control-Allow-Origin', origin || '*');
+function handleCorsHeaders(res: ServerResponse, origin: string | undefined): boolean {
+  console.log('Request Origin:', origin);
+  if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     return true;
   } else {
+    console.log('CORS Request Rejected:', origin);
     res.statusCode = 403;
     res.end('CORS error: Origin not allowed');
     return false;
