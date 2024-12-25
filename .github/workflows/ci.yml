@@ -19,9 +19,19 @@ jobs:
         with:
           node-version: 18
 
+      - name: Cache Node.js modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.npm
+            backend/node_modules
+            lingo-frontend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: |
-          npm install
           cd backend && npm install
           cd ../lingo-frontend && npm install
 
@@ -30,7 +40,7 @@ jobs:
           cd backend && npm run lint
           cd ../lingo-frontend && npm run lint
 
-      - name: Run Prettier
+      - name: Format code
         run: |
           cd backend && npm run format -- --check
           cd ../lingo-frontend && npm run format -- --check
@@ -44,3 +54,6 @@ jobs:
         run: |
           cd backend && npm run test
           cd ../lingo-frontend && npm run test
+
+      - name: Audit dependencies
+        run: npm audit --production --audit-level=moderate
