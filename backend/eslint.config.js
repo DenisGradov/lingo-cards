@@ -1,27 +1,42 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginJest from "eslint-plugin-jest";
+import eslintPluginPrettier from 'eslint-plugin-prettier';
+import eslintConfigPrettier from 'eslint-config-prettier';
+import react from 'eslint-plugin-react';
+import jest from 'eslint-plugin-jest';
+import globals from 'globals';
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
-    files: ["**/*.js"],
+    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+    ignores: ['**/dist/**', '**/__tests__/**', '**/*.test.js'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.node,
         ...globals.jest,
       },
     },
     plugins: {
-      jest: pluginJest,
+      prettier: eslintPluginPrettier,
+      react,
+      jest,
     },
     rules: {
-      ...pluginJest.configs.recommended.rules,
-      "no-unused-vars": ["warn", { args: "none", varsIgnorePattern: "^_" }],
-      "no-undef": "error",
+      'prettier/prettier': 'error',
+      ...eslintConfigPrettier.rules,
+      'react/jsx-uses-react': 'warn',
+      'react/jsx-uses-vars': 'warn',
+      'jest/no-done-callback': 'off',
+      'require-yield': 'off',
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
+      'jest/no-done-callback': 'off',
+      'jest/valid-expect': 'off',
+      'require-yield': 'off',
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
   },
-  pluginJs.configs.recommended,
 ];
