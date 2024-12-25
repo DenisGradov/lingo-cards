@@ -6,11 +6,14 @@
         "build": "echo 'Build completed successfully!'"
     },
     "lint-staged": {
-        "*.{js,jsx}": [
-            "eslint --fix",
-            "prettier --write"
+        "**/*.{js,jsx}": [
+          "eslint --fix",
+          "prettier --write"
+        ],
+        "**/*.{css,scss,md}": [
+          "prettier --write"
         ]
-    },
+      },
     "devDependencies": {
         "@commitlint/cli": "^19.6.1",
         "@commitlint/config-conventional": "^19.6.0",
