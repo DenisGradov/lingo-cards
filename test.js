@@ -9,7 +9,7 @@ export let options = {
   ],
 };
 
-const test = "    sdflsdkfsdkf";
+const test = '';
 
 const BASE_URL = 'https://api.lingo-cards.pro';
 let uniqueId = 0;
