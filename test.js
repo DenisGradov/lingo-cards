@@ -9,6 +9,8 @@ export let options = {
   ],
 };
 
+const test = "";
+
 const BASE_URL = 'https://api.lingo-cards.pro';
 let uniqueId = 0;
 
