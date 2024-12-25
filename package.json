@@ -3,7 +3,8 @@
     "scripts": {
         "lint": "eslint .",
         "format": "prettier --write .",
-        "build": "echo 'Build completed successfully!'"
+        "build": "echo 'Build completed successfully!'",
+        "postinstall": "husky install"
     },
     "lint-staged": {
         "**/*.{js,jsx}": [
