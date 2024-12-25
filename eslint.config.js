@@ -1,6 +1,8 @@
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import react from 'eslint-plugin-react';
+import jest from 'eslint-plugin-jest';
+import globals from 'globals';
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
@@ -14,10 +16,15 @@ export default [
           jsx: true,
         },
       },
+      globals: {
+        ...globals.node,
+        ...globals.jest,
+      },
     },
     plugins: {
       prettier: eslintPluginPrettier,
       react,
+      jest, 
     },
     rules: {
       'prettier/prettier': 'error',
@@ -27,10 +34,12 @@ export default [
       'react/jsx-uses-react': 'warn',
       'react/jsx-uses-vars': 'warn',
       'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+
+      ...jest.configs.recommended.rules,
     },
     settings: {
       react: {
-        version: 'detect', 
+        version: 'detect',
       },
     },
   },
