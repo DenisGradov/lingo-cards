@@ -29,6 +29,10 @@ export default [
       'react/jsx-uses-vars': 'warn',
       'jest/no-done-callback': 'off',
       'require-yield': 'off',
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
+      'jest/no-done-callback': 'off',
+      'jest/valid-expect': 'off',
+      'require-yield': 'off',
     },
     settings: {
       react: {
