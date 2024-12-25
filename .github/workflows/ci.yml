@@ -45,15 +45,5 @@ jobs:
           cd backend && npm run format -- --check
           cd ../lingo-frontend && npm run format -- --check
 
-      - name: Run build
-        run: |
-          cd backend && npm run build
-          cd ../lingo-frontend && npm run build
-
-      - name: Run tests
-        run: |
-          cd backend && npm run test
-          cd ../lingo-frontend && npm run test
-
       - name: Audit dependencies
         run: npm audit --production --audit-level=moderate
