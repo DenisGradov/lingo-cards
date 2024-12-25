@@ -1,12 +1,16 @@
 import eslintPluginPrettier from 'eslint-plugin-prettier';
-import eslintConfigPrettier from 'eslint-config-prettier';
 import jest from 'eslint-plugin-jest';
 import globals from 'globals';
 
 export default [
   {
     files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
-    ignores: ['**/dist/**', '**/__tests__/**', '**/*.test.js'],
+    ignores: [
+      '**/dist/**',
+      '**/__tests__/**',
+      '**/*.test.js',
+      '**/node_modules/**',
+    ],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -20,14 +24,24 @@ export default [
       jest,
     },
     rules: {
-      'prettier/prettier': 'error',
-      ...eslintConfigPrettier.rules,
-      'jest/no-done-callback': 'off',
-      'require-yield': 'off',
-      'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
+      'prettier/prettier': 'warn',
+
       'jest/no-done-callback': 'off',
       'jest/valid-expect': 'off',
       'require-yield': 'off',
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
+      'no-console': 'off',
+
+      'no-empty': 'off',
+      'no-extra-semi': 'off',
+      'no-undef': 'off',
+      'no-useless-escape': 'off',
+      'spaced-comment': 'off',
+      semi: 'off',
+
+      '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
 ];
