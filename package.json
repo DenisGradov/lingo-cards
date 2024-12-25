@@ -8,13 +8,13 @@
     },
     "lint-staged": {
         "**/*.{js,jsx,ts}": [
-          "eslint --fix",
-          "prettier --write"
+            "eslint --fix",
+            "prettier --write"
         ],
         "**/*.{css,scss,md}": [
-          "prettier --write"
+            "prettier --write"
         ]
-      },
+    },
     "devDependencies": {
         "@commitlint/cli": "^19.6.1",
         "@commitlint/config-conventional": "^19.6.0",

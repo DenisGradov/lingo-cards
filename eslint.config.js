@@ -4,18 +4,13 @@ import react from 'eslint-plugin-react';
 import jest from 'eslint-plugin-jest';
 import globals from 'globals';
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
   {
-    files: ['**/*.js', '**/*.jsx'],
+    files: ['**/*.js', '**/*.jsx', '**/*.ts', '**/*.tsx'],
+    ignores: ['**/dist/**', '**/__tests__/**', '**/*.test.js'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
       globals: {
         ...globals.node,
         ...globals.jest,
@@ -24,18 +19,16 @@ export default [
     plugins: {
       prettier: eslintPluginPrettier,
       react,
-      jest, 
+      jest,
     },
     rules: {
       'prettier/prettier': 'error',
       ...eslintConfigPrettier.rules,
-
-      'no-unused-vars': 'warn',
+      'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
       'react/jsx-uses-react': 'warn',
       'react/jsx-uses-vars': 'warn',
-      'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-
-      ...jest.configs.recommended.rules,
+      'jest/no-done-callback': 'off',
+      'require-yield': 'off',
     },
     settings: {
       react: {
