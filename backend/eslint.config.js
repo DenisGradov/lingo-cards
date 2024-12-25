@@ -17,7 +17,6 @@ export default [
     },
     plugins: {
       prettier: eslintPluginPrettier,
-      react,
       jest,
     },
     rules: {
@@ -29,11 +28,6 @@ export default [
       'jest/no-done-callback': 'off',
       'jest/valid-expect': 'off',
       'require-yield': 'off',
-    },
-    settings: {
-      react: {
-        version: 'detect',
-      },
     },
   },
 ];
