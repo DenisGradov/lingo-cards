@@ -24,8 +24,6 @@ export default [
     rules: {
       'prettier/prettier': 'error',
       ...eslintConfigPrettier.rules,
-      'react/jsx-uses-react': 'warn',
-      'react/jsx-uses-vars': 'warn',
       'jest/no-done-callback': 'off',
       'require-yield': 'off',
       'no-unused-vars': ['warn', { varsIgnorePattern: '^_' }],
