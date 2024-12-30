@@ -23,6 +23,7 @@ async function handleRegister(req: IncomingMessage, res: ServerResponse): Promis
 
     getUserByLogin(login, async (err, existingUser) => {
       if (err || existingUser) {
+        console.error('Registration error: Username already exists or DB error', err);
         res.writeHead(400, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Username already exists.' }));
         return;
@@ -33,6 +34,7 @@ async function handleRegister(req: IncomingMessage, res: ServerResponse): Promis
 
       addUser(user, (err, result) => {
         if (err) {
+          console.error('Registration error: Failed to add user', err);
           res.writeHead(400, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Registration error.' }));
         } else {
@@ -52,6 +54,7 @@ async function handleRegister(req: IncomingMessage, res: ServerResponse): Promis
       });
     });
   } catch (error) {
+    console.error('Error in registration handler:', error);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: (error as Error).message || 'Internal server error' }));
   }
@@ -64,6 +67,7 @@ async function handleLogin(req: IncomingMessage, res: ServerResponse): Promise<v
 
     getUserByLogin(login, async (err, user) => {
       if (err || !user) {
+        console.error('Login error: Invalid login or password', err);
         res.writeHead(401, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Invalid login or password' }));
       } else {
@@ -84,12 +88,14 @@ async function handleLogin(req: IncomingMessage, res: ServerResponse): Promise<v
             }),
           );
         } else {
+          console.error('Login error: Invalid login or password');
           res.writeHead(401, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Invalid login or password' }));
         }
       }
     });
   } catch (error) {
+    console.error('Error in login handler:', error);
     res.writeHead(500, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: (error as Error).message || 'Internal server error' }));
   }
@@ -102,12 +108,14 @@ async function handleCheckAuth(req: IncomingMessage, res: ServerResponse): Promi
     const secret = process.env.JWT_SECRET || '';
     jwt.verify(token, secret, async (err, decoded) => {
       if (err || !decoded || typeof decoded === 'string') {
+        console.error('Check auth error: Invalid token', err);
         res.writeHead(401, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not authenticated' }));
       } else {
         const { login } = decoded as JwtPayload;
         getUserByLogin(login, async (err, user) => {
           if (err || !user) {
+            console.error('Check auth error: User not found', err);
             res.writeHead(401, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Not authenticated' }));
           } else {
@@ -124,6 +132,7 @@ async function handleCheckAuth(req: IncomingMessage, res: ServerResponse): Promi
       }
     });
   } else {
+    console.error('Check auth error: No token provided');
     res.writeHead(401, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not authenticated' }));
   }
@@ -145,6 +154,7 @@ async function handleUpdateUsername(req: IncomingMessage, res: ServerResponse): 
     const secret = process.env.JWT_SECRET || '';
     jwt.verify(token, secret, async (err, decoded) => {
       if (err || !decoded) {
+        console.error('Update username error: Invalid token', err);
         res.writeHead(401, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Not authenticated' }));
       } else {
@@ -153,12 +163,14 @@ async function handleUpdateUsername(req: IncomingMessage, res: ServerResponse): 
 
         getUserByLogin(newLogin, async (err, existingUser) => {
           if (existingUser) {
+            console.error('Update username error: Username already exists');
             res.writeHead(400, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Username already exists.' }));
           } else {
             const { id } = decoded as JwtPayload;
             updateUsername(id as number, newLogin, (err) => {
               if (err) {
+                console.error('Update username error: Failed to update', err);
                 res.writeHead(500, { 'Content-Type': 'application/json' });
                 res.end(
                   JSON.stringify({ error: 'Failed to update username.' }),
@@ -178,6 +190,7 @@ async function handleUpdateUsername(req: IncomingMessage, res: ServerResponse): 
       }
     });
   } else {
+    console.error('Update username error: No token provided');
     res.writeHead(401, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Not authenticated' }));
   }
