@@ -20,8 +20,8 @@ if (process.env.NODE_ENV !== 'test') {
 function handleCorsPreflight(res: ServerResponse, origin: string | undefined): void {
   console.log('Preflight Request Origin:', origin);
 
-  if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin || allowedOrigins[0]); 
+  if (!origin || origin === 'https://lingo-cards.pro' || allowedOrigins.includes('*')) {
+    res.setHeader('Access-Control-Allow-Origin', origin || 'https://lingo-cards.pro');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS, PUT');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -37,8 +37,8 @@ function handleCorsPreflight(res: ServerResponse, origin: string | undefined): v
 function handleCorsHeaders(res: ServerResponse, origin: string | undefined): boolean {
   console.log('Request Origin:', origin);
 
-  if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin || allowedOrigins[0]); 
+  if (!origin || origin === 'https://lingo-cards.pro' || allowedOrigins.includes('*')) {
+    res.setHeader('Access-Control-Allow-Origin', origin || 'https://lingo-cards.pro');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
@@ -50,7 +50,6 @@ function handleCorsHeaders(res: ServerResponse, origin: string | undefined): boo
     return false;
   }
 }
-
 
 const app = (req: IncomingMessage, res: ServerResponse): void => {
   const origin = req.headers.origin;
@@ -74,7 +73,7 @@ const server = http.createServer(app);
 
 server.listen(PORT, () => {
   console.log(
-    `Backend server is running on port ${PORT} in ${process.env.NODE_ENV} mode TYPESCRIPT123`,
+    `Backend server is running on port ${PORT}`,
   );
 });
 
